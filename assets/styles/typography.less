@@ -1,0 +1,223 @@
+
+// Font-family - LantmannenSans (Main text)
+
+@font-face {
+    font-family: 'LantmannenSans';
+    src:  url('@/assets/fonts/LantmannenSans/LantmannenSans-Light.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSans/LantmannenSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSans';
+    src:  url('@/assets/fonts/LantmannenSans/LantmannenSans-Regular.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSans/LantmannenSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSans';
+    src:  url('@/assets/fonts/LantmannenSans/LantmannenSans-Medium.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSans/LantmannenSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSans';
+    src:  url('@/assets/fonts/LantmannenSans/LantmannenSans-Bold.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSans/LantmannenSans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+
+
+// Font-family - LantmannenSerif (Headers)
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Light.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-LightItalic.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Regular.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-RegularItalic.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-RegularItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Medium.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-MediumItalic.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-MediumItalic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+}
+
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Bold.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LantmannenSerif';
+    src:  url('@/assets/fonts/LantmannenSerif/LantmannenSerif-BoldItalic.woff2') format('woff2'),
+          url('@/assets/fonts/LantmannenSerif/LantmannenSerif-BoldItalic.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+}
+
+//
+//  Mixins
+//  ---------------------------------------------
+
+.font(@size) {
+    font-family: LantmannenSans;
+
+    & when (@size = 'default') { 
+         font-size: 1.3rem;
+         line-height: 1.8rem;
+    }
+
+    & when (@size = 'default-bold') {
+        .font('default');
+        font-weight: 700;
+    }
+
+    & when (@size = 'small') { 
+        font-size: 1.1rem;
+        line-height: 1.6rem;
+    }
+
+    & when (@size = 'small-bold') { 
+        .font('small');
+        font-weight: 700;
+    }
+
+    & when (@size = 'button') {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 2rem;
+    }
+}
+
+.header(@size) {
+    font-family: 'LantmannenSerif';
+    font-weight: 500;
+
+    & when (@size = 'xl') {
+        font-size: 3.2rem;
+        line-height: 3.2rem;
+        font-weight: 700;
+    }
+
+    & when (@size = 'l') {
+        font-size: 2.4rem;
+        line-height: 2.9rem;
+    }
+
+    & when (@size = 'm') {
+        font-size: 1.8rem;
+        line-height: 2.4rem;
+    }
+
+    & when (@size = 's') {
+        font-size: 1.5rem;
+        line-height: 1.8rem;
+    }
+
+    & when (@size = 'xs') {
+        font-size: 1.3rem;
+        line-height: 1.8rem;
+    }
+
+    & when (@size = 'xxs') {
+        font-size: 1.1rem;
+        line-height: 1.6rem;
+    }
+}
+
+// //
+// //  Common
+// //  ---------------------------------------------
+
+    body {
+        .font('default');
+    }
+
+    p {
+        .font('default');
+    }
+
+    h1 {
+        .header('xl');
+    }
+
+    h2 {
+        .header('l');
+    }
+
+    h3 {
+        .header('m');
+    }
+
+    h4 {
+        .header('s');
+    }
+
+    h5 {
+        .header('xs');
+    }
+
+    h6 {
+        .header('xxs');
+    }
+
+    strong {
+        .font('default-bold');
+    }
+
+    input {
+        font-size: 1.6rem;
+    }
+
+    button {
+        .font('button');
+    }

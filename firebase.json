@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "source": ".output/server"
+  },
+  "hosting": {
+    "public": ".output/public",
+    "site": "product-list-demo-nuxt",
+    "cleanUrls": true,
+    "rewrites": [{ "source": "**", "function": "server" }],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}

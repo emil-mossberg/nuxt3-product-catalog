@@ -1,0 +1,720 @@
+{
+    "id": "2382",
+    "name": "Produkter",
+    "children": {
+        "2385": {
+            "id": "2385",
+            "name": "Foder",
+            "children": {
+                "10599": {
+                    "id": "10599",
+                    "name": "\u00d6vriga vegetabilier",
+                    "children": {
+                        "10602": {
+                            "id": "10602",
+                            "name": "Rotkn\u00f6lar - r\u00f6tter",
+                            "slug_name": "rotknolar-rotter"
+                        }
+                    },
+                    "slug_name": "ovriga-vegetabilier"
+                },
+                "2388": {
+                    "id": "2388",
+                    "name": "Tillskott",
+                    "children": {
+                        "2391": {
+                            "id": "2391",
+                            "name": "Mj\u00f6lkn\u00e4ring",
+                            "slug_name": "mjolknaring"
+                        },
+                        "2394": {
+                            "id": "2394",
+                            "name": "Salt och saltsten",
+                            "slug_name": "salt-och-saltsten"
+                        },
+                        "2433": {
+                            "id": "2433",
+                            "name": "Mineralfoder",
+                            "slug_name": "mineralfoder"
+                        },
+                        "2478": {
+                            "id": "2478",
+                            "name": "\u00d6vriga tillskott",
+                            "slug_name": "ovriga-tillskott"
+                        }
+                    },
+                    "slug_name": "tillskott"
+                },
+                "2397": {
+                    "id": "2397",
+                    "name": "F\u00e5rfor",
+                    "children": {
+                        "2400": {
+                            "id": "2400",
+                            "name": "F\u00e5r - Lamm foder",
+                            "slug_name": "far-lamm-foder"
+                        }
+                    },
+                    "slug_name": "farfor"
+                },
+                "2403": {
+                    "id": "2403",
+                    "name": "Piggfor",
+                    "children": {
+                        "2406": {
+                            "id": "2406",
+                            "name": "Slaktgrisfoder - koncentrat",
+                            "slug_name": "slaktgrisfoder-koncentrat"
+                        },
+                        "2499": {
+                            "id": "2499",
+                            "name": "Slaktgrisfoder - premix",
+                            "slug_name": "slaktgrisfoder-premix"
+                        },
+                        "2520": {
+                            "id": "2520",
+                            "name": "Suggfoder - premix",
+                            "slug_name": "suggfoder-premix"
+                        },
+                        "2538": {
+                            "id": "2538",
+                            "name": "Sm\u00e5grisfoder - koncentrat",
+                            "slug_name": "smagrisfoder-koncentrat"
+                        },
+                        "2541": {
+                            "id": "2541",
+                            "name": "Sm\u00e5grisfoder - premix",
+                            "slug_name": "smagrisfoder-premix"
+                        },
+                        "2613": {
+                            "id": "2613",
+                            "name": "Suggfoder - koncentrat",
+                            "slug_name": "suggfoder-koncentrat"
+                        },
+                        "3913": {
+                            "id": "3913",
+                            "name": "Slaktgrisfoder - f\u00e4rdigfoder",
+                            "slug_name": "slaktgrisfoder-fardigfoder"
+                        },
+                        "3946": {
+                            "id": "3946",
+                            "name": "Suggfoder - f\u00e4rdigfoder",
+                            "slug_name": "suggfoder-fardigfoder"
+                        },
+                        "3955": {
+                            "id": "3955",
+                            "name": "Sm\u00e5grisfoder - f\u00e4rdigfoder",
+                            "slug_name": "smagrisfoder-fardigfoder"
+                        }
+                    },
+                    "slug_name": "piggfor"
+                },
+                "2409": {
+                    "id": "2409",
+                    "name": "H\u00e4stfoder",
+                    "children": {
+                        "10503": {
+                            "id": "10503",
+                            "name": "KRAFFT - Pelleterat",
+                            "slug_name": "krafft-pelleterat"
+                        },
+                        "10506": {
+                            "id": "10506",
+                            "name": "KRAFFT - lusern",
+                            "slug_name": "krafft-lusern"
+                        },
+                        "10509": {
+                            "id": "10509",
+                            "name": "KRAFFT - tillskott",
+                            "slug_name": "krafft-tillskott"
+                        },
+                        "10512": {
+                            "id": "10512",
+                            "name": "KRAFFT - tillbeh\u00f6r",
+                            "slug_name": "krafft-tillbehor"
+                        },
+                        "10572": {
+                            "id": "10572",
+                            "name": "KRAFFT - mineraler",
+                            "slug_name": "krafft-mineraler"
+                        },
+                        "10575": {
+                            "id": "10575",
+                            "name": "KRAFFT - m\u00fcsli",
+                            "slug_name": "krafft-m\u00fcsli"
+                        },
+                        "4510": {
+                            "id": "4510",
+                            "name": "KRAFFT - koncentrat",
+                            "slug_name": "krafft-koncentrat"
+                        },
+                        "4522": {
+                            "id": "4522",
+                            "name": "KRAFFT - vitaminer",
+                            "slug_name": "krafft-vitaminer"
+                        }
+                    },
+                    "slug_name": "hastfoder"
+                },
+                "2427": {
+                    "id": "2427",
+                    "name": "Pullfor",
+                    "children": {
+                        "2430": {
+                            "id": "2430",
+                            "name": "Avelsfoder",
+                            "slug_name": "avelsfoder"
+                        },
+                        "2454": {
+                            "id": "2454",
+                            "name": "Duva-Anka-Fasan foder",
+                            "slug_name": "duva-anka-fasan-foder"
+                        },
+                        "2526": {
+                            "id": "2526",
+                            "name": "Livdjursfoder",
+                            "slug_name": "livdjursfoder"
+                        },
+                        "2529": {
+                            "id": "2529",
+                            "name": "V\u00e4rpfoder - koncentrat",
+                            "slug_name": "varpfoder-koncentrat"
+                        },
+                        "2532": {
+                            "id": "2532",
+                            "name": "Kalkonfoder",
+                            "slug_name": "kalkonfoder"
+                        },
+                        "2601": {
+                            "id": "2601",
+                            "name": "Kycklingfoder - h\u00f6gvete",
+                            "slug_name": "kycklingfoder-hogvete"
+                        },
+                        "2607": {
+                            "id": "2607",
+                            "name": "Kycklingfoder - l\u00e5gvete",
+                            "slug_name": "kycklingfoder-lagvete"
+                        },
+                        "3949": {
+                            "id": "3949",
+                            "name": "V\u00e4rpfoder - f\u00e4rdigfoder",
+                            "slug_name": "varpfoder-fardigfoder"
+                        },
+                        "3958": {
+                            "id": "3958",
+                            "name": "Kycklingfoder - f\u00e4rdigfoder",
+                            "slug_name": "kycklingfoder-fardigfoder"
+                        }
+                    },
+                    "slug_name": "pullfor"
+                },
+                "2436": {
+                    "id": "2436",
+                    "name": "Mineraler",
+                    "children": {
+                        "2439": {
+                            "id": "2439",
+                            "name": "Kalk",
+                            "slug_name": "kalk"
+                        }
+                    },
+                    "slug_name": "mineraler"
+                },
+                "2442": {
+                    "id": "2442",
+                    "name": "Fodertillbeh\u00f6r",
+                    "children": {
+                        "2445": {
+                            "id": "2445",
+                            "name": "Desinfektionsprodukter",
+                            "slug_name": "desinfektionsprodukter"
+                        },
+                        "2490": {
+                            "id": "2490",
+                            "name": "Foderutrustning",
+                            "slug_name": "foderutrustning"
+                        },
+                        "2493": {
+                            "id": "2493",
+                            "name": "Str\u00f6produkter",
+                            "slug_name": "stroprodukter"
+                        }
+                    },
+                    "slug_name": "fodertillbehor"
+                },
+                "2448": {
+                    "id": "2448",
+                    "name": "\u00d6vriga r\u00e5varor",
+                    "children": {
+                        "11004": {
+                            "id": "11004",
+                            "name": "Mj\u00f6lkprodukter",
+                            "slug_name": "mjolkprodukter"
+                        },
+                        "2451": {
+                            "id": "2451",
+                            "name": "Oljor - fettsyror veg",
+                            "slug_name": "oljor-fettsyror-veg"
+                        },
+                        "2469": {
+                            "id": "2469",
+                            "name": "J\u00e4st och liknande produkter",
+                            "slug_name": "jast-och-liknande-produkter"
+                        },
+                        "2559": {
+                            "id": "2559",
+                            "name": "\u00d6vriga r\u00e5varuprodukter",
+                            "slug_name": "ovriga-ravaruprodukter"
+                        }
+                    },
+                    "slug_name": "ovriga-ravaror"
+                },
+                "2505": {
+                    "id": "2505",
+                    "name": "N\u00f6tfor",
+                    "children": {
+                        "2508": {
+                            "id": "2508",
+                            "name": "K\u00f6ttdjursfoder - koncentrat",
+                            "slug_name": "kottdjursfoder-koncentrat"
+                        },
+                        "2562": {
+                            "id": "2562",
+                            "name": "Kalvfoder",
+                            "slug_name": "kalvfoder"
+                        },
+                        "2565": {
+                            "id": "2565",
+                            "name": "Kofoder - koncentrat",
+                            "slug_name": "kofoder-koncentrat"
+                        },
+                        "2604": {
+                            "id": "2604",
+                            "name": "N\u00f6tfor - f\u00f6rs\u00f6ksfoder",
+                            "slug_name": "notfor-forsoksfoder"
+                        },
+                        "3916": {
+                            "id": "3916",
+                            "name": "Kofoder - r\u00e5varumix",
+                            "slug_name": "kofoder-ravarumix"
+                        },
+                        "3922": {
+                            "id": "3922",
+                            "name": "K\u00f6ttdjursfoder - f\u00e4rdigfoder",
+                            "slug_name": "kottdjursfoder-fardigfoder"
+                        },
+                        "3970": {
+                            "id": "3970",
+                            "name": "Kofoder  -  f\u00e4rdigfoder",
+                            "slug_name": "kofoder---fardigfoder"
+                        }
+                    },
+                    "slug_name": "notfor"
+                },
+                "2550": {
+                    "id": "2550",
+                    "name": "\u00d6vrigt foder",
+                    "children": {
+                        "2553": {
+                            "id": "2553",
+                            "name": "Kanin",
+                            "slug_name": "kanin"
+                        },
+                        "2568": {
+                            "id": "2568",
+                            "name": "Renfor",
+                            "slug_name": "renfor"
+                        }
+                    },
+                    "slug_name": "ovrigt-foder"
+                },
+                "2670": {
+                    "id": "2670",
+                    "name": "Fodertillsatser",
+                    "children": {
+                        "11715": {
+                            "id": "11715",
+                            "name": "Sp\u00e5relement",
+                            "slug_name": "sparelement"
+                        },
+                        "2673": {
+                            "id": "2673",
+                            "name": "\u00d6vriga tillsatser",
+                            "slug_name": "ovriga-tillsatser"
+                        },
+                        "3967": {
+                            "id": "3967",
+                            "name": "Konserveringsmedel",
+                            "slug_name": "konserveringsmedel"
+                        },
+                        "4773": {
+                            "id": "4773",
+                            "name": "Sm\u00e4ltbarhetsf\u00f6rb\u00e4ttrande medel",
+                            "slug_name": "smaltbarhetsforbattrande-medel"
+                        }
+                    },
+                    "slug_name": "fodertillsatser"
+                },
+                "3961": {
+                    "id": "3961",
+                    "name": "Soja och raps",
+                    "children": {
+                        "10779": {
+                            "id": "10779",
+                            "name": "Rapsprodukter",
+                            "slug_name": "rapsprodukter"
+                        },
+                        "3964": {
+                            "id": "3964",
+                            "name": "Sojaprodukter",
+                            "slug_name": "sojaprodukter"
+                        }
+                    },
+                    "slug_name": "soja-och-raps"
+                },
+                "4474": {
+                    "id": "4474",
+                    "name": "Foderspannm\u00e5l",
+                    "children": {
+                        "4477": {
+                            "id": "4477",
+                            "name": "Spannm\u00e5l \u00f6vriga produkter",
+                            "slug_name": "spannmal-ovriga-produkter"
+                        }
+                    },
+                    "slug_name": "foderspannmal"
+                }
+            },
+            "slug_name": "foder"
+        },
+        "3979": {
+            "id": "3979",
+            "name": "Handelsvaror",
+            "children": {
+                "3982": {
+                    "id": "3982",
+                    "name": "V\u00e4xtskydd",
+                    "children": {
+                        "3985": {
+                            "id": "3985",
+                            "name": "V\u00e4xtskydd svampmedel",
+                            "slug_name": "vaxtskydd-svampmedel"
+                        },
+                        "4216": {
+                            "id": "4216",
+                            "name": "V\u00e4xtskydd diverse",
+                            "slug_name": "vaxtskydd-diverse"
+                        },
+                        "4219": {
+                            "id": "4219",
+                            "name": "Mikron\u00e4rings\u00e4mnen",
+                            "slug_name": "mikronaringsamnen"
+                        },
+                        "4222": {
+                            "id": "4222",
+                            "name": "V\u00e4xtskydd ogr\u00e4smedel",
+                            "slug_name": "vaxtskydd-ograsmedel"
+                        },
+                        "4225": {
+                            "id": "4225",
+                            "name": "V\u00e4xtskydd insektsmedel",
+                            "slug_name": "vaxtskydd-insektsmedel"
+                        },
+                        "4228": {
+                            "id": "4228",
+                            "name": "Betningsmedel",
+                            "slug_name": "betningsmedel"
+                        }
+                    },
+                    "slug_name": "vaxtskydd"
+                },
+                "4054": {
+                    "id": "4054",
+                    "name": "Salt/Salttabletter",
+                    "children": {
+                        "4057": {
+                            "id": "4057",
+                            "name": "Vintersalt",
+                            "slug_name": "vintersalt"
+                        },
+                        "4063": {
+                            "id": "4063",
+                            "name": "Salttabletter",
+                            "slug_name": "salttabletter"
+                        }
+                    },
+                    "slug_name": "salt-salttabletter"
+                },
+                "4435": {
+                    "id": "4435",
+                    "name": "Plast, n\u00e4t & garn",
+                    "children": {
+                        "4438": {
+                            "id": "4438",
+                            "name": "Plansilofolie stor rulle",
+                            "slug_name": "plansilofolie-stor-rulle"
+                        },
+                        "4441": {
+                            "id": "4441",
+                            "name": "N\u00e4t",
+                            "slug_name": "nat"
+                        },
+                        "4447": {
+                            "id": "4447",
+                            "name": "Str\u00e4ckfilm",
+                            "slug_name": "strackfilm"
+                        },
+                        "4453": {
+                            "id": "4453",
+                            "name": "Plansilofolie",
+                            "slug_name": "plansilofolie"
+                        },
+                        "4456": {
+                            "id": "4456",
+                            "name": "Garn",
+                            "slug_name": "garn"
+                        }
+                    },
+                    "slug_name": "plast,-nat-&-garn"
+                },
+                "4462": {
+                    "id": "4462",
+                    "name": "Ensilering",
+                    "children": {
+                        "4465": {
+                            "id": "4465",
+                            "name": "Ensileringsmedel",
+                            "slug_name": "ensileringsmedel"
+                        }
+                    },
+                    "slug_name": "ensilering"
+                },
+                "9695": {
+                    "id": "9695",
+                    "name": "Destillat",
+                    "children": {
+                        "9698": {
+                            "id": "9698",
+                            "name": "Diesel",
+                            "slug_name": "diesel"
+                        },
+                        "9701": {
+                            "id": "9701",
+                            "name": "Eldningsolja",
+                            "slug_name": "eldningsolja"
+                        }
+                    },
+                    "slug_name": "destillat"
+                }
+            },
+            "slug_name": "handelsvaror"
+        },
+        "4000": {
+            "id": "4000",
+            "name": "Uts\u00e4de & Fr\u00f6",
+            "children": {
+                "4003": {
+                    "id": "4003",
+                    "name": "Andra gr\u00f6dor",
+                    "children": {
+                        "4006": {
+                            "id": "4006",
+                            "name": "F\u00e5nggr\u00f6dor",
+                            "slug_name": "fanggrodor"
+                        },
+                        "4009": {
+                            "id": "4009",
+                            "name": "Fodermajs",
+                            "slug_name": "fodermajs"
+                        }
+                    },
+                    "slug_name": "andra-grodor"
+                },
+                "4093": {
+                    "id": "4093",
+                    "name": "Turfgr\u00e4s",
+                    "children": {
+                        "4096": {
+                            "id": "4096",
+                            "name": "R\u00f6dsvingel",
+                            "slug_name": "rodsvingel"
+                        }
+                    },
+                    "slug_name": "turfgras"
+                },
+                "4099": {
+                    "id": "4099",
+                    "name": "Vallbaljv\u00e4xter",
+                    "children": {
+                        "4102": {
+                            "id": "4102",
+                            "name": "Alsikekl\u00f6ver",
+                            "slug_name": "alsikeklover"
+                        },
+                        "4105": {
+                            "id": "4105",
+                            "name": "\u00d6vriga vallbaljv\u00e4xter",
+                            "slug_name": "ovriga-vallbaljvaxter"
+                        },
+                        "4108": {
+                            "id": "4108",
+                            "name": "Bl\u00e5lusern",
+                            "slug_name": "blalusern"
+                        },
+                        "4111": {
+                            "id": "4111",
+                            "name": "R\u00f6dkl\u00f6ver",
+                            "slug_name": "rodklover"
+                        },
+                        "4114": {
+                            "id": "4114",
+                            "name": "Vitkl\u00f6ver",
+                            "slug_name": "vitklover"
+                        }
+                    },
+                    "slug_name": "vallbaljvaxter"
+                },
+                "4117": {
+                    "id": "4117",
+                    "name": "Vallfr\u00f6blandningar",
+                    "children": {
+                        "4471": {
+                            "id": "4471",
+                            "name": "Vallfr\u00f6blandningar",
+                            "slug_name": "vallfroblandningar"
+                        }
+                    },
+                    "slug_name": "vallfroblandningar"
+                },
+                "4123": {
+                    "id": "4123",
+                    "name": "Vallgr\u00e4s",
+                    "children": {
+                        "4129": {
+                            "id": "4129",
+                            "name": "Engelskt rajgr\u00e4s",
+                            "slug_name": "engelskt-rajgras"
+                        },
+                        "4132": {
+                            "id": "4132",
+                            "name": "Hund\u00e4xing",
+                            "slug_name": "hundaxing"
+                        },
+                        "4135": {
+                            "id": "4135",
+                            "name": "Rajsvingel",
+                            "slug_name": "rajsvingel"
+                        },
+                        "4138": {
+                            "id": "4138",
+                            "name": "R\u00f6rsvingel",
+                            "slug_name": "rorsvingel"
+                        },
+                        "4141": {
+                            "id": "4141",
+                            "name": "Timotej",
+                            "slug_name": "timotej"
+                        },
+                        "4144": {
+                            "id": "4144",
+                            "name": "Westerwoldiskt rajgr\u00e4s",
+                            "slug_name": "westerwoldiskt-rajgras"
+                        },
+                        "4147": {
+                            "id": "4147",
+                            "name": "\u00c4ngssvingel",
+                            "slug_name": "angssvingel"
+                        },
+                        "4483": {
+                            "id": "4483",
+                            "name": "Italienskt rajgr\u00e4s",
+                            "slug_name": "italienskt-rajgras"
+                        }
+                    },
+                    "slug_name": "vallgras"
+                },
+                "4150": {
+                    "id": "4150",
+                    "name": "V\u00e5roljev\u00e4xter",
+                    "children": {
+                        "4153": {
+                            "id": "4153",
+                            "name": "Lin",
+                            "slug_name": "lin"
+                        },
+                        "4156": {
+                            "id": "4156",
+                            "name": "V\u00e5rraps",
+                            "slug_name": "varraps"
+                        },
+                        "4159": {
+                            "id": "4159",
+                            "name": "V\u00e5rrybs",
+                            "slug_name": "varrybs"
+                        }
+                    },
+                    "slug_name": "varoljevaxter"
+                },
+                "4162": {
+                    "id": "4162",
+                    "name": "V\u00e5ruts\u00e4de",
+                    "children": {
+                        "4165": {
+                            "id": "4165",
+                            "name": "V\u00e5rdurumvete",
+                            "slug_name": "vardurumvete"
+                        },
+                        "4168": {
+                            "id": "4168",
+                            "name": "V\u00e5rhavre",
+                            "slug_name": "varhavre"
+                        },
+                        "4174": {
+                            "id": "4174",
+                            "name": "\u00d6vriga proteingr\u00f6dor",
+                            "slug_name": "ovriga-proteingrodor"
+                        },
+                        "4177": {
+                            "id": "4177",
+                            "name": "V\u00e5rkorn, sexrads",
+                            "slug_name": "varkorn,-sexrads"
+                        },
+                        "4180": {
+                            "id": "4180",
+                            "name": "V\u00e5rkorn, tv\u00e5rads",
+                            "slug_name": "varkorn,-tvarads"
+                        },
+                        "4183": {
+                            "id": "4183",
+                            "name": "V\u00e5rr\u00e5gvete",
+                            "slug_name": "varragvete"
+                        },
+                        "4186": {
+                            "id": "4186",
+                            "name": "V\u00e5rvete",
+                            "slug_name": "varvete"
+                        },
+                        "4189": {
+                            "id": "4189",
+                            "name": "\u00c5kerb\u00f6na",
+                            "slug_name": "\u00e5kerbona"
+                        },
+                        "4192": {
+                            "id": "4192",
+                            "name": "\u00c4rt",
+                            "slug_name": "art"
+                        },
+                        "4468": {
+                            "id": "4468",
+                            "name": "Blandningar",
+                            "slug_name": "blandningar"
+                        }
+                    },
+                    "slug_name": "varutsade"
+                }
+            },
+            "slug_name": "utsade-&-fro"
+        }
+    },
+    "slug_name": "produkter"
+}
