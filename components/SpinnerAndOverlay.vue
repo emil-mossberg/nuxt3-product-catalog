@@ -18,22 +18,12 @@ import { useAppInfoStore } from "@/stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
 const { showDarkOverlay, isLoading } = storeToRefs(appInfoStore);
 
-// TO DO fix setting height
 const overlayHeight = ref(0);
 
 watch([showDarkOverlay, isLoading], ([first, second]) => {
   overlayHeight.value =
     first || second ? document.documentElement.scrollHeight : 0;
 });
-
-// console.log("Spinner");
-// watch(
-//   () => [showDarkOverlay, isLoading],
-//   ([first, second]) => {
-//     console.log(first);
-//     console.log(second);
-//   }
-// );
 </script>
 
 <style lang="less">

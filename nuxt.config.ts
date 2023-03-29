@@ -21,9 +21,12 @@ export default defineNuxtConfig({
     "~/components/icons",
     "~/components/uicomponents",
   ],
+
   runtimeConfig: {
+    // Keys within public, will be also exposed to the client-side
     public: {
-      klevuKey: process.env.KLEVU_KEY,
+      klevuURL: process.env.KLEVU_URL_AGRI_PROD,
+      klevuKey: process.env.KLEVU_KEY_AGRI_PROD,
     },
   },
 });

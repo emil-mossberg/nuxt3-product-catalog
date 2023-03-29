@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
+    "buildfirebase": "NITRO_PRESET=firebase npm run build && cd .output/server && rm -rf node_modules && npm i && cd ../../ && firebase deploy",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",

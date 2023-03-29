@@ -16,7 +16,7 @@
             :key="index"
             class="productListing__productWrapper"
           >
-            <NuxtLink :to="`/product/${product.id}`">
+            <NuxtLink :to="`/product/${generateSlug(product.name)}`">
               <div class="productListing__product">
                 <div class="productListing__imageContainer">
                   <img
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 const { cleanImageLink } = useKlevu();
-
+const { generateSlug } = useSlug();
 const props = defineProps<{
   products: any[];
   showMore: boolean;
