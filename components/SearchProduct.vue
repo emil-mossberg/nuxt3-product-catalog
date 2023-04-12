@@ -6,7 +6,8 @@
       ><div class="searchProduct__imageWrapper">
         <img
           class="searchProduct__image"
-          :src="cleanImageLink(props.productData.imageUrl)"
+          alt="content image"
+          :src="props.productData.imageUrl"
         />
       </div>
       <div class="searchProduct__information">
@@ -23,7 +24,6 @@
 
 <script setup lang="ts">
 import type { ProductData } from "@/types/ProductData";
-const { cleanImageLink } = useKlevu();
 const { generateSlug } = useSlug();
 
 const props = defineProps<{
@@ -33,6 +33,7 @@ const props = defineProps<{
 
 <style lang="less">
 @image_size: 48px;
+
 .searchProduct {
   margin-bottom: @indent__base;
   padding-top: @indent__base;

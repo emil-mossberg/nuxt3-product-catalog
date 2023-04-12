@@ -147,6 +147,8 @@ onClickOutside(componentRef, () => {
 
   &__menuButton {
     border-radius: 10px;
+    width: 100%;
+    margin: @indent__base 0;
   }
 
   &__dropdown {
@@ -218,5 +220,15 @@ onClickOutside(componentRef, () => {
 
 .categoryMenu__listItem:hover > .categoryMenu__dropdownLvl2 {
   display: block;
+}
+
+@media only screen and (min-width: 991px) {
+  .categoryMenu {
+    position: relative;
+
+    &__menuButton {
+      border-radius: 10px;
+    }
+  }
 }
 </style>

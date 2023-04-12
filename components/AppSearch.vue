@@ -38,7 +38,36 @@
               class="appSearch__suggestionLink"
               :to="`/search/${suggestionParser(suggestion)}`"
               @click="cleanQuickSearch"
-              ><span v-html="suggestion"></span
+            >
+              <!-- Below v-html is not used for user input content so it is ok to disable -->
+              <!-- eslint-disable-next-line vue/no-v-html -->
+              <span v-html="suggestion"></span
+            ></NuxtLink>
+          </li>
+        </ul>
+      </div>
+      <div
+        v-show="
+          !quickSearchResult.searchSuggestions.length &&
+          emptyResult.lastSearched.length
+        "
+        class="appSearch__suggestions"
+      >
+        <h3 class="appSearch__suggestionsLabel">Senaste sökningar:</h3>
+        <ul class="appSearch__suggestionsResult">
+          <li
+            v-for="(suggestion, index) in emptyResult.lastSearched"
+            :key="index"
+            class="appSearch__suggestion"
+          >
+            <NuxtLink
+              class="appSearch__suggestionLink"
+              :to="`/search/${suggestion}`"
+              @click="cleanQuickSearch"
+            >
+              <!-- Below v-html is not used for user input content so it is ok to disable -->
+              <!-- eslint-disable-next-line vue/no-v-html -->
+              <span v-html="suggestion"></span
             ></NuxtLink>
           </li>
         </ul>

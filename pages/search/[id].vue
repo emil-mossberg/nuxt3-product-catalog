@@ -3,7 +3,7 @@
     :filter-attributes="SERPResult.filterOptions"
     :show-more="SERPResult.showMore"
     :products="SERPResult.products"
-    :toggle-manager="toggleManager"
+    :toggle-manager="useFilter"
     @show-more="doNextSERPResult"
     ><template #heading
       ><h1>Sökordet är: '{{ cleanSearchTerm }}'</h1></template
@@ -23,7 +23,7 @@
             value: KlevuSearchSorting.NameAsc,
           },
         ]"
-        @update:modelValue="changeSortOption"
+        @update:model-value="changeSortOption"
       >
         <template #options="{ option, selectOption }">
           <UISelectOption @click="selectOption(option.value, option.name)">
@@ -52,6 +52,11 @@ const cleanSearchTerm = computed(() => {
 doSERPSearch(searchTerm.value, sortSelected);
 
 const changeSortOption = () => {
+  doSERPSearch(searchTerm.value, sortSelected);
+};
+
+const useFilter = (filterKey: string, option: string) => {
+  toggleManager(filterKey, option);
   doSERPSearch(searchTerm.value, sortSelected);
 };
 </script>

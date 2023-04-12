@@ -1,10 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 
 export default defineNuxtConfig({
-  alias: {
-    // assets: "/<rootDir>/assets",
-    // '@': resolve(__dirname, "/")
-  },
   css: ["~/assets/styles/main.less", "~/assets/styles/typography.less"],
   modules: ["@pinia/nuxt"],
   vite: {
@@ -27,6 +23,15 @@ export default defineNuxtConfig({
     public: {
       klevuURL: process.env.KLEVU_URL_AGRI_PROD,
       klevuKey: process.env.KLEVU_KEY_AGRI_PROD,
+    },
+  },
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: "se",
+      },
+      charset: "utf-8",
+      viewport: "width=device-width, initial-scale=1",
     },
   },
 });

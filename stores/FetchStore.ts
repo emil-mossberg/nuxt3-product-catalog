@@ -6,28 +6,39 @@ import {
   listFilters,
   applyFilterWithManager,
 } from "@klevu/core";
-import type { PDPProductData } from "@/types/PDPProductData";
+import type { ProductData } from "@/types/ProductData";
+const { cleanImageUrl } = useKlevu();
 
 export const useFetchStore = defineStore("fetchStore", () => {
   // Logic PDP
-  const product = reactive<PDPProductData>({
+
+  const product = reactive<ProductData>({
     name: "",
     imageUrl: "",
     sku: "",
+    id: "",
     category: "",
   });
 
-  // TO do fix any type
+  // TO DO fix any type
   const fetchProduct = async (productId: any) => {
     const productResultKlevu = await KlevuFetch(products([productId]));
     // // TO DO can this be set cleaner
     // console.log(productResultKlevu.queriesById("products")?.records[0]);
-    product.name = productResultKlevu.queriesById("products")?.records[0].name;
+    product.name = productResultKlevu
+      .queriesById("products")
+      ?.records.map(cleanImageUrl)[0].name;
+
     product.imageUrl =
-      productResultKlevu.queriesById("products")?.records[0].imageUrl;
-    product.sku = productResultKlevu.queriesById("products")?.records[0].sku;
+      productResultKlevu.queriesById("products")?.records[0].imageUrl ?? "";
+
+    product.id =
+      productResultKlevu.queriesById("products")?.records[0].id ?? "";
+
+    product.sku =
+      productResultKlevu.queriesById("products")?.records[0].sku ?? "";
     product.category =
-      productResultKlevu.queriesById("products")?.records[0].category;
+      productResultKlevu.queriesById("products")?.records[0].category ?? "";
   };
 
   const clearProduct = () => {
@@ -90,7 +101,9 @@ export const useFetchStore = defineStore("fetchStore", () => {
     PLPResult.filterOptions = manager.options;
     PLPResult.products = [
       ...PLPResult.products,
-      ...(productResultKlevu.queriesById("products")?.records ?? []),
+      ...(productResultKlevu
+        .queriesById("products")
+        ?.records.map(cleanImageUrl) ?? []),
     ];
     PLPResult.showMore = PLPResult.productIds.length > PLPResult.endIndex;
     PLPResult.startIndex = PLPResult.endIndex;

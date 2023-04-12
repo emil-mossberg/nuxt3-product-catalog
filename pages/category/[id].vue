@@ -1,5 +1,6 @@
 <template>
   <ProductListing
+    class="ProductsView"
     :filter-attributes="PLPResult.filterOptions"
     :show-more="PLPResult.showMore"
     :products="sortedData"
@@ -25,7 +26,7 @@
             value: 'desc',
           },
         ]"
-        @update:modelValue="changeSortOption"
+        @update:model-value="changeSortOption"
       >
         <template #options="{ option, selectOption }">
           <UISelectOption @click="selectOption(option.value, option.name)">
@@ -41,6 +42,13 @@
 import { storeToRefs } from "pinia";
 import { useFetchStore } from "@/stores/FetchStore";
 import categoryProdMapping from "@/data/categoryProductMapping.json";
+
+useHead({
+  title: "Catalog Demo - A Page",
+  meta: [
+    { name: "description", content: "Lantmännen site for catalog products." },
+  ],
+});
 
 const { fetchPLPResult, clearFetchedPLPResult, PLPResult } = useFetchStore();
 const fetchStore = useFetchStore();
@@ -72,13 +80,9 @@ onBeforeUnmount(clearFetchedPLPResult);
   &__select {
     width: 260px;
   }
-}
 
-.productListing__filters {
-  display: none;
-}
-
-.productListing__main {
-  border-left: 1px solid @color__border_primary;
+  .productListing__filters {
+    display: none;
+  }
 }
 </style>

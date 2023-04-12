@@ -20,20 +20,26 @@
               <div class="productListing__product">
                 <div class="productListing__imageContainer">
                   <img
+                    alt="product image"
                     class="productListing__image"
-                    :src="cleanImageLink(product.imageUrl)"
+                    :src="product.imageUrl"
                   />
                 </div>
                 <h3 class="productListing__productHeader">
                   {{ product.name }}
                 </h3>
-                <span class="productListing__skuInfo"
-                  ><strong>Art. nr: </strong>{{ product.sku }}</span
-                >
+                <div class="productListing__bottomRow">
+                  <span><strong>Art. nr: </strong>{{ product.sku }}</span>
+                  <UISVGButton><IconCompare /> <span>Jämför</span></UISVGButton>
+                </div>
               </div>
             </NuxtLink>
           </li>
-          <div v-if="props.showMore" class="productListing__toolbarBottom">
+          <div
+            v-if="props.showMore"
+            id="page-bottom"
+            class="productListing__toolbarBottom"
+          >
             <UIButton :button-type="'secondary'" @click="emit('showMore')"
               >Visa fler</UIButton
             >
@@ -48,7 +54,8 @@
 </template>
 
 <script setup lang="ts">
-const { cleanImageLink } = useKlevu();
+// import { useCompareStore } from "@/stores/CompareStore";
+// const { addProductToCompare } = useCompareStore();
 const { generateSlug } = useSlug();
 const props = defineProps<{
   products: any[];
@@ -71,8 +78,8 @@ const emit = defineEmits<{
 
   &__top {
     background-color: @color__background_secondary;
-    border-bottom: 1px solid @color__border_primary;
     padding: @indent__base 0;
+    padding-top: @indent__xxl;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,12 +93,9 @@ const emit = defineEmits<{
   &__filters {
     min-width: 250px;
     margin-right: 2px;
-    border-right: 1px solid @color__border_primary;
-    border-left: 1px solid @color__border_primary;
   }
 
   &__wrapper {
-    border-right: 1px solid @color__border_primary;
     width: 100%;
   }
 
@@ -105,7 +109,7 @@ const emit = defineEmits<{
   }
 
   &__productWrapper {
-    flex-basis: 25%;
+    flex-basis: 50%;
     height: 250px;
     margin-bottom: @indent__xs;
   }
@@ -141,9 +145,12 @@ const emit = defineEmits<{
     align-self: start;
   }
 
-  &__skuInfo {
+  &__bottomRow {
     margin-top: @indent__s;
-    align-self: start;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 
   &__toolbarBottom {
@@ -156,6 +163,22 @@ const emit = defineEmits<{
   &__noResult {
     text-align: center;
     margin: @indent__xxl;
+  }
+}
+
+@media only screen and (min-width: 991px) {
+  .productListing {
+    &__productWrapper {
+      flex-basis: 33.33%;
+    }
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .productListing {
+    &__productWrapper {
+      flex-basis: 25%;
+    }
   }
 }
 </style>

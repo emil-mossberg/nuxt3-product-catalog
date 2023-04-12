@@ -1,10 +1,12 @@
 export const useSlug = () => {
   const generateSlug = (productName: string): string => {
-    return productName
+    const slug = productName
+      .replace("/BB", "") // TO DO why does this appear?
       .replace(/\s+/g, "-")
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036F]/g, "");
+    return slug;
   };
 
   return {

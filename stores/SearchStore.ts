@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import {
   KlevuFetch,
-  //   KlevuLastSearches,
+  KlevuLastSearches,
   KlevuTypeOfRecord,
   search,
   suggestions,
@@ -14,7 +14,8 @@ import {
 } from "@klevu/core";
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 export const useSearchStore = defineStore("searchStore", () => {
-  const { toggleDarkOverlay } = useAppInfoStore();
+  const { toggleDarkOverlay, toggleLoadingSpinner } = useAppInfoStore();
+  const { cleanImageUrl } = useKlevu();
 
   // General searchField Logic
 
@@ -42,7 +43,9 @@ export const useSearchStore = defineStore("searchStore", () => {
       }),
       suggestions(searchTerm.value)
     );
-    quickSearchResult.products = result.queriesById("search")?.records;
+    quickSearchResult.products = result
+      .queriesById("search")
+      ?.records.map(cleanImageUrl);
     quickSearchResult.searchSuggestions =
       result
         .suggestionsById("suggestions")
@@ -63,19 +66,27 @@ export const useSearchStore = defineStore("searchStore", () => {
 
   const emptyResult = reactive<any>({
     products: [],
+    lastSearched: [],
   });
 
   const doEmptySearch = async () => {
-    toggleDarkOverlay(true);
+    toggleLoadingSpinner(true);
     if (!emptyResult.products.length) {
       const result = await KlevuFetch(
         trendingProducts({ limit: LIMIT_TRENDING_PRODUCTS })
       );
       emptyResult.products =
-        result.queriesById("trendingProducts")?.records ?? [];
+        result.queriesById("trendingProducts")?.records.map(cleanImageUrl) ??
+        [];
+
+      emptyResult.lastSearched = KlevuLastSearches.get().map(
+        (item) => item.term
+      );
     }
 
     showDropDown.value = true;
+    toggleLoadingSpinner(false);
+    toggleDarkOverlay(true);
   };
 
   // Logic SERP Page
@@ -91,6 +102,8 @@ export const useSearchStore = defineStore("searchStore", () => {
   });
 
   const doSERPSearch = async (searchTerm: string, sortOption: any) => {
+    KlevuLastSearches.save(searchTerm);
+    toggleLoadingSpinner(true);
     const result = await KlevuFetch(
       search(
         searchTerm,
@@ -123,10 +136,12 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     SERPResult.filterOptions = manager.options;
     SERPResult.totalHits = searchResult?.meta.totalResultsFound;
-    SERPResult.products = searchResult?.records;
+    SERPResult.products = searchResult?.records.map(cleanImageUrl);
+    console.log(SERPResult.products);
     SERPResult.showMore = Boolean(searchResult?.next);
+    toggleLoadingSpinner(false);
   };
-
+  const { scrollToBottom } = useScrollToBottom();
   const doNextSERPResult = async () => {
     const nextRes = await prevResult.next({
       FilterManager: manager,
@@ -140,6 +155,8 @@ export const useSearchStore = defineStore("searchStore", () => {
     ];
     prevResult = searchResult;
     SERPResult.showMore = Boolean(searchResult?.next);
+
+    scrollToBottom();
   };
 
   const toggleManager = (filterKey: string, option: string) => {
