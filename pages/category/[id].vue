@@ -6,7 +6,19 @@
     :products="sortedData"
     :toggle-manager="() => {}"
     @show-more="fetchPLPResult"
-    ><template #heading
+  >
+    <template #metaInformation>
+      <Head
+        ><Title>{{
+          categoryName.charAt(0).toUpperCase() + categoryName.slice(1)
+        }}</Title></Head
+      >
+      <Meta
+        name="description"
+        :content="'Some information about category here'"
+    /></template>
+
+    <template #heading
       ><h1>
         {{ categoryName.charAt(0).toUpperCase() + categoryName.slice(1) }}
       </h1></template

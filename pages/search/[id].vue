@@ -5,7 +5,18 @@
     :products="SERPResult.products"
     :toggle-manager="useFilter"
     @show-more="doNextSERPResult"
-    ><template #heading
+  >
+    <template #metaInformation>
+      <Head
+        ><Title>Sökord: {{ cleanSearchTerm }}</Title></Head
+      >
+      <Meta
+        name="description"
+        :content="'Some information about category here'"
+      />
+    </template>
+
+    <template #heading
       ><h1>Sökordet är: '{{ cleanSearchTerm }}'</h1></template
     ><template #headerInformation>
       <span class="SERPView__pageInfo">

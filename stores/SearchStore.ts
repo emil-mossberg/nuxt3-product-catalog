@@ -137,7 +137,6 @@ export const useSearchStore = defineStore("searchStore", () => {
     SERPResult.filterOptions = manager.options;
     SERPResult.totalHits = searchResult?.meta.totalResultsFound;
     SERPResult.products = searchResult?.records.map(cleanImageUrl);
-    console.log(SERPResult.products);
     SERPResult.showMore = Boolean(searchResult?.next);
     toggleLoadingSpinner(false);
   };

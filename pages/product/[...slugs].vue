@@ -1,5 +1,9 @@
 <template>
   <div class="productPage">
+    <Head
+      ><Title>{{ product.name }}</Title></Head
+    >
+    <Meta name="description" :content="'Some information about product here'" />
     <div class="productPage__topContainer">
       <div class="productPage__backdrop"></div>
       <h1 class="productPage__name">{{ product.name }}</h1>
@@ -38,22 +42,18 @@
 <script setup lang="ts">
 import { useCompareStore } from "@/stores/CompareStore";
 import { useFetchStore } from "@/stores/FetchStore";
-
-// definePageMeta({
-//   validate: (route) => {
-//     console.log(route); 
-//     return true;
-//     // Check if the id is made up of digits
-//     // return /^\d+$/.test(route.params.id);
-//   },
-// });
-
 const { addProductToCompare } = useCompareStore();
 
 const route = useRoute();
 const { fetchProduct, clearProduct, product } = useFetchStore();
 
-// TO DO FIX NEEDING THIS
+definePageMeta({
+  // TO DO fix this start with adding route in parameter for access
+  validate: () => {
+    return true;
+  },
+});
+
 // @ts-ignore
 fetchProduct(route.params.slugs[0]);
 

@@ -109,7 +109,7 @@ export const useFetchStore = defineStore("fetchStore", () => {
     PLPResult.startIndex = PLPResult.endIndex;
   };
 
-  const sortedData = computed(() => {
+  const sortedData = computed( () => {
     const direction = PLPResult.sortDirection === "asc" ? 1 : -1;
     return PLPResult.products.slice().sort(function (a: any, b: any) {
       return a.name > b.name ? direction : -direction;

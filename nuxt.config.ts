@@ -27,6 +27,10 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: "Lantmännen Lantbruk produktkatalog",
+      meta: [
+        { name: "description", content: "Add some useful information here" },
+      ],
       htmlAttrs: {
         lang: "se",
       },

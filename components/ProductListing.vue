@@ -1,5 +1,6 @@
 <template>
   <div class="productListing">
+    <slot name="metaInformation"></slot>
     <div class="productListing__top">
       <slot name="heading"></slot><slot name="headerInformation"></slot>
     </div>
@@ -16,9 +17,8 @@
             :key="index"
             class="productListing__productWrapper"
           >
-            {{ product.id }}
             <NuxtLink
-              :to="`/product2/${product.id}/${generateSlug(product.name)}`"
+              :to="`/product/${product.id}/${generateSlug(product.name)}`"
             >
               <div class="productListing__product">
                 <div class="productListing__imageContainer">
