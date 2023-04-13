@@ -155,7 +155,7 @@ onClickOutside(componentRef, () => {
     border-bottom: none;
     position: absolute;
     background-color: @background__secondary;
-    z-index: 1;
+    z-index: 2;
     top: 48px;
   }
 

@@ -4,8 +4,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
   if (!KlevuConfig.default) {
     KlevuConfig.init({
-      url: runtimeConfig.klevuURL,
-      apiKey: runtimeConfig.klevuKey,
+      url: runtimeConfig.public.klevuURL,
+      apiKey: runtimeConfig.public.klevuKey,
     });
   }
 

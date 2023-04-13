@@ -151,7 +151,7 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     SERPResult.products = [
       ...SERPResult.products,
-      ...(searchResult.records ?? []),
+      ...(searchResult.records.map(cleanImageUrl) ?? []),
     ];
     prevResult = searchResult;
     SERPResult.showMore = Boolean(searchResult?.next);

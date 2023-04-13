@@ -2,7 +2,9 @@
   <li class="searchProduct">
     <NuxtLink
       class="searchProduct__link"
-      :to="`/product/${generateSlug(props.productData.name)}`"
+      :to="`/product2/${props.productData.id}/${generateSlug(
+        props.productData.name
+      )}`"
       ><div class="searchProduct__imageWrapper">
         <img
           class="searchProduct__image"

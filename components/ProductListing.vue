@@ -16,7 +16,10 @@
             :key="index"
             class="productListing__productWrapper"
           >
-            <NuxtLink :to="`/product/${generateSlug(product.name)}`">
+            {{ product.id }}
+            <NuxtLink
+              :to="`/product2/${product.id}/${generateSlug(product.name)}`"
+            >
               <div class="productListing__product">
                 <div class="productListing__imageContainer">
                   <img
