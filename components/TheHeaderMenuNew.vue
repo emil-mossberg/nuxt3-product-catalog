@@ -1,13 +1,12 @@
 <template>
   <div ref="componentRef" class="categoryMenu">
-    <UIButton
-      class="categoryMenu__menuButton"
-      :button-type="'primary'"
+    <a
+      class="categoryMenu__topLink"
+      :class="{ 'categoryMenu__topLink--open': showGlobalMenu }"
       @click="clickGlobalMenu(categoryTree['children'])"
-      >{{ categoryTree["name"] }}</UIButton
+      >{{ props.catalogData["name"] }}</a
     >
-
-    <div v-if="showGlobalMenu" class="categoryMenu__dropdown">
+    <div v-show="showGlobalMenu" class="categoryMenu__dropdown">
       <ul
         class="categoryMenu__dropdownColumn categoryMenu__dropdownLvl0"
         :style="{
@@ -15,7 +14,7 @@
         }"
       >
         <li
-          v-for="(category, index) in categoryTree['children']"
+          v-for="(category, index) in props.catalogData['children']"
           :key="index"
           class="categoryMenu__listItem"
           @mouseenter="setHeight(category['children'], 1)"
@@ -99,6 +98,10 @@ const closeMenu = () => {
   toggleDarkOverlay(false);
 };
 
+const props = defineProps<{
+  catalogData: {};
+}>();
+
 const elementCountColumn = ref<number[]>([]);
 
 const clickGlobalMenu = (obj: {}) => {
@@ -145,42 +148,56 @@ onClickOutside(componentRef, () => {
 .categoryMenu {
   position: relative;
 
-  &__menuButton {
-    border-radius: 10px;
-    width: 100%;
-    margin: @indent__base 0;
-  }
-
-  &__dropdown {
-    border-bottom: none;
-    position: absolute;
-    background-color: @background__secondary;
-    z-index: 2;
-    top: 48px;
-  }
-
-  &__link {
-    display: flex;
-    justify-content: space-between;
-    padding: @indent__base;
+  &__topLink {
     color: @color__text_primary;
-    text-decoration: none;
+    display: flex;
+    padding-right: 20px;
 
-    &--hasChildren:after {
+    &::after {
+      transform: rotate(90deg);
+      transition: all 0.1s linear;
+      margin-left: 12px;
       content: "\203A";
       font-size: 20px;
     }
 
-    &:hover,
-    &--activeParent {
-      background-color: @background__tertiary;
-      color: @color-white;
+    &--open {
+      &::after {
+        transform: rotate(-90deg);
+      }
     }
   }
 
-  &__listItem {
-    border-bottom: 1px solid @color__border_primary;
+  &__dropdown {
+    // border-bottom: none;
+    // position: absolute;
+    // background-color: @background__secondary;
+    // z-index: 2;
+    // top: 42px;
   }
+
+  &__link {
+    // display: flex;
+    // justify-content: space-between;
+    // padding: @indent__base;
+    // color: @color__text_primary;
+    // text-decoration: none;
+
+    // &--hasChildren:after {
+    //   content: "\203A";
+    //   font-size: 20px;
+    // }
+
+    // &:hover,
+    // &--activeParent {
+    //   background-color: @background__tertiary;
+    //   color: @color-white;
+    // }
+  }
+
+  // &__listItem {
+  //   border-bottom: 1px solid @color__border_primary;
+  // }
 
   &__dropdownColumn {
     width: 250px;
@@ -225,10 +242,6 @@ onClickOutside(componentRef, () => {
 @media only screen and (min-width: 991px) {
   .categoryMenu {
     position: relative;
-
-    &__menuButton {
-      border-radius: 10px;
-    }
   }
 }
 </style>

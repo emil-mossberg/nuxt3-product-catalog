@@ -1,13 +1,15 @@
 <template>
   <div class="defaultLayout">
-    <AppHeader />
-    <AppMessage />
+    <TheHeader />
     <main class="defaultLayout__main">
-      <SpinnerAndOverlay />
-      <slot></slot>
+      <TheSpinnerAndOverlay />
+      <TheMessages />
+      <div class="defaultLayout__content">
+        <slot></slot>
+      </div>
     </main>
 
-    <AppFooter />
+    <TheFooter />
   </div>
 </template>
 
@@ -19,10 +21,29 @@
 
   &__main {
     display: flex;
-    width: min(90%, 1440px);
-    padding: 0 @indent__base;
+    margin-top: 190px;
+    width: 100%;
+    padding: 0 @indent__s;
     margin-inline: auto;
     flex-grow: 1;
+    flex-direction: column;
+  }
+}
+
+@media only screen and (min-width: 991px) {
+  // TO DO or 480px?
+  .defaultLayout {
+    &__main {
+      margin-top: 160px; // Match header
+      width: min(90%, 1440px);
+      margin-bottom: @indent__xxl;
+      padding: 0 @indent__base;
+
+      .page {
+        // Set this class on each pages
+        width: 100%;
+      }
+    }
   }
 }
 </style>

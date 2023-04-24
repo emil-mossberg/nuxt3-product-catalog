@@ -1404,6 +1404,12 @@
             610437,
             610464,
             613071
+        ],
+        "breadcrumbs": [
+            {
+                "name": "Produktkatalogen",
+                "url": "/"
+            }
         ]
     },
     "foder": {

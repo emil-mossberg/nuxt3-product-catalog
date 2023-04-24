@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   components: [
     "~/components",
     "~/components/icons",
-    "~/components/uicomponents",
+    "~/components/basecomponents",
   ],
 
   runtimeConfig: {

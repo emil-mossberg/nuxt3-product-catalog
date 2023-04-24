@@ -1,11 +1,14 @@
 <template>
   <div class="productListing">
     <slot name="metaInformation"></slot>
+    <div class="productListing__breadcrumbs">
+      <slot name="breadcrumbs"></slot>
+    </div>
     <div class="productListing__top">
       <slot name="heading"></slot><slot name="headerInformation"></slot>
     </div>
     <div class="productListing__main">
-      <FilterOptions
+      <ProductListingFilter
         :toggle-manager="props.toggleManager"
         :filter-attributes="filterAttributes"
         class="productListing__filters"
@@ -17,34 +20,40 @@
             :key="index"
             class="productListing__productWrapper"
           >
-            <NuxtLink
-              :to="`/product/${product.id}/${generateSlug(product.name)}`"
-            >
-              <div class="productListing__product">
-                <div class="productListing__imageContainer">
+            <div class="productListing__product">
+              <div class="productListing__imageContainer">
+                <NuxtLink
+                  :to="`/product/${product.id}/${generateSlug(product.name)}`"
+                >
                   <img
                     alt="product image"
                     class="productListing__image"
                     :src="product.imageUrl"
                   />
-                </div>
+                </NuxtLink>
+              </div>
+              <NuxtLink
+                :to="`/product/${product.id}/${generateSlug(product.name)}`"
+              >
                 <h3 class="productListing__productHeader">
                   {{ product.name }}
                 </h3>
-                <div class="productListing__bottomRow">
-                  <span><strong>Art. nr: </strong>{{ product.sku }}</span>
-                  <UISVGButton><IconCompare /> <span>Jämför</span></UISVGButton>
-                </div>
+              </NuxtLink>
+              <div class="productListing__bottomRow">
+                <span><strong>Art. nr: </strong>{{ product.sku }}</span>
+                <BaseSVGButton @click="addProductCompare(product)"
+                  ><IconCompare /> <span>Jämför</span></BaseSVGButton
+                >
               </div>
-            </NuxtLink>
+            </div>
           </li>
           <div
             v-if="props.showMore"
             id="page-bottom"
             class="productListing__toolbarBottom"
           >
-            <UIButton :button-type="'secondary'" @click="emit('showMore')"
-              >Visa fler</UIButton
+            <BaseButton :button-type="'secondary'" @click="emit('showMore')"
+              >Visa fler</BaseButton
             >
           </div>
         </ul>
@@ -57,11 +66,12 @@
 </template>
 
 <script setup lang="ts">
-// import { useCompareStore } from "@/stores/CompareStore";
-// const { addProductToCompare } = useCompareStore();
+import type { ProductData } from "@/types/ProductData";
+import { useCompareStore } from "@/stores/CompareStore";
+const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
 const props = defineProps<{
-  products: any[];
+  products: ProductData[];
   showMore: boolean;
   filterAttributes: any[];
   toggleManager: any;
@@ -103,7 +113,6 @@ const emit = defineEmits<{
   }
 
   &__products {
-    padding: 2px 2px @indent__xxl 2px;
     flex-grow: 1;
     align-items: stretch;
     display: flex;
@@ -127,11 +136,6 @@ const emit = defineEmits<{
     align-items: center;
     height: 250px;
     margin: 2px;
-
-    &:hover {
-      border: 1px solid @color__border_primary;
-      cursor: pointer;
-    }
   }
 
   &__imageContainer {

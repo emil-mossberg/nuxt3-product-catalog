@@ -48,3 +48,12 @@ npx nuxi upgrade
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Site structure
+
+index - Main page
+productPages 
+categoryPages
+SERPPages
+ComparePage
+ErrorPage (Same for both 404 and 500)

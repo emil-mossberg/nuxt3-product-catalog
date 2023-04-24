@@ -27,6 +27,7 @@ const emit = defineEmits<{
 
 <style lang="less">
 .button {
+  border-radius: 10px;
   transition: all 0.1s linear;
   font-weight: 400;
   padding: @indent__s @indent__m;

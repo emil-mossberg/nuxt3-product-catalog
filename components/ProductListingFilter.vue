@@ -12,7 +12,7 @@
           :key="innerIndex"
           class="filterOptions__listItem"
         >
-          <UICheckbox
+          <BaseCheckbox
             :checked="option.selected"
             :label="option.name"
             @click="props.toggleManager(filterOption.key, option.name)"

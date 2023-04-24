@@ -1,5 +1,6 @@
 <template>
   <ProductListing
+    class="searchPage"
     :filter-attributes="SERPResult.filterOptions"
     :show-more="SERPResult.showMore"
     :products="SERPResult.products"
@@ -19,14 +20,14 @@
     <template #heading
       ><h1>Sökordet är: '{{ cleanSearchTerm }}'</h1></template
     ><template #headerInformation>
-      <span class="SERPView__pageInfo">
+      <span class="searchPage__pageInfo">
         {{
           `Visar: 1 - ${SERPResult.products.length}/${SERPResult.totalHits}`
         }}</span
       >
-      <UISelect
+      <BaseSelect
         v-model="sortSelected"
-        class="SERPView__select"
+        class="searchPage__select"
         :options="[
           { name: 'Relevans', value: KlevuSearchSorting.Relevance },
           {
@@ -37,10 +38,10 @@
         @update:model-value="changeSortOption"
       >
         <template #options="{ option, selectOption }">
-          <UISelectOption @click="selectOption(option.value, option.name)">
+          <BaseSelectOption @click="selectOption(option.value, option.name)">
             {{ option.name }}
-          </UISelectOption>
-        </template></UISelect
+          </BaseSelectOption>
+        </template></BaseSelect
       ></template
     ></ProductListing
   >
@@ -73,7 +74,7 @@ const useFilter = (filterKey: string, option: string) => {
 </script>
 
 <style lang="less">
-.SERPView {
+.searchPage {
   &__pageInfo {
     margin-right: @indent__base;
     margin-left: auto;

@@ -24,7 +24,6 @@ export const useFetchStore = defineStore("fetchStore", () => {
   const fetchProduct = async (productId: any) => {
     const productResultKlevu = await KlevuFetch(products([productId]));
     // // TO DO can this be set cleaner
-    // console.log(productResultKlevu.queriesById("products")?.records[0]);
     product.name = productResultKlevu
       .queriesById("products")
       ?.records.map(cleanImageUrl)[0].name;
@@ -86,30 +85,35 @@ export const useFetchStore = defineStore("fetchStore", () => {
         PLPResult.productIds.slice(PLPResult.startIndex, PLPResult.endIndex),
         listFilters({
           include: ["category"],
-          rangeFilterSettings: [
-            {
-              key: "klevu_price",
-              minMax: true,
-            },
-          ],
           filterManager: manager,
         }),
         applyFilterWithManager(manager)
       )
     );
 
+    console.log(productResultKlevu.queriesById("products")?.records);
+
     PLPResult.filterOptions = manager.options;
     PLPResult.products = [
       ...PLPResult.products,
-      ...(productResultKlevu
-        .queriesById("products")
-        ?.records.map(cleanImageUrl) ?? []),
+      ...(productResultKlevu.queriesById("products")?.records.map((element) => {
+        // TO DO can this be cleaner?
+        const newElement = {
+          name: element.name,
+          id: element.id,
+          sku: element.sku,
+          imageUrl: element.imageUrl,
+          category: element.category,
+        };
+
+        return cleanImageUrl(newElement);
+      }) ?? []),
     ];
     PLPResult.showMore = PLPResult.productIds.length > PLPResult.endIndex;
     PLPResult.startIndex = PLPResult.endIndex;
   };
 
-  const sortedData = computed( () => {
+  const sortedData = computed(() => {
     const direction = PLPResult.sortDirection === "asc" ? 1 : -1;
     return PLPResult.products.slice().sort(function (a: any, b: any) {
       return a.name > b.name ? direction : -direction;

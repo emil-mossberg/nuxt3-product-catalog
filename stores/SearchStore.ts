@@ -10,7 +10,6 @@ import {
   FilterManager,
   listFilters,
   applyFilterWithManager,
-  // products,
 } from "@klevu/core";
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 export const useSearchStore = defineStore("searchStore", () => {
@@ -110,16 +109,10 @@ export const useSearchStore = defineStore("searchStore", () => {
         {
           id: "search",
           sort: sortOption.value,
-          limit: 16,
+          limit: 90,
         },
         listFilters({
           include: ["category"],
-          rangeFilterSettings: [
-            {
-              key: "klevu_price",
-              minMax: true,
-            },
-          ],
           filterManager: manager,
         }),
         applyFilterWithManager(manager)
@@ -162,6 +155,25 @@ export const useSearchStore = defineStore("searchStore", () => {
     manager.toggleOption(filterKey, option);
   };
 
+  const testSearchCategory = async () => {
+    const result = await KlevuFetch(
+      search(
+        "foder", // TEST WORD HERE
+        {
+          id: "search",
+          limit: 16,
+        },
+        listFilters({
+          include: ["category"],
+          filterManager: manager,
+        }),
+        applyFilterWithManager(manager)
+      )
+    );
+    console.log(manager);
+    console.log(result.queriesById("search"));
+  };
+
   return {
     cleanQuickSearch,
     doQuickSearch,
@@ -174,5 +186,6 @@ export const useSearchStore = defineStore("searchStore", () => {
     emptyResult,
     quickSearchResult,
     SERPResult,
+    testSearchCategory,
   };
 });

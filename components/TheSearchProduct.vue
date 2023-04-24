@@ -1,7 +1,7 @@
 <template>
   <li class="searchProduct">
     <NuxtLink
-      class="searchProduct__link"
+      class="searchProduct__link dark"
       :to="`/product/${props.productData.id}/${generateSlug(
         props.productData.name
       )}`"

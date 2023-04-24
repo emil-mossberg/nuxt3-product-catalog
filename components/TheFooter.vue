@@ -26,9 +26,12 @@
             class="footer__row"
           >
             <span>{{ data.label }}</span>
-            <a target="_blank" class="footer__greenLink" :href="data.url">{{
-              data.urlText
-            }}</a>
+            <a
+              :target="data.newWindow ? '_target' : ''"
+              class="footer__greenLink"
+              :href="data.url"
+              >{{ data.urlText }}</a
+            >
           </div>
         </div>
         <div class="footer__column">
@@ -58,34 +61,50 @@ const column1 = [
   {
     urlText: "Om oss",
     url: "https://www.lantmannen.se/om-lantmannen/organisation-och-verksamhet/division-lantbruk/",
+    newWindow: true,
   },
   {
     urlText: "Jobba hos hos",
     url: "https://www.lantmannenlantbrukmaskin.se/om-oss/jobba-hos-oss/",
+    newWindow: true,
   },
   {
     urlText: "Anläggningar",
     url: "https://www.lantmannenlantbrukmaskin.se/kontakt/anlaggningar/",
+    newWindow: true,
   },
 ];
 
 const column2 = [
-  { label: "Växel: ", urlText: "010-556 56 00", url: "tel:010-556 56 00" },
-  { label: "Kundtjänst: ", urlText: "0771-111 222", url: "tel:0771-111 222" },
+  {
+    label: "Växel: ",
+    urlText: "010-556 56 00",
+    url: "tel:010-556 56 00",
+    newWindow: false,
+  },
+  {
+    label: "Kundtjänst: ",
+    urlText: "0771-111 222",
+    url: "tel:0771-111 222",
+    newWindow: false,
+  },
   {
     label: "Besöksadress: ",
     urlText: "Neptunigatan 47, Malmö",
     url: "https://www.google.com/maps/place/Neptunigatan+47,+211+18+Malm%C3%B6/@55.6075804,12.986419,17z/data=!3m1!4b1!4m5!3m4!1s0x4653a40105e591a3:0x5abd2937d18db3ee!8m2!3d55.6075804!4d12.986419",
+    newWindow: true,
   },
   {
     label: "Postadress: ",
     urlText: "SE-205 03 Malmö",
     url: "",
+    newWindow: true,
   },
   {
     label: "Epost: ",
     urlText: "lantbruk.kundtjanst@lantmannen.com",
     url: "mailto:lantbruk.kundtjanst@lantmannen.com",
+    newWindow: true,
   },
 ];
 

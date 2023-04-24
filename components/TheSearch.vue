@@ -12,7 +12,7 @@
         autocomplete="off"
         type="text"
         placeholder="Vad letar du efter?"
-        @focus="doEmptySearch"
+        @focus="clickedSearchedField"
         @keyup="debouncedDoQuickSearch"
       />
     </form>
@@ -23,6 +23,10 @@
       @click="searchTerm = ''"
     />
     <div v-show="showDropDown" class="appSearch__dropdown">
+      <IconCross
+        class="appSearch__dropdownClose"
+        @click="clickedCloseDropdown"
+      />
       <div
         v-show="quickSearchResult.searchSuggestions.length"
         class="appSearch__suggestions"
@@ -73,13 +77,16 @@
         </ul>
       </div>
       <div class="appSearch__resultBody">
-        <div v-show="emptyResult.products.length" class="appSearch__column">
+        <div
+          v-show="emptyResult.products.length"
+          class="appSearch__column appSearch__column--trending"
+        >
           <div class="appSearch__headerRow">
             <h3 class="appSearch__header">Populärt just nu</h3>
           </div>
 
           <ul class="searchResult__result">
-            <SearchProduct
+            <TheSearchProduct
               v-for="(product, index) in emptyResult.products"
               :key="index"
               :product-data="product"
@@ -98,7 +105,7 @@
             >
           </div>
           <ul class="searchResult__result">
-            <SearchProduct
+            <TheSearchProduct
               v-for="(product, index) in quickSearchResult.products"
               :key="index"
               :product-data="product"
@@ -125,6 +132,22 @@ const {
 } = useSearchStore();
 const searchStore = useSearchStore();
 const { searchTerm, showDropDown } = storeToRefs(searchStore);
+
+// Logic focus search input (this 2 functions is needed to fix body on mobile)
+
+const clickedSearchedField = () => {
+  // TO DO add constand somewhere, not magic number
+  if (window.innerWidth < 480) {
+    document.body.style.position = "fixed";
+  }
+
+  doEmptySearch();
+};
+
+const clickedCloseDropdown = () => {
+  document.body.style.position = "";
+  cleanQuickSearch();
+};
 
 // Logic close dropdown
 
@@ -174,7 +197,6 @@ const suggestionParser = (htmlElementText: string) => {
   &__input {
     border: 1px solid @color__border_primary;
     width: 100%;
-    border-radius: 20px;
     height: 48px;
     padding: 0 @indent__base 0 50px;
     font-size: 16px;
@@ -204,22 +226,30 @@ const suggestionParser = (htmlElementText: string) => {
 
   &__dropdown {
     position: absolute;
-    border-radius: 20px;
-    width: 100%;
-    top: 60px;
+    top: 94px;
     background-color: @background__secondary;
     border: 1px solid @background__primary;
     position: absolute;
     z-index: 20;
-    padding: @indent__m;
+    margin: 0 -8px;
+    padding: @indent__base @indent__s;
+    height: ~"calc(100vh - 120px)"; // TO DO HEIGHT OF HEADER, save this somewhere
+  }
+
+  &__dropdownClose {
+    position: absolute;
+    right: 12px;
   }
 
   &__suggestions {
     display: flex;
+    flex-wrap: wrap;
   }
 
   &__suggestionsLabel {
     white-space: nowrap;
+    flex-grow: 1;
+    margin-bottom: @indent__s;
   }
 
   &__suggestionsResult {
@@ -228,7 +258,8 @@ const suggestionParser = (htmlElementText: string) => {
   }
 
   &__suggestion {
-    margin-left: @indent__base;
+    margin-right: @indent__base;
+    margin-bottom: @indent__xs;
     padding: 4px 16px;
     border-radius: 20px;
     display: flex;
@@ -243,7 +274,11 @@ const suggestionParser = (htmlElementText: string) => {
   }
 
   &__column {
-    flex-basis: 48%;
+    flex-basis: 100%;
+
+    &--trending {
+      display: none;
+    }
   }
 
   &__headerRow {
@@ -251,6 +286,45 @@ const suggestionParser = (htmlElementText: string) => {
     justify-content: space-between;
     align-items: center;
     padding-bottom: @indent__base;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .appSearch {
+    margin: 0 @indent__base;
+
+    &__input {
+      border-radius: 20px;
+    }
+
+    &__dropdown {
+      border-radius: 20px;
+      margin: 0;
+      top: 60px;
+      padding: @indent__m;
+      height: auto;
+      width: 100%;
+    }
+
+    &__dropdownClose {
+      display: none;
+    }
+
+    &__suggestions {
+      flex-wrap: nowrap;
+    }
+
+    &__suggestionsLabel {
+      margin-right: @indent__base;
+    }
+
+    &__column {
+      flex-basis: 48%;
+
+      &--trending {
+        display: block;
+      }
+    }
   }
 }
 </style>

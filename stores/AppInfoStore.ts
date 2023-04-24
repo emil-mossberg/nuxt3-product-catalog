@@ -17,6 +17,10 @@ export const useAppInfoStore = defineStore("appInfo", () => {
     appMessages.splice(messageIndex, 1);
   };
 
+  const removeMessageAll = () => {
+    appMessages.splice(0, appMessages.length);
+  };
+
   // App loading spinner logic
   const isLoading = ref<boolean>(false);
 
@@ -34,6 +38,7 @@ export const useAppInfoStore = defineStore("appInfo", () => {
     appMessages,
     addMessage,
     removeMessage,
+    removeMessageAll,
     toggleLoadingSpinner,
     isLoading,
     showDarkOverlay,

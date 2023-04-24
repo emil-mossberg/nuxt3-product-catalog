@@ -1,20 +1,27 @@
 <template>
   <div class="productPage">
+    <div id="slug-fix">
+      {{ generateSlug(data.name) }}
+    </div>
     <Head
-      ><Title>{{ product.name }}</Title></Head
+      ><Title>{{ data.name }}</Title></Head
     >
     <Meta name="description" :content="'Some information about product here'" />
     <div class="productPage__topContainer">
       <div class="productPage__backdrop"></div>
-      <h1 class="productPage__name">{{ product.name }}</h1>
-      <div class="productPage__sku">{{ `SKU: ${product.sku}` }}</div>
+      <h1 class="productPage__name">
+        {{ data.name }}
+      </h1>
+      <div class="productPage__sku">
+        {{ `SKU: ${data.sku}` }}
+      </div>
     </div>
     <div class="productPage__container">
       <img
-        v-show="product.imageUrl"
+        v-show="data.imageUrl"
         class="productPage__image"
         alt="content image"
-        :src="product.imageUrl"
+        :src="data.imageUrl.replace('needtochange', '')"
       />
       <div class="productPage__categoriesWrapper">
         <h2 v-if="product.category" class="productPage__categoriesHeader">
@@ -23,7 +30,7 @@
         <div class="productPage__categories">
           <ul class="productPage__categoriesList">
             <li
-              v-for="(category, index) in categoriesFormatted"
+              v-for="(category, index) in data?.category?.split(';;').slice(1)"
               :key="index"
               class="productPage__categoriesListItem"
             >
@@ -32,51 +39,55 @@
           </ul>
         </div>
       </div>
-      <UISVGButton @click="addProductToCompare(product)"
-        ><IconCompare /> <span>Jämför</span></UISVGButton
+      <BaseSVGButton @click="addProductCompare(data)"
+        ><IconCompare /> <span>Jämför</span></BaseSVGButton
       >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { KlevuFetch, products, KlevuPackFetchResult } from "@klevu/core";
 import { useCompareStore } from "@/stores/CompareStore";
 import { useFetchStore } from "@/stores/FetchStore";
-const { addProductToCompare } = useCompareStore();
+import type { ProductData } from "@/types/ProductData";
+const { addProductCompare } = useCompareStore();
+const { generateSlug } = useSlug();
 
 const route = useRoute();
-const { fetchProduct, clearProduct, product } = useFetchStore();
+const { product } = useFetchStore();
 
-definePageMeta({
-  // TO DO fix this start with adding route in parameter for access
-  validate: () => {
-    return true;
-  },
+const { data } = await useAsyncData(async () => {
+  const data = await KlevuFetch(products([route.params.slugs[0]]));
+
+  const dataPacked = KlevuPackFetchResult(data);
+  const product: ProductData = (({ name, imageUrl, sku, id, category }) => ({
+    name,
+    imageUrl,
+    sku,
+    id,
+    category,
+  }))(dataPacked.queryResults[0].records[0]);
+
+  return product;
 });
 
-// @ts-ignore
-fetchProduct(route.params.slugs[0]);
-
-onBeforeUnmount(clearProduct);
-
-const categoriesFormatted = computed(() =>
-  product.category?.split(";;").slice(1)
-);
+// Mounted hook used to make sure that slug is correct after app mounted in browser
+onMounted(() => {
+  const route = useRoute();
+  const correctRoute = route.path.replace(
+    route.path.split("/").pop() as string,
+    document.getElementById("slug-fix")?.innerText as string
+  );
+  history.pushState({}, null, correctRoute);
+});
 </script>
 
 <style lang="less">
 .productPage {
-  width: 100%;
-  // margin: 0 auto;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-
-  // padding: 48px 0;
-  //   text-align: center;
-  //   background: red;
-  //   background-color: #f4eee6;
-  //   color: #1e6e37;
+  // #slug-fix {
+  //   visibility: hidden;
+  // }
 
   &__topContainer {
     margin-top: @indent__m;

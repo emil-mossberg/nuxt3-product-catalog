@@ -10,9 +10,9 @@
         <span>{{ `Du har lagt ${message.message} i ` }}</span>
         <NuxtLink to="/compare">Jämför produkter</NuxtLink>
       </p>
-      <UISVGButton class="appMessages__cross" @click="removeMessage(index)"
-        ><IconCross
-      /></UISVGButton>
+      <BaseSVGButton class="appMessages__cross" @click="removeMessage(index)"
+        ><IconCrossCharcoal
+      /></BaseSVGButton>
     </li>
   </ul>
 </template>
@@ -27,7 +27,6 @@ const { appMessages, removeMessage } = useAppInfoStore();
   max-width: @max-width-view;
   margin: 0 auto;
   width: 100%;
-  padding: 0 @indent__base;
 
   &__message {
     border: 2px solid @color__border_message;

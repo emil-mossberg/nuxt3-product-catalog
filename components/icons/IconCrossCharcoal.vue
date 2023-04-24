@@ -1,0 +1,13 @@
+<template>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 14 14"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g fill="#201E1A" fill-rule="evenodd">
+      <path d="M11.95.636l1.414 1.414L2.05 13.364.636 11.95z" />
+      <path d="M2.05.636L13.364 11.95l-1.414 1.414L.636 2.05z" />
+    </g>
+  </svg>
+</template>

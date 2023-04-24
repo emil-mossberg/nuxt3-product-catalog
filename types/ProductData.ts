@@ -5,5 +5,3 @@ export type ProductData = {
   id: string;
   category: string;
 };
-
-// TO DO add more attributes here when have access

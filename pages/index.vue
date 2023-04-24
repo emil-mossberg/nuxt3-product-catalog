@@ -1,6 +1,6 @@
 <template>
   <div class="startPage">
-    <UITextCard
+    <BaseTextCard
       :header="'Demokatalog'"
       :body-text="'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'"
     />
@@ -25,8 +25,6 @@ useHead({
 
 <style lang="less">
 .startPage {
-  padding-top: @indent__m;
-
   &__imageBlock {
     margin-top: @indent__m;
     max-width: 1440px;

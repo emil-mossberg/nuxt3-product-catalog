@@ -19,8 +19,12 @@ ul, li, ol {
 }
 
 a {
-    color: @color__text_primary;
+    color: @color_link;
     text-decoration: none;
+
+    &.dark {
+        color: @color__text_primary;
+    }
 }
 
 p {

@@ -1,16 +1,16 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
 
-import UITextCard from "../components/uicomponents/UITextCard.vue";
+import BaseTextCard from "../components/uicomponents/BaseTextCard.vue";
 
-describe("UITextCard", () => {
+describe("BaseTextCard", () => {
   let wrapper: VueWrapper;
 
   const header = "A funky header";
   const bodyText = "Some information text";
 
   beforeEach(() => {
-    wrapper = mount(UITextCard, {
+    wrapper = mount(BaseTextCard, {
       props: {
         header,
         bodyText,
