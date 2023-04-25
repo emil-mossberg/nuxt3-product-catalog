@@ -1,18 +1,20 @@
 <template>
-  <div class="uiSelectOption">
+  <div class="baseUiSelect">
     <slot></slot>
   </div>
 </template>
 
 <style lang="less">
-.uiSelectOption {
+@baseSelect__backgroundColor--hover: @color__form-background--light;
+
+.baseUiSelect {
   padding-left: @indent__base;
   padding: @indent__sm @indent__base;
   cursor: pointer;
   user-select: none;
 
   &:hover {
-    background-color: @uiSelect__backgroundColor--hover;
+    background-color: @baseSelect__backgroundColor--hover;
   }
 }
 </style>

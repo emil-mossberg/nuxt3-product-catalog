@@ -1,6 +1,6 @@
 <template>
-  <div class="BaseTextCard">
-    <h1 class="BaseTextCard__header">{{ props.header }}</h1>
+  <div class="baseTextCard">
+    <h1 class="baseTextCard__header">{{ props.header }}</h1>
     <span>{{ props.bodyText }}</span>
   </div>
 </template>
@@ -13,13 +13,16 @@ const props = defineProps<{
 </script>
 
 <style lang="less">
-.BaseTextCard {
-  background-color: @BaseTextCard--backgroundColor;
+@baseTextCard__header--color: @color__active_primary;
+@baseTextCard--backgroundColor: @background_quaternary;
+
+.baseTextCard {
+  background-color: @baseTextCard--backgroundColor;
   font-size: 20px;
   padding: @indent__xxl;
   line-height: 30px;
   &__header {
-    color: @BaseTextCard__header--color;
+    color: @baseTextCard__header--color;
     line-height: 60px;
   }
 }

@@ -26,7 +26,7 @@
         <div class="header__navigationBottom">
           <IconMobileMenu
             class="header__mobileNavigation"
-            @click="showCategoryMenu = true"
+            @click="toggleCategoryMenu(true)"
           />
           <NuxtLink
             v-show="compareCount > 0"
@@ -40,15 +40,15 @@
           >
             <div class="header__categoryNavMobile">
               <h3>Produkter</h3>
-              <IconCross @click="showCategoryMenu = false" />
+              <IconCross @click="toggleCategoryMenu(false)" />
             </div>
-            <li
+
+            <TheHeaderCategoryNavigation
               v-for="(category, index) in categoryTree.children"
               :key="index"
-              class="header__navigationCategory"
-            >
-              <TheHeaderMenuNewNew :catalog-data="category" />
-            </li>
+              :catalog-data="category"
+              @close-menu="toggleCategoryMenu(false)"
+            />
           </ul>
         </div>
       </div>
@@ -59,19 +59,29 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useCompareStore } from "@/stores/CompareStore";
+import { useAppInfoStore } from "@/stores/AppInfoStore";
 import categoryTree from "@/data/categoryTree.json";
+
 const compareStore = useCompareStore();
 const { compareCount } = storeToRefs(compareStore);
+const appInfoStore = useAppInfoStore();
+const { isMobile } = storeToRefs(appInfoStore);
 
 const showCategoryMenu = ref<boolean>(false);
+
+const toggleCategoryMenu = (toggleValue: boolean) => {
+  showCategoryMenu.value = toggleValue;
+  if (isMobile.value && toggleValue) {
+    document.body.style.position = "fixed";
+  } else if (isMobile.value && !toggleValue) {
+    document.body.style.position = "";
+  }
+};
 </script>
 
 <style lang="less">
 .header {
   border-bottom: 1px solid @color__border_primary;
-  position: fixed;
-  top: 0;
-  z-index: 20;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -100,7 +110,7 @@ const showCategoryMenu = ref<boolean>(false);
     position: absolute;
     top: 0;
     height: 100vh;
-    background-color: @new-and-funky;
+    background-color: @background_quaternary;
     width: 100%;
     margin-left: -8px;
     z-index: 2;
@@ -155,7 +165,7 @@ const showCategoryMenu = ref<boolean>(false);
   }
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: @breakpoint__mobile) {
   .header {
     &__navigationWrapper {
       margin: 0 @indent__m;
@@ -166,15 +176,12 @@ const showCategoryMenu = ref<boolean>(false);
     }
 
     &__navigationCategories {
+      position: static;
       display: flex;
       height: auto;
       top: auto;
       background-color: @background__secondary;
       left: auto;
-    }
-
-    &__navigationCategory {
-      margin-right: @indent__l;
     }
 
     &__categoryNavMobile {

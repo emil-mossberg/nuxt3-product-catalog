@@ -1,12 +1,8 @@
 <template>
-  <div
-    v-show="showDarkOverlay || isLoading"
-    class="spinnerAndOverlay"
-    :style="{ height: overlayHeight + 'px' }"
-  >
-    <div v-show="isLoading" class="spinnerAndOverlay__spinner">
-      <div class="spinnerAndOverlay__circle"></div>
-      <div class="spinnerAndOverlay__circle--delayed"></div>
+  <div v-show="isLoading" class="spinner">
+    <div class="spinner__spinner">
+      <div class="spinner__circle"></div>
+      <div class="spinner__circle--delayed"></div>
     </div>
   </div>
 </template>
@@ -16,14 +12,7 @@ import { storeToRefs } from "pinia";
 
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
-const { showDarkOverlay, isLoading } = storeToRefs(appInfoStore);
-
-const overlayHeight = ref(0);
-
-watch([showDarkOverlay, isLoading], ([first, second]) => {
-  overlayHeight.value =
-    first || second ? document.documentElement.scrollHeight : 0;
-});
+const { isLoading } = storeToRefs(appInfoStore);
 </script>
 
 <style lang="less">
@@ -62,9 +51,8 @@ watch([showDarkOverlay, isLoading], ([first, second]) => {
 
 // Styling
 @overlay-spinner_size: 80px;
-.spinnerAndOverlay {
+.spinner {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   inset: 0;
   z-index: 10;

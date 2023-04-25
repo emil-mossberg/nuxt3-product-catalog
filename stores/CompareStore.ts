@@ -48,7 +48,6 @@ export const useCompareStore = defineStore("compareStore", () => {
   ];
 
   const addProductCompare = (data: ProductData) => {
-    console.log(data.imageUrl);
     // If product is already in compare return
     if (compareProducts.id.find((item: string) => item === data.id)) {
       addMessage("success", data.name);
@@ -90,7 +89,7 @@ export const useCompareStore = defineStore("compareStore", () => {
       compareAttributes[item[0]] = [...newAttributes, item[1]];
     });
 
-    // localStorage.setItem("compare-products", JSON.stringify(compareProducts));
+    localStorage.setItem("compare-products", JSON.stringify(compareProducts));
     numberProduct.value++;
     addMessage("success", data.name);
   };

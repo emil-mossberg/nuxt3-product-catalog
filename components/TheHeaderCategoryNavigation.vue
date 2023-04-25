@@ -1,30 +1,40 @@
 <template>
-  <div ref="componentRef" class="categoryNavigation">
+  <li ref="componentRef" class="categoryNavigation">
     <a
       class="categoryNavigation__link categoryNavigation__link--lvl0"
-      :class="{ 'categoryNavigation__link--lvl0--open': showCategory0 }"
-      @click="clickedCategory0"
+      :class="{ 'categoryNavigation__link--lvl0--open': showCategory1 }"
+      @click="clickedLink0"
       >{{ props.catalogData["name"] }}</a
     >
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
+      <div class="categoryNavigation__listHeader">
+        <h3>{{ props.catalogData["name"] }}</h3>
+        <IconCross @click="clickedClosed" />
+      </div>
+
       <li
         v-for="(category, index) in catalogData['children']"
         :key="index"
         class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
       >
-        <NuxtLink
+        <a
           class="categoryNavigation__link categoryNavigation__link--lvl1"
           :class="{
-            'categoryNavigation__link--lvl1--open': index + 1 == showIndexLvl2,
+            'categoryNavigation__link--lvl1--open':
+              index + 1 == showCategory2Index,
           }"
           :to="`/category/${category['slug_name']}`"
-          @click="clickedCategory1(index)"
+          @click="clickedLink1(index, category['slug_name'])"
         >
           {{ category["name"] }}
-        </NuxtLink>
+        </a>
 
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
-          <h3>{{ category["name"] }}</h3>
+          <div class="categoryNavigation__listHeader">
+            <h3>{{ category["name"] }}</h3>
+            <IconCross @click="clickedClosed" />
+          </div>
+
           <li
             v-for="(category1, index1) in category['children']"
             :key="index1"
@@ -33,7 +43,7 @@
             <NuxtLink
               class="categoryNavigation__link categoryNavigation__link--lvl2"
               :to="`/category/${category1['slug_name']}`"
-              @click="clickedCategory2"
+              @click="clickedLink2"
             >
               {{ category1["name"] }}
             </NuxtLink>
@@ -41,65 +51,67 @@
         </ul>
       </li>
     </ul>
-  </div>
+  </li>
+  <Teleport to="body">
+    <BaseOverlay v-show="showCategory1" />
+  </Teleport>
 </template>
 
 <script setup lang="ts">
-import { onClickOutside, useWindowSize } from "@vueuse/core";
+import { storeToRefs } from "pinia";
+import { onClickOutside } from "@vueuse/core";
 import { useAppInfoStore } from "@/stores/AppInfoStore";
-const { toggleDarkOverlay } = useAppInfoStore();
+const { push } = useRouter();
 
-const MOBILE_BREAPOINT = 480; // TO DO MOVE TO CONFIG
-const isMobile = computed(() => useWindowSize().width.value < MOBILE_BREAPOINT);
-// TO DO MOVE, type
+const emit = defineEmits<{
+  (event: "closeMenu"): void;
+}>();
+
+const appInfoStore = useAppInfoStore();
+const { isMobile } = storeToRefs(appInfoStore);
 
 const props = defineProps<{
   catalogData: { name: string; children: [] };
 }>();
 
-const showCategory0 = ref<boolean>(false);
+const showCategory1 = ref<boolean>(false);
 
-const clickedCategory0 = () => {
-  showCategory0.value = !showCategory0.value;
-  if (showCategory0.value) {
-    toggleDarkOverlay(true);
+const clickedLink0 = () => {
+  showCategory1.value = !showCategory1.value;
+};
+
+const showCategory2Index = ref<number>(0);
+
+const clickedLink1 = (index: number, slugName: string) => {
+  if (isMobile.value) {
+    showCategory2Index.value = index + 1;
   } else {
-    toggleDarkOverlay(false);
+    push({ path: `/category/${slugName}` });
+    showCategory1.value = false;
   }
 };
 
+const clickedLink2 = () => {
+  if (isMobile.value) {
+    emit("closeMenu");
+    showCategory2Index.value = 0;
+  }
+
+  showCategory1.value = false;
+};
+
+const clickedClosed = () => {
+  emit("closeMenu");
+  showCategory2Index.value = 0;
+  showCategory1.value = false;
+};
+
+// Click outside logic
 const componentRef = ref();
 
 onClickOutside(componentRef, () => {
-  if (showCategory0.value) {
-    toggleDarkOverlay(false);
-  }
-  showCategory0.value = false;
+  showCategory1.value = false;
 });
-
-// TO DO not dry fix this also naming is off, close on desktop but keep going on mobile
-
-const showIndexLvl2 = ref<number>(0);
-
-const clickedCategory1 = (index: number) => {
-  if (isMobile) {
-    showIndexLvl2.value = index + 1;
-  } else {
-    showCategory0.value = false;
-    toggleDarkOverlay(false);
-  }
-};
-
-const clickedCategory2 = () => {
-  if (isMobile) {
-    showIndexLvl2.value = 0;
-    showCategory0.value = false;
-  } else {
-    toggleDarkOverlay(false);
-  }
-
-  showCategory0.value = false;
-};
 </script>
 
 <style lang="less">
@@ -122,7 +134,7 @@ const clickedCategory2 = () => {
     top: 0;
     height: 100vh;
     position: absolute;
-    background-color: @new-and-funky;
+    background-color: @background_quaternary;
     transition: left ease-in 0.4s;
 
     &--lvl1 {
@@ -134,6 +146,13 @@ const clickedCategory2 = () => {
     }
   }
 
+  &__listHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: @indent__s;
+  }
+
   &__link--lvl0--open + &__list--lvl1,
   &__link--lvl1--open + &__list--lvl1 {
     left: 0;
@@ -143,13 +162,14 @@ const clickedCategory2 = () => {
     left: 0;
   }
 }
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: @breakpoint__mobile) {
   .categoryNavigation {
     position: relative;
 
     &__link {
       &--lvl0 {
         padding: 0;
+        margin-right: @indent__l;
 
         &::after {
           transform: rotate(90deg);
@@ -189,6 +209,10 @@ const clickedCategory2 = () => {
       }
     }
 
+    &__listHeader {
+      display: none;
+    }
+
     &__listItem:hover > &__list {
       display: list-item;
     }
@@ -201,14 +225,3 @@ const clickedCategory2 = () => {
   }
 }
 </style>
-
-<!-- <h3 class="categoryNavigation__dropdownHeader">
-  {{ props.catalogData["name"] }}
-</h3>
-<BaseButton
-  class="categoryNavigation__mobileBackButton"
-  :button-type="'primary'"
-  @click="showCategory0 = false"
->
-  Tillbaka till Produkter</BaseButton
-> -->

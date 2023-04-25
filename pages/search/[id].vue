@@ -17,8 +17,10 @@
       />
     </template>
 
-    <template #heading
-      ><h1>Sökordet är: '{{ cleanSearchTerm }}'</h1></template
+    <template #heading>
+      <h1 class="searchPage__header">
+        Sökordet är: '{{ cleanSearchTerm }}'
+      </h1></template
     ><template #headerInformation>
       <span class="searchPage__pageInfo">
         {{
@@ -75,13 +77,32 @@ const useFilter = (filterKey: string, option: string) => {
 
 <style lang="less">
 .searchPage {
-  &__pageInfo {
-    margin-right: @indent__base;
-    margin-left: auto;
+  &__header {
+    flex-basis: 100%;
+    margin-bottom: @indent__base;
   }
 
   &__select {
-    width: 260px;
+    margin-top: @indent__base;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: @breakpoint__mobile) {
+  .searchPage {
+    &__header {
+      flex-basis: auto;
+      margin-bottom: 0;
+    }
+
+    &__select {
+      margin-top: 0;
+      width: 260px;
+    }
+
+    &__pageInfo {
+      margin-right: @indent__base;
+    }
   }
 }
 </style>

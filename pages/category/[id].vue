@@ -1,51 +1,54 @@
 <template>
-  <ProductListing
-    class="categoryPage"
-    :filter-attributes="PLPResult.filterOptions"
-    :show-more="PLPResult.showMore"
-    :products="sortedData"
-    :toggle-manager="() => {}"
-    @show-more="fetchPLPResult"
-  >
-    <template #metaInformation>
-      <Head
-        ><Title>{{ CategoryNameCleaned }}</Title></Head
-      >
-      <Meta
-        name="description"
-        :content="'Some information about category here'"
-    /></template>
-    <template #breadcrumbs><BreadCrumbs :breadcrumbs="breadCrumbs" /></template>
-    <template #heading
-      ><h1>
-        {{ CategoryNameCleaned }}
-      </h1></template
-    ><template #headerInformation>
-      <span class="categoryPage__pageInfo">
-        {{
-          `Visar: 1 - ${PLPResult.products.length}/${PLPResult.productIds.length}`
-        }}</span
-      >
-      <BaseSelect
-        v-model="sortSelected"
-        class="categoryPage__select"
-        :options="[
-          { name: 'Bokstavsordning (A - Ö)', value: 'asc' },
-          {
-            name: 'Bokstavsordning (Ö - A)',
-            value: 'desc',
-          },
-        ]"
-        @update:model-value="changeSortOption"
-      >
-        <template #options="{ option, selectOption }">
-          <BaseSelectOption @click="selectOption(option.value, option.name)">
-            {{ option.name }}
-          </BaseSelectOption>
-        </template></BaseSelect
-      >
-    </template>
-  </ProductListing>
+  <div class="categoryPage">
+    <ProductListing
+      :filter-attributes="PLPResult.filterOptions"
+      :show-more="PLPResult.showMore"
+      :products="sortedData"
+      :toggle-manager="() => {}"
+      @show-more="fetchPLPResult"
+    >
+      <template #metaInformation>
+        <Head
+          ><Title>{{ CategoryNameCleaned }}</Title></Head
+        >
+        <Meta
+          name="description"
+          :content="'Some information about category here'"
+      /></template>
+      <template #breadcrumbs
+        ><BreadCrumbs :breadcrumbs="breadCrumbs"
+      /></template>
+      <template #heading
+        ><h1 class="categoryPage__header">
+          {{ CategoryNameCleaned }}
+        </h1></template
+      ><template #headerInformation>
+        <span class="categoryPage__pageInfo">
+          {{
+            `Visar: 1 - ${PLPResult.products.length}/${PLPResult.productIds.length}`
+          }}</span
+        >
+        <BaseSelect
+          v-model="sortSelected"
+          class="categoryPage__select"
+          :options="[
+            { name: 'Bokstavsordning (A - Ö)', value: 'asc' },
+            {
+              name: 'Bokstavsordning (Ö - A)',
+              value: 'desc',
+            },
+          ]"
+          @update:model-value="changeSortOption"
+        >
+          <template #options="{ option, selectOption }">
+            <BaseSelectOption @click="selectOption(option.value, option.name)">
+              {{ option.name }}
+            </BaseSelectOption>
+          </template></BaseSelect
+        >
+      </template>
+    </ProductListing>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -99,49 +102,69 @@ const CategoryNameCleaned = computed(
 
 PLPResult.productIds = categoryProdMapping[categoryId].products;
 
-const debouncedFetchPLPResult = useDebounceFn(fetchPLPResult, 500);
+// const debouncedFetchPLPResult = useDebounceFn(fetchPLPResult, 500);
 
 fetchPLPResult();
 onBeforeUnmount(clearFetchedPLPResult);
-onMounted(() => {
-  window.onscroll = () => {
-    console.log("SCROOLLINNG");
+// onMounted(() => {
+//   window.onscroll = () => {
+//     console.log("SCROOLLINNG");
 
-    const bottomOfWindow =
-      Math.max(
-        window.pageYOffset,
-        document.documentElement.scrollTop,
-        document.body.scrollTop
-      ) + window.innerHeight;
+//     const bottomOfWindow =
+//       Math.max(
+//         window.pageYOffset,
+//         document.documentElement.scrollTop,
+//         document.body.scrollTop
+//       ) + window.innerHeight;
 
-    const bottomOfWindow2 = document.documentElement.offsetHeight + 100;
+//     const bottomOfWindow2 = document.documentElement.offsetHeight + 100;
 
-    const bottom = bottomOfWindow > document.documentElement.offsetHeight + 100;
+//     const bottom = bottomOfWindow > document.documentElement.offsetHeight + 100;
 
-    console.log(bottom);
-    // if (bottom) {
-    //   debouncedFetchPLPResult();
-    // }
+//     console.log(bottom);
+//     if (bottom) {
+//       debouncedFetchPLPResult();
+//     }
 
-    console.log(bottomOfWindow);
-    console.log(bottomOfWindow2);
-  };
-});
+//     console.log(bottomOfWindow);
+//     console.log(bottomOfWindow2);
+//   };
+// });
 </script>
 
 <style lang="less">
 .categoryPage {
+  &__header {
+    flex-basis: 100%;
+    margin-bottom: @indent__base;
+  }
+
   &__pageInfo {
     margin-right: @indent__base;
     margin-left: auto;
   }
 
   &__select {
-    width: 260px;
+    margin-top: @indent__base;
+    width: 100%;
   }
+}
 
-  .productListing__filters {
-    display: none;
+.categoryPage .productListing__filterButton {
+  display: none !important;
+}
+
+@media only screen and (min-width: @breakpoint__mobile) {
+  .categoryPage {
+    &__header {
+      flex-basis: auto;
+      margin-bottom: 0;
+    }
+
+    &__select {
+      margin-top: 0;
+      width: 260px;
+    }
   }
 }
 </style>

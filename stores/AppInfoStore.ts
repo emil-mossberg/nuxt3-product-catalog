@@ -1,5 +1,6 @@
 import { reactive, ref } from "vue";
 import { defineStore } from "pinia";
+import { useWindowSize } from "@vueuse/core";
 
 import type { AppMessage } from "@/types/AppMessage";
 
@@ -28,12 +29,10 @@ export const useAppInfoStore = defineStore("appInfo", () => {
     isLoading.value = isShowing;
   };
 
-  // App dark overlay logic
-  const showDarkOverlay = ref<boolean>(false);
-
-  const toggleDarkOverlay = (isShowing: boolean) => {
-    showDarkOverlay.value = isShowing;
-  };
+  const MOBILE_BREAPOINT = 480;
+  const isMobile = computed(
+    () => useWindowSize().width.value < MOBILE_BREAPOINT
+  );
   return {
     appMessages,
     addMessage,
@@ -41,7 +40,6 @@ export const useAppInfoStore = defineStore("appInfo", () => {
     removeMessageAll,
     toggleLoadingSpinner,
     isLoading,
-    showDarkOverlay,
-    toggleDarkOverlay,
+    isMobile,
   };
 });

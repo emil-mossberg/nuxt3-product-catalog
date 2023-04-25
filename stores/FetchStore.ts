@@ -7,7 +7,7 @@ import {
   applyFilterWithManager,
 } from "@klevu/core";
 import type { ProductData } from "@/types/ProductData";
-const { cleanImageUrl } = useKlevu();
+const { cleanImageUrl, cleanDataKlevu } = useKlevu();
 
 export const useFetchStore = defineStore("fetchStore", () => {
   // Logic PDP
@@ -91,23 +91,12 @@ export const useFetchStore = defineStore("fetchStore", () => {
       )
     );
 
-    console.log(productResultKlevu.queriesById("products")?.records);
-
     PLPResult.filterOptions = manager.options;
     PLPResult.products = [
       ...PLPResult.products,
-      ...(productResultKlevu.queriesById("products")?.records.map((element) => {
-        // TO DO can this be cleaner?
-        const newElement = {
-          name: element.name,
-          id: element.id,
-          sku: element.sku,
-          imageUrl: element.imageUrl,
-          category: element.category,
-        };
-
-        return cleanImageUrl(newElement);
-      }) ?? []),
+      ...(productResultKlevu
+        .queriesById("products")
+        ?.records.map(cleanDataKlevu) ?? []),
     ];
     PLPResult.showMore = PLPResult.productIds.length > PLPResult.endIndex;
     PLPResult.startIndex = PLPResult.endIndex;

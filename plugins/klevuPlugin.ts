@@ -11,7 +11,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // this is server-side (on refresh)
   nuxtApp.hook("app:rendered", () => {});
-  // TO DO WHY DO I NEED THIS?
 
   // this is client-side (on refresh)
   nuxtApp.hook("app:mounted", () => {});

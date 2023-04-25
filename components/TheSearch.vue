@@ -115,6 +115,9 @@
         </div>
       </div>
     </div>
+    <Teleport to="body">
+      <BaseOverlay v-show="showDropDown" />
+    </Teleport>
   </div>
 </template>
 
@@ -123,6 +126,9 @@ import { storeToRefs } from "pinia";
 import { onClickOutside, useDebounceFn } from "@vueuse/core";
 
 import { useSearchStore } from "@/stores/SearchStore";
+import { useAppInfoStore } from "@/stores/AppInfoStore";
+const appInfoStore = useAppInfoStore();
+const { isMobile } = storeToRefs(appInfoStore);
 const {
   cleanQuickSearch,
   doQuickSearch,
@@ -133,14 +139,10 @@ const {
 const searchStore = useSearchStore();
 const { searchTerm, showDropDown } = storeToRefs(searchStore);
 
-// Logic focus search input (this 2 functions is needed to fix body on mobile)
-
 const clickedSearchedField = () => {
-  // TO DO add constand somewhere, not magic number
-  if (window.innerWidth < 480) {
+  if (isMobile.value) {
     document.body.style.position = "fixed";
   }
-
   doEmptySearch();
 };
 
@@ -160,9 +162,10 @@ onClickOutside(appSearchRef, () => {
 
 // Logic search on searchTerm
 
+const SEARCH_LENGTH_MIN = 3;
+
 const doSearchSubmit = () => {
-  // TO DO this should be not here since for quickSearch it is on store also no magic numbers
-  if (searchTerm.value.length < 3) {
+  if (searchTerm.value.length < SEARCH_LENGTH_MIN) {
     return;
   }
 
@@ -226,14 +229,14 @@ const suggestionParser = (htmlElementText: string) => {
 
   &__dropdown {
     position: absolute;
-    top: 94px;
+    top: 88px;
     background-color: @background__secondary;
     border: 1px solid @background__primary;
     position: absolute;
     z-index: 20;
     margin: 0 -8px;
     padding: @indent__base @indent__s;
-    height: ~"calc(100vh - 120px)"; // TO DO HEIGHT OF HEADER, save this somewhere
+    height: ~"calc(100vh - @{mobile-header__height})";
   }
 
   &__dropdownClose {
@@ -289,7 +292,7 @@ const suggestionParser = (htmlElementText: string) => {
   }
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: @breakpoint__mobile) {
   .appSearch {
     margin: 0 @indent__base;
 

@@ -157,7 +157,7 @@ const column3 = [
   }
 }
 
-@media only screen and (min-width: 991px) {
+@media only screen and (min-width: @breakpoint__mobile) {
   .footer {
     &__column {
       flex-basis: 33.33%;

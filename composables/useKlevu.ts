@@ -10,7 +10,20 @@ export const useKlevu = () => {
     return product;
   };
 
+  const cleanDataKlevu = (element: any) => {
+    const newElement = {
+      name: element.name,
+      id: element.id,
+      sku: element.sku,
+      imageUrl: element.imageUrl,
+      category: element.category,
+    };
+
+    return cleanImageUrl(newElement);
+  };
+
   return {
+    cleanDataKlevu,
     cleanImageUrl,
   };
 };

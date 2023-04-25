@@ -13,3 +13,9 @@
     </div>
   </div>
 </template>
+
+<style lang="less">
+.comparePage__header {
+  margin-bottom: @indent__m;
+}
+</style>

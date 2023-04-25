@@ -5,13 +5,22 @@
       <slot name="breadcrumbs"></slot>
     </div>
     <div class="productListing__top">
-      <slot name="heading"></slot><slot name="headerInformation"></slot>
+      <slot name="heading"></slot>
+      <BaseButton
+        :button-type="'secondary'"
+        class="productListing__filterButton"
+        @click="toggleFilter(true)"
+        ><IconFilter />Visa filter</BaseButton
+      >
+      <slot name="headerInformation"></slot>
     </div>
-    <div class="productListing__main">
+    <div ref="el" class="productListing__main">
       <ProductListingFilter
         :toggle-manager="props.toggleManager"
         :filter-attributes="filterAttributes"
         class="productListing__filters"
+        :class="{ 'productListing__filters--open': showFilter }"
+        @close-filter="toggleFilter(false)"
       />
       <div class="productListing__wrapper">
         <ul class="productListing__products">
@@ -62,14 +71,21 @@
         </p>
       </div>
     </div>
+    <Teleport to="body">
+      <BaseOverlay v-show="showFilter" />
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import type { ProductData } from "@/types/ProductData";
 import { useCompareStore } from "@/stores/CompareStore";
+import { useAppInfoStore } from "@/stores/AppInfoStore";
 const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
+const appInfoStore = useAppInfoStore();
+const { isMobile } = storeToRefs(appInfoStore);
 const props = defineProps<{
   products: ProductData[];
   showMore: boolean;
@@ -80,6 +96,18 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: "showMore"): void;
 }>();
+
+const showFilter = ref(false);
+
+const toggleFilter = (value: boolean) => {
+  showFilter.value = value;
+
+  if (isMobile.value && value) {
+    document.body.style.position = "fixed";
+  } else if (isMobile.value && !value) {
+    document.body.style.position = "";
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -92,10 +120,19 @@ const emit = defineEmits<{
   &__top {
     background-color: @color__background_secondary;
     padding: @indent__base 0;
-    padding-top: @indent__xxl;
+    padding-top: @indent__m;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__filterButton {
+    display: flex;
+    align-items: center;
+    margin-right: @indent__base;
+    padding: @indent__xs @indent__sm;
+    gap: @indent__s;
   }
 
   &__main {
@@ -105,7 +142,12 @@ const emit = defineEmits<{
 
   &__filters {
     min-width: 250px;
-    margin-right: 2px;
+    transition: left ease-in 0.6s;
+    left: -100%;
+
+    &--open {
+      left: 0;
+    }
   }
 
   &__wrapper {
@@ -173,15 +215,23 @@ const emit = defineEmits<{
   }
 }
 
-@media only screen and (min-width: 991px) {
+@media only screen and (min-width: @breakpoint__tablet) {
   .productListing {
+    &__top {
+      padding-top: @indent__xxl;
+    }
+
+    &__filterButton {
+      margin-left: auto;
+    }
+
     &__productWrapper {
       flex-basis: 33.33%;
     }
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: @breakpoint__tablet-landscape) {
   .productListing {
     &__productWrapper {
       flex-basis: 25%;

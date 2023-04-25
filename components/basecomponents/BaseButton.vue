@@ -26,12 +26,15 @@ const emit = defineEmits<{
 </script>
 
 <style lang="less">
+@baseButton__buttonBorder: @color__border_secondary;
+@baseButton__buttonBorder_primary--hover: @background__highlight;
+
 .button {
   border-radius: 10px;
   transition: all 0.1s linear;
   font-weight: 400;
   padding: @indent__s @indent__m;
-  border: 2px solid @color__button_border;
+  border: 2px solid @baseButton__buttonBorder;
   cursor: pointer;
 
   &:disabled {
@@ -45,7 +48,7 @@ const emit = defineEmits<{
     font-weight: 700;
 
     &:hover {
-      background-color: @color_button_primary--hover;
+      background-color: @baseButton__buttonBorder_primary--hover;
     }
   }
 

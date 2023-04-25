@@ -13,8 +13,8 @@ import {
 } from "@klevu/core";
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 export const useSearchStore = defineStore("searchStore", () => {
-  const { toggleDarkOverlay, toggleLoadingSpinner } = useAppInfoStore();
-  const { cleanImageUrl } = useKlevu();
+  const { toggleLoadingSpinner } = useAppInfoStore();
+  const { cleanImageUrl, cleanDataKlevu } = useKlevu();
 
   // General searchField Logic
 
@@ -56,7 +56,6 @@ export const useSearchStore = defineStore("searchStore", () => {
     quickSearchResult.searchSuggestions = [];
     searchTerm.value = "";
     showDropDown.value = false;
-    toggleDarkOverlay(false);
   };
 
   // Logic Empty search (using trending products)
@@ -85,7 +84,6 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     showDropDown.value = true;
     toggleLoadingSpinner(false);
-    toggleDarkOverlay(true);
   };
 
   // Logic SERP Page
@@ -129,7 +127,9 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     SERPResult.filterOptions = manager.options;
     SERPResult.totalHits = searchResult?.meta.totalResultsFound;
-    SERPResult.products = searchResult?.records.map(cleanImageUrl);
+    SERPResult.products = searchResult?.records.map(cleanDataKlevu);
+
+
     SERPResult.showMore = Boolean(searchResult?.next);
     toggleLoadingSpinner(false);
   };
@@ -143,7 +143,7 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     SERPResult.products = [
       ...SERPResult.products,
-      ...(searchResult.records.map(cleanImageUrl) ?? []),
+      ...(searchResult.records.map(cleanDataKlevu) ?? []),
     ];
     prevResult = searchResult;
     SERPResult.showMore = Boolean(searchResult?.next);

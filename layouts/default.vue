@@ -1,9 +1,13 @@
 <template>
   <div class="defaultLayout">
-    <TheHeader />
+    <div class="defaultLayout__fixedTop">
+      <TheHeader />
+      <TheMessages />
+    </div>
+
     <main class="defaultLayout__main">
       <TheSpinnerAndOverlay />
-      <TheMessages />
+
       <div class="defaultLayout__content">
         <slot></slot>
       </div>
@@ -19,9 +23,16 @@
   display: flex;
   flex-direction: column;
 
+  &__fixedTop {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+  }
+
   &__main {
     display: flex;
-    margin-top: 190px;
+    margin-top: 230px;
     width: 100%;
     padding: 0 @indent__s;
     margin-inline: auto;
@@ -30,11 +41,10 @@
   }
 }
 
-@media only screen and (min-width: 991px) {
-  // TO DO or 480px?
+@media only screen and (min-width: @breakpoint__mobile) {
   .defaultLayout {
     &__main {
-      margin-top: 160px; // Match header
+      margin-top: 180px; // Match header + message
       width: min(90%, 1440px);
       margin-bottom: @indent__xxl;
       padding: 0 @indent__base;

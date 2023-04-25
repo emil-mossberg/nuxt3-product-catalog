@@ -21,8 +21,8 @@ defineProps<{
 
 <style lang="less">
 .breadCrumbs {
-  padding: @indent__base 0;
   display: flex;
+  flex-wrap: wrap;
 
   &__delimitator {
     margin: 0 8px;

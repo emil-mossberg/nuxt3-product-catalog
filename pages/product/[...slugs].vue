@@ -92,7 +92,7 @@ onMounted(() => {
   &__topContainer {
     margin-top: @indent__m;
     padding: @indent__xxl @indent__m;
-    background-color: @new-and-funky;
+    background-color: @background_quaternary;
   }
 
   &__container {
@@ -117,7 +117,7 @@ onMounted(() => {
 
   &__categoriesHeader {
     padding: @indent__base;
-    background-color: @new-and-funky;
+    background-color: @background_quaternary;
   }
 
   &__categoriesList {
@@ -127,7 +127,7 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background-color: @new-and-funky;
+    background-color: @background_quaternary;
   }
 
   &__categoriesListItem {

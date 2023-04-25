@@ -29,7 +29,10 @@
                 compareProducts.name[imageIndex]
               )}`"
             >
-              <img :src="imageUrl.replace('needtochange', '')" />
+              <img
+                class="compareTable__image"
+                :src="imageUrl.replace('needtochange', '')"
+              />
             </NuxtLink>
           </td>
         </tr>
@@ -86,7 +89,7 @@ const showTable = computed(() => compareProducts.name.length > 0);
 <style lang="less">
 .compareTable {
   overflow: auto;
-  
+
   &__table {
     border: 1px solid @background__primary;
     border-collapse: collapse;
@@ -94,6 +97,10 @@ const showTable = computed(() => compareProducts.name.length > 0);
 
   &__centerCell {
     text-align: center;
+  }
+
+  &__image {
+    max-width: 260px;
   }
 
   &__deleteButton {
@@ -111,7 +118,7 @@ const showTable = computed(() => compareProducts.name.length > 0);
   }
 
   td {
-    padding: 12px 16px;
+    padding: @indent__sm @indent__base;
   }
 }
 </style>

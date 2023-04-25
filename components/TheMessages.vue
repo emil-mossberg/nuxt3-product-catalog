@@ -29,12 +29,13 @@ const { appMessages, removeMessage } = useAppInfoStore();
   width: 100%;
 
   &__message {
+    background-color: @background__secondary;
     border: 2px solid @color__border_message;
     border-radius: 4px;
     margin: @indent__xs 0;
     display: flex;
     align-items: center;
-    padding: @indent__base;
+    padding: @indent__s;
     gap: 16px;
   }
 

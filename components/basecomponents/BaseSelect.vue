@@ -1,15 +1,15 @@
 <template>
-  <div class="uiSelect" tabindex="1" @blur="selectOpen = false">
+  <div class="baseSelect" tabindex="1" @blur="selectOpen = false">
     <div
-      class="uiSelect__selected"
-      :class="{ 'uiSelect__selected--open': selectOpen }"
+      class="baseSelect__selected"
+      :class="{ 'baseSelect__selected--open': selectOpen }"
       @click="selectOpen = !selectOpen"
     >
       {{ selected }}
     </div>
     <div
-      class="uiSelect__items"
-      :class="{ 'uiSelect__items--hide': !selectOpen }"
+      class="baseSelect__items"
+      :class="{ 'baseSelect__items--hide': !selectOpen }"
     >
       <slot
         v-for="option in options"
@@ -45,19 +45,25 @@ const selected = ref(
 </script>
 
 <style lang="less">
-.uiSelect {
+@baseSelect__backgroundColor: @background__secondary;
+@baseSelect__backgroundColor--hover: @color__form-background--light;
+@baseSelect__borderColor: @color__border_primary;
+@baseSelect__borderColor--active: @dustygray;
+@baseSelect__chevronColor: @scorpion;
+
+.baseSelect {
   position: relative;
   text-align: left;
 
   &__selected {
-    background-color: @uiSelect__backgroundColor;
-    border: 1px solid @uiSelect__borderColor;
+    background-color: @baseSelect__backgroundColor;
+    border: 1px solid @baseSelect__borderColor;
     padding: @indent__sm @indent__xl @indent__sm @indent__base;
     cursor: pointer;
     user-select: none;
 
     &--open {
-      border: 1px solid @uiSelect__borderColor--active;
+      border: 1px solid @baseSelect__borderColor--active;
     }
 
     &:after {
@@ -69,16 +75,17 @@ const selected = ref(
       width: 0;
       height: 0;
       border: 5px solid transparent;
-      border-color: @uiSelect__chevronColor transparent transparent transparent;
+      border-color: @baseSelect__chevronColor transparent transparent
+        transparent;
     }
   }
 
   &__items {
-    border-right: 1px solid @uiSelect__borderColor--active;
-    border-left: 1px solid @uiSelect__borderColor--active;
-    border-bottom: 1px solid @uiSelect__borderColor--active;
+    border-right: 1px solid @baseSelect__borderColor--active;
+    border-left: 1px solid @baseSelect__borderColor--active;
+    border-bottom: 1px solid @baseSelect__borderColor--active;
     position: absolute;
-    background-color: @uiSelect__backgroundColor;
+    background-color: @baseSelect__backgroundColor;
     left: 0;
     right: 0;
 
