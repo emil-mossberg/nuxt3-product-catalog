@@ -17,16 +17,22 @@
       />
     </form>
     <IconSearchGlass class="appSearch__searchIcon" />
-    <IconCross
+    <BaseSVGButton
       v-show="searchTerm"
       class="appSearch__crossIcon"
       @click="searchTerm = ''"
-    />
-    <div v-show="showDropDown" class="appSearch__dropdown">
+    >
       <IconCross
+    /></BaseSVGButton>
+
+    <div v-show="showDropDown" class="appSearch__dropdown">
+      <BaseSVGButton
         class="appSearch__dropdownClose"
         @click="clickedCloseDropdown"
-      />
+      >
+        <IconCross />
+      </BaseSVGButton>
+
       <div
         v-show="quickSearchResult.searchSuggestions.length"
         class="appSearch__suggestions"
@@ -157,6 +163,7 @@ const appSearchRef = ref(null);
 
 onClickOutside(appSearchRef, () => {
   showDropDown.value = false;
+  document.body.style.position = "";
   cleanQuickSearch();
 });
 
@@ -170,6 +177,7 @@ const doSearchSubmit = () => {
   }
 
   // TO DO can this be fixed in a simpler way
+  document.body.style.position = "";
   const element = document.getElementById("seachInput") as HTMLElement;
   element.blur();
 

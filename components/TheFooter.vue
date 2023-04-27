@@ -64,6 +64,11 @@ const column1 = [
     newWindow: true,
   },
   {
+    urlText: "Bli kund hos Lantmännen",
+    url: "https://www.lantmannenlantbrukmaskin.se/om-oss/kontoansokan/",
+    newWindow: true,
+  },
+  {
     urlText: "Jobba hos hos",
     url: "https://www.lantmannenlantbrukmaskin.se/om-oss/jobba-hos-oss/",
     newWindow: true,

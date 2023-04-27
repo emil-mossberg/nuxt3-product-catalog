@@ -5,6 +5,7 @@
       :to="`/product/${props.productData.id}/${generateSlug(
         props.productData.name
       )}`"
+      @click="clickedLink"
       ><div class="searchProduct__imageWrapper">
         <img
           class="searchProduct__image"
@@ -27,6 +28,11 @@
 <script setup lang="ts">
 import type { ProductData } from "@/types/ProductData";
 const { generateSlug } = useSlug();
+
+// Fix for mobile search field
+const clickedLink = () => {
+  document.body.style.position = "";
+};
 
 const props = defineProps<{
   productData: ProductData;

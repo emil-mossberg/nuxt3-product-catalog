@@ -9,7 +9,7 @@
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
       <div class="categoryNavigation__listHeader">
         <h3>{{ props.catalogData["name"] }}</h3>
-        <IconCross @click="clickedClosed" />
+        <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
       </div>
 
       <li
@@ -32,7 +32,7 @@
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
           <div class="categoryNavigation__listHeader">
             <h3>{{ category["name"] }}</h3>
-            <IconCross @click="clickedClosed" />
+            <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
           </div>
 
           <li

@@ -17,7 +17,6 @@ export default defineNuxtConfig({
     "~/components/icons",
     "~/components/basecomponents",
   ],
-
   runtimeConfig: {
     // Keys within public, will be also exposed to the client-side
     public: {

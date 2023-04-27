@@ -1,11 +1,11 @@
 <template>
   <div class="categoryPage">
     <ProductListing
-      :filter-attributes="PLPResult.filterOptions"
-      :show-more="PLPResult.showMore"
-      :products="sortedData"
+      :filter-attributes="[]"
+      :show-more="showMore"
+      :products="sortedProducts"
       :toggle-manager="() => {}"
-      @show-more="fetchPLPResult"
+      @show-more="fetchMoreProducts"
     >
       <template #metaInformation>
         <Head
@@ -25,7 +25,7 @@
       ><template #headerInformation>
         <span class="categoryPage__pageInfo">
           {{
-            `Visar: 1 - ${PLPResult.products.length}/${PLPResult.productIds.length}`
+            `Visar: 1 - ${fetchedProducts!.length}/${productIds.length}`
           }}</span
         >
         <BaseSelect
@@ -38,7 +38,6 @@
               value: 'desc',
             },
           ]"
-          @update:model-value="changeSortOption"
         >
           <template #options="{ option, selectOption }">
             <BaseSelectOption @click="selectOption(option.value, option.name)">
@@ -48,20 +47,16 @@
         >
       </template>
     </ProductListing>
+    <button @click="fetchMoreProducts">Test</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useDebounceFn } from "@vueuse/core";
-import { useFetchStore } from "@/stores/FetchStore";
+import { KlevuFetch, products } from "@klevu/core";
 import categoryProdMappingJSON from "@/data/categoryProductMapping.json";
 import type { BreadCrumb } from "@/types/BreadCrumb";
 import type { CategoryData } from "@/types/CategoryData";
-
-const { fetchPLPResult, clearFetchedPLPResult, PLPResult } = useFetchStore();
-const fetchStore = useFetchStore();
-const { sortedData } = storeToRefs(fetchStore);
+const { cleanDataKlevu } = useKlevu();
 const route = useRoute();
 
 useHead({
@@ -73,10 +68,8 @@ useHead({
 
 // TO DO get rid of unknown
 const categoryProdMapping = categoryProdMappingJSON as unknown as CategoryData;
-
 const categoryId = route.params.id as string;
 
-// Set 404 page if category does not exist
 if (!categoryProdMapping[categoryId]) {
   throw createError({
     statusCode: 404,
@@ -84,13 +77,8 @@ if (!categoryProdMapping[categoryId]) {
   });
 }
 
-const sortSelected = ref("asc");
-
-const changeSortOption = () => {
-  PLPResult.sortDirection = sortSelected.value;
-};
-
 const categoryName = ref(categoryProdMapping[categoryId].name);
+const productIds = categoryProdMapping[categoryId].products;
 const breadCrumbs = ref<BreadCrumb[]>(
   categoryProdMapping[categoryId].breadcrumbs
 );
@@ -100,36 +88,48 @@ const CategoryNameCleaned = computed(
   () => categoryName.value.charAt(0).toUpperCase() + categoryName.value.slice(1)
 );
 
-PLPResult.productIds = categoryProdMapping[categoryId].products;
+const PAGE_SIZE = 6;
+const startIndex = ref(6);
+const endIndex = ref(6);
+const showMore = ref(productIds.length > endIndex.value);
 
-// const debouncedFetchPLPResult = useDebounceFn(fetchPLPResult, 500);
+// Fetch initial load of products server side
+const { data: fetchedProducts } = await useAsyncData(async () => {
+  const data = await KlevuFetch(
+    products(productIds.slice(0, PAGE_SIZE).map(String))
+  );
 
-fetchPLPResult();
-onBeforeUnmount(clearFetchedPLPResult);
-// onMounted(() => {
-//   window.onscroll = () => {
-//     console.log("SCROOLLINNG");
+  return data.queriesById("products")?.records.map(cleanDataKlevu) ?? [];
+});
 
-//     const bottomOfWindow =
-//       Math.max(
-//         window.pageYOffset,
-//         document.documentElement.scrollTop,
-//         document.body.scrollTop
-//       ) + window.innerHeight;
+// Fetch additional products client side
+const fetchMoreProducts = async () => {
+  endIndex.value = endIndex.value + PAGE_SIZE;
 
-//     const bottomOfWindow2 = document.documentElement.offsetHeight + 100;
+  const productResultKlevu = await KlevuFetch(
+    products(productIds.slice(startIndex.value, endIndex.value).map(String))
+  );
 
-//     const bottom = bottomOfWindow > document.documentElement.offsetHeight + 100;
+  fetchedProducts.value = [
+    ...fetchedProducts.value!,
+    ...(productResultKlevu
+      .queriesById("products")
+      ?.records.map(cleanDataKlevu) ?? []),
+  ];
 
-//     console.log(bottom);
-//     if (bottom) {
-//       debouncedFetchPLPResult();
-//     }
+  startIndex.value = endIndex.value;
+  showMore.value = productIds.length > endIndex.value;
+};
 
-//     console.log(bottomOfWindow);
-//     console.log(bottomOfWindow2);
-//   };
-// });
+// Logic sorting products
+const sortSelected = ref("asc");
+
+const sortedProducts = computed(() => {
+  const direction = sortSelected.value === "asc" ? 1 : -1;
+  return fetchedProducts
+    .value!.slice()
+    .sort((a: any, b: any) => (a.name > b.name ? direction : -direction));
+});
 </script>
 
 <style lang="less">
@@ -168,36 +168,3 @@ onBeforeUnmount(clearFetchedPLPResult);
   }
 }
 </style>
-
-<!-- import { useDebounceFn } from '@vueuse/core'
-
-const debouncedFn = useDebounceFn(() => {
-  // do something
-}, 1000)
-
-window.addEventListener('resize', debouncedFn) -->
-
-<!-- scrollToBottom() {
-  window.onscroll = () => {
-    let bottomOfWindow =
-      Math.max(
-        window.pageYOffset,
-        document.documentElement.scrollTop,
-        document.body.scrollTop
-      ) +
-        window.innerHeight ===
-      document.documentElement.offsetHeight;
-
-    // Hacky fix here, remove this instead when loaded all
-    // Instead of checking against undefined
-    if (bottomOfWindow && this.lastLoadedStory != undefined) {
-      this.$store.dispatch("fetchAdditionalStories");
-    }
-  };
-}
-},
-mounted() {
-this.$store.dispatch("fetchStories");
-this.$store.dispatch("fetchGuessedDate");
-this.scrollToBottom();
-} -->

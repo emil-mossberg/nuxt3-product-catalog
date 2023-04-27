@@ -9,28 +9,23 @@
             ></NuxtLink
           >
           <TheSearch />
-          <BaseButton
-            v-show="compareCount > 0"
-            :button-type="'primary'"
-            class="header__compareDesktop"
-          >
-            <NuxtLink
-              class="header__compareLink header__compareLink--desktop"
-              to="/compare"
-              ><IconCompare />{{
-                `Jämför produkter (${compareCount})`
-              }}</NuxtLink
-            >
-          </BaseButton>
-        </div>
-        <div class="header__navigationBottom">
-          <IconMobileMenu
-            class="header__mobileNavigation"
-            @click="toggleCategoryMenu(true)"
-          />
           <NuxtLink
             v-show="compareCount > 0"
-            class="header__compareLink header__mobileCompare"
+            class="header__compareLink header__compareLink--desktop"
+            to="/compare"
+            ><IconCompare />{{ `Jämför produkter (${compareCount})` }}</NuxtLink
+          >
+        </div>
+        <div class="header__navigationBottom">
+          <BaseSVGButton
+            class="header__mobileNavigation"
+            @click="toggleCategoryMenu(true)"
+            ><IconMobileMenu
+          /></BaseSVGButton>
+
+          <NuxtLink
+            v-show="compareCount > 0"
+            class="header__compareLink header__compareLink--mobile"
             to="/compare"
             ><IconCompare
           /></NuxtLink>
@@ -40,7 +35,9 @@
           >
             <div class="header__categoryNavMobile">
               <h3>Produkter</h3>
-              <IconCross @click="toggleCategoryMenu(false)" />
+              <BaseSVGButton @click="toggleCategoryMenu(false)"
+                ><IconCross
+              /></BaseSVGButton>
             </div>
 
             <TheHeaderCategoryNavigation
@@ -152,16 +149,17 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
     display: flex;
     align-items: center;
     gap: @indent__s;
-    color: white;
 
-    svg {
-      height: 24px;
-      width: 24px;
+    &--desktop {
+      display: none;
     }
   }
 
-  &__compareDesktop {
-    display: none;
+  &__mobileNavigation {
+    svg {
+      height: 28px;
+      width: 28px;
+    }
   }
 }
 
@@ -192,11 +190,16 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
       margin-bottom: 0;
     }
 
-    &__compareDesktop {
-      display: block;
+    &__compareLink {
+      &--desktop {
+        display: flex;
+      }
+
+      &--mobile {
+        display: none;
+      }
     }
 
-    &__mobileCompare,
     &__mobileNavigation {
       display: none;
     }
