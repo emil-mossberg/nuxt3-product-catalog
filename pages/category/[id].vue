@@ -47,7 +47,6 @@
         >
       </template>
     </ProductListing>
-    <button @click="fetchMoreProducts">Test</button>
   </div>
 </template>
 

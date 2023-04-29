@@ -29,6 +29,16 @@ export const useCompareStore = defineStore("compareStore", () => {
 
   const compareCount = computed(() => compareProducts.name.length);
 
+  // TO DO temp fix until get attriutes from Pontus, do proper typing
+  type Attributes = {
+    label1: string;
+    label2: string;
+    label3: string;
+    label4: string;
+    label5: string;
+    label6: string;
+  };
+
   const dummyData = [
     {
       label1: "value",
@@ -38,6 +48,7 @@ export const useCompareStore = defineStore("compareStore", () => {
     {
       label2: "value",
       label4: "value",
+      label5: "ASDSAD",
     },
     {
       label1: "value",
@@ -71,15 +82,15 @@ export const useCompareStore = defineStore("compareStore", () => {
     Object.entries(compareAttributes).forEach((item) => {
       const label = item[0];
 
-      // @ts-ignore
-      if (currentDummyAttributes[label]) {
-        // @ts-ignore
-        compareAttributes[label].push(currentDummyAttributes[label]);
+      if (currentDummyAttributes[label as keyof Attributes]) {
+        compareAttributes[label].push(
+          currentDummyAttributes[label as keyof Attributes]
+        );
       } else {
         compareAttributes[label].push("-");
       }
-      // @ts-ignore
-      delete currentDummyAttributes[label];
+
+      delete currentDummyAttributes[label as keyof Attributes];
     });
 
     // Second step comparable attributes - add not previously existing new

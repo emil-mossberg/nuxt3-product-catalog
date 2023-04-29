@@ -33,6 +33,7 @@ export const useAppInfoStore = defineStore("appInfo", () => {
   const isMobile = computed(
     () => useWindowSize().width.value < MOBILE_BREAPOINT
   );
+
   return {
     appMessages,
     addMessage,

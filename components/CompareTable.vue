@@ -25,7 +25,7 @@
             class="compareTable__centerCell"
           >
             <NuxtLink
-              :to="`/product/${compareProducts.id[imageIndex]}/${generateSlug(
+              :to="`/product/${compareProducts.id[imageIndex]}-${generateSlug(
                 compareProducts.name[imageIndex]
               )}`"
             >

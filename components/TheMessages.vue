@@ -20,6 +20,7 @@
 <script setup lang="ts">
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 const { appMessages, removeMessage } = useAppInfoStore();
+
 </script>
 
 <style lang="less">
@@ -46,11 +47,6 @@ const { appMessages, removeMessage } = useAppInfoStore();
 
   &__cross {
     margin-left: auto;
-  }
-}
-
-@media only screen and (min-width: 991px) {
-  .appMessages {
   }
 }
 </style>

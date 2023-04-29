@@ -32,7 +32,7 @@
             <div class="productListing__product">
               <div class="productListing__imageContainer">
                 <NuxtLink
-                  :to="`/product/${product.id}/${generateSlug(product.name)}`"
+                  :to="`/product/${product.id}-${generateSlug(product.name)}`"
                 >
                   <img
                     alt="product image"

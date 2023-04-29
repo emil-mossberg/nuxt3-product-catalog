@@ -115,6 +115,8 @@ onClickOutside(componentRef, () => {
 </script>
 
 <style lang="less">
+@chevron-size: 32px;
+
 .categoryNavigation {
   &__link {
     display: flex;
@@ -125,7 +127,7 @@ onClickOutside(componentRef, () => {
     &--lvl0:after,
     &--lvl1:after {
       content: "\203A";
-      font-size: 20px;
+      font-size: @chevron-size;
     }
   }
 
@@ -174,9 +176,10 @@ onClickOutside(componentRef, () => {
         &::after {
           transform: rotate(90deg);
           transition: all 0.1s linear;
-          margin-left: 12px;
+          margin-left: @indent__sm;
+          margin-top: @indent__xxs;
           content: "\203A";
-          font-size: 20px;
+          font-size: @chevron-size;
         }
         &--open {
           color: @color_link;

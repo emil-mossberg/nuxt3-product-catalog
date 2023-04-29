@@ -26,62 +26,64 @@
     /></BaseSVGButton>
 
     <div v-show="showDropDown" class="appSearch__dropdown">
-      <BaseSVGButton
-        class="appSearch__dropdownClose"
-        @click="clickedCloseDropdown"
-      >
-        <IconCross />
-      </BaseSVGButton>
+      <div class="appSearch__topContainer">
+        <div
+          v-show="quickSearchResult.searchSuggestions.length"
+          class="appSearch__suggestions"
+        >
+          <h3 class="appSearch__suggestionsLabel">Menar du:</h3>
+          <ul class="appSearch__suggestionsResult">
+            <li
+              v-for="(suggestion, index) in quickSearchResult.searchSuggestions"
+              :key="index"
+              class="appSearch__suggestion"
+            >
+              <NuxtLink
+                class="appSearch__suggestionLink"
+                :to="`/search/${suggestionParser(suggestion)}`"
+                @click="clickedCloseDropdown"
+              >
+                <!-- Below v-html is not used for user input content so it is ok to disable -->
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <span v-html="suggestion"></span
+              ></NuxtLink>
+            </li>
+          </ul>
+        </div>
+        <div
+          v-show="
+            !quickSearchResult.searchSuggestions.length &&
+            emptyResult.lastSearched.length
+          "
+          class="appSearch__suggestions"
+        >
+          <h3 class="appSearch__suggestionsLabel">Senaste sökningar:</h3>
+          <ul class="appSearch__suggestionsResult">
+            <li
+              v-for="(suggestion, index) in emptyResult.lastSearched"
+              :key="index"
+              class="appSearch__suggestion"
+            >
+              <NuxtLink
+                class="appSearch__suggestionLink"
+                :to="`/search/${suggestion}`"
+                @click="clickedCloseDropdown"
+              >
+                <!-- Below v-html is not used for user input content so it is ok to disable -->
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <span v-html="suggestion"></span
+              ></NuxtLink>
+            </li>
+          </ul>
+        </div>
+        <BaseSVGButton
+          class="appSearch__dropdownClose"
+          @click="clickedCloseDropdown"
+        >
+          <IconCross />
+        </BaseSVGButton>
+      </div>
 
-      <div
-        v-show="quickSearchResult.searchSuggestions.length"
-        class="appSearch__suggestions"
-      >
-        <h3 class="appSearch__suggestionsLabel">Menar du:</h3>
-        <ul class="appSearch__suggestionsResult">
-          <li
-            v-for="(suggestion, index) in quickSearchResult.searchSuggestions"
-            :key="index"
-            class="appSearch__suggestion"
-          >
-            <NuxtLink
-              class="appSearch__suggestionLink"
-              :to="`/search/${suggestionParser(suggestion)}`"
-              @click="cleanQuickSearch"
-            >
-              <!-- Below v-html is not used for user input content so it is ok to disable -->
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="suggestion"></span
-            ></NuxtLink>
-          </li>
-        </ul>
-      </div>
-      <div
-        v-show="
-          !quickSearchResult.searchSuggestions.length &&
-          emptyResult.lastSearched.length
-        "
-        class="appSearch__suggestions"
-      >
-        <h3 class="appSearch__suggestionsLabel">Senaste sökningar:</h3>
-        <ul class="appSearch__suggestionsResult">
-          <li
-            v-for="(suggestion, index) in emptyResult.lastSearched"
-            :key="index"
-            class="appSearch__suggestion"
-          >
-            <NuxtLink
-              class="appSearch__suggestionLink"
-              :to="`/search/${suggestion}`"
-              @click="cleanQuickSearch"
-            >
-              <!-- Below v-html is not used for user input content so it is ok to disable -->
-              <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="suggestion"></span
-            ></NuxtLink>
-          </li>
-        </ul>
-      </div>
       <div class="appSearch__resultBody">
         <div
           v-show="emptyResult.products.length"
@@ -176,7 +178,6 @@ const doSearchSubmit = () => {
     return;
   }
 
-  // TO DO can this be fixed in a simpler way
   document.body.style.position = "";
   const element = document.getElementById("seachInput") as HTMLElement;
   element.blur();
@@ -237,19 +238,24 @@ const suggestionParser = (htmlElementText: string) => {
 
   &__dropdown {
     position: absolute;
-    top: 88px;
+    top: 108px;
     background-color: @background__secondary;
     border: 1px solid @background__primary;
     position: absolute;
     z-index: 20;
-    margin: 0 -8px;
     padding: @indent__base @indent__s;
     height: ~"calc(100vh - @{mobile-header__height})";
+    width: 100vw;
+    left: -8px;
   }
 
   &__dropdownClose {
-    position: absolute;
-    right: 12px;
+    margin-left: auto;
+  }
+
+  &__topContainer {
+    display: flex;
+    align-items: flex-start;
   }
 
   &__suggestions {
@@ -261,6 +267,7 @@ const suggestionParser = (htmlElementText: string) => {
     white-space: nowrap;
     flex-grow: 1;
     margin-bottom: @indent__s;
+    margin-right: @indent__base;
   }
 
   &__suggestionsResult {
@@ -313,8 +320,9 @@ const suggestionParser = (htmlElementText: string) => {
       margin: 0;
       top: 60px;
       padding: @indent__m;
-      height: auto;
       width: 100%;
+      height: auto;
+      left: unset;
     }
 
     &__dropdownClose {
@@ -323,10 +331,6 @@ const suggestionParser = (htmlElementText: string) => {
 
     &__suggestions {
       flex-wrap: nowrap;
-    }
-
-    &__suggestionsLabel {
-      margin-right: @indent__base;
     }
 
     &__column {

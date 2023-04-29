@@ -9,12 +9,10 @@
             ></NuxtLink
           >
           <TheSearch />
-          <NuxtLink
-            v-show="compareCount > 0"
-            class="header__compareLink header__compareLink--desktop"
-            to="/compare"
-            ><IconCompare />{{ `Jämför produkter (${compareCount})` }}</NuxtLink
-          >
+          <ClientOnly
+            ><CompareLink
+              class="header__compareLink header__compareLink--desktop"
+          /></ClientOnly>
         </div>
         <div class="header__navigationBottom">
           <BaseSVGButton
@@ -26,7 +24,7 @@
           <NuxtLink
             v-show="compareCount > 0"
             class="header__compareLink header__compareLink--mobile"
-            to="/compare"
+            :to="{ name: 'compare' }"
             ><IconCompare
           /></NuxtLink>
           <ul
@@ -145,20 +143,20 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
     align-items: center;
   }
 
-  &__compareLink {
-    display: flex;
-    align-items: center;
-    gap: @indent__s;
-
-    &--desktop {
-      display: none;
-    }
-  }
-
   &__mobileNavigation {
     svg {
       height: 28px;
       width: 28px;
+    }
+  }
+
+  &__compareLink {
+    &--mobile {
+      display: block;
+    }
+
+    &--desktop {
+      display: none;
     }
   }
 }
@@ -190,18 +188,18 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
       margin-bottom: 0;
     }
 
-    &__compareLink {
-      &--desktop {
-        display: flex;
-      }
+    &__mobileNavigation {
+      display: none;
+    }
 
+    &__compareLink {
       &--mobile {
         display: none;
       }
-    }
 
-    &__mobileNavigation {
-      display: none;
+      &--desktop {
+        display: flex;
+      }
     }
   }
 }
