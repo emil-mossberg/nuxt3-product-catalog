@@ -10,6 +10,7 @@
     <div class="component__container component__container--open">
       <button class="component__button" @click="clickMe">Click ME</button>
     </div>
+    <TestComp />
   </div>
 </template>
 
