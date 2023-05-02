@@ -1,5 +1,8 @@
 <template>
   <div>
+    <form>
+      <input type="text" placeholder="enter" />
+    </form>
     <li v-for="(data2, index) in data" :key="index">
       {{ data2.title }}
       {{ data2.description }}
@@ -48,23 +51,7 @@ const clickMe = () => {
 </script>
 
 <style lang="less">
-.component {
-  &__container {
-    background-color: antiquewhite;
-  }
-
-  &__button {
-    background-color: blue;
-  }
-
-  &__container--open &__button {
-    background-color: hotpink;
-  }
+input::placeholder {
+  color: steelblue;
 }
-
-// background-color: red;
-
-// &--open &__button {
-
-// }
 </style>

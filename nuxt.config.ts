@@ -2,11 +2,6 @@
 
 export default defineNuxtConfig({
   css: ["~/assets/styles/main.less", "~/assets/styles/typography.less"],
-  postcss: {
-    plugins: {
-      autoprefixer: {},
-    },
-  },
   modules: ["@pinia/nuxt"],
   vite: {
     css: {

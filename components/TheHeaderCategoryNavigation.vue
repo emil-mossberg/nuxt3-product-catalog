@@ -1,11 +1,12 @@
 <template>
   <li ref="componentRef" class="categoryNavigation">
-    <a
+    <button
       class="categoryNavigation__link categoryNavigation__link--lvl0"
       :class="{ 'categoryNavigation__link--lvl0--open': showCategory1 }"
       @click="clickedLink0"
-      >{{ props.catalogData["name"] }}</a
     >
+      {{ props.catalogData["name"] }}
+    </button>
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
       <div class="categoryNavigation__listHeader">
         <h3>{{ props.catalogData["name"] }}</h3>
@@ -17,7 +18,7 @@
         :key="index"
         class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
       >
-        <a
+        <NuxtLink
           class="categoryNavigation__link categoryNavigation__link--lvl1"
           :class="{
             'categoryNavigation__link--lvl1--open':
@@ -27,7 +28,7 @@
           @click="clickedLink1(index, category['slug_name'])"
         >
           {{ category["name"] }}
-        </a>
+        </NuxtLink>
 
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
           <div class="categoryNavigation__listHeader">
@@ -124,6 +125,12 @@ onClickOutside(componentRef, () => {
     padding: @indent__base;
     color: @color__text_primary;
 
+    &--lvl0 {
+      border: none;
+      background-color: transparent;
+      font-weight: 400;
+    }
+
     &--lvl0:after,
     &--lvl1:after {
       content: "\203A";
@@ -198,7 +205,7 @@ onClickOutside(componentRef, () => {
       width: 250px;
       position: absolute;
       height: 774px;
-      top: 30px;
+      top: 35px;
 
       &--lvl1 {
         left: auto;

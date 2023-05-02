@@ -1,5 +1,18 @@
 <template>
   <div class="productListing">
+    <ul>
+      <li v-for="(filterOption, index) in filterAttributes" :key="index">
+        <ul>
+          <h4>{{ filterOption.label }}</h4>
+          <li
+            v-for="(option, innerIndex) in filterOption.options"
+            :key="innerIndex"
+          >
+            <span v-if="option.selected">{{ option.name }}</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
     <slot name="metaInformation"></slot>
     <div class="productListing__breadcrumbs">
       <slot name="breadcrumbs"></slot>
@@ -42,7 +55,7 @@
                 </NuxtLink>
               </div>
               <NuxtLink
-                :to="`/product/${product.id}/${generateSlug(product.name)}`"
+                :to="`/product/${product.id}-${generateSlug(product.name)}`"
               >
                 <h3 class="productListing__productHeader">
                   {{ product.name }}
