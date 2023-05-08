@@ -1,35 +1,19 @@
-import { defineStore } from "pinia";
 import { reactive, computed } from "vue";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
-
 import type { ProductData } from "@/types/ProductData";
-
-// export type CompareProducts = {
-//   name: string[];
-//   imageUrl: string[];
-//   sku: string[];
-//   id: string[];
-//   category: string[];
-// };
+import type { CompareProducts } from "@/types/CompareProducts";
 
 export const useCompareStore = defineStore("compareStore", () => {
   const { addMessage } = useAppInfoStore();
 
-  const compareProducts = reactive<any>({
-    imageUrl: [],
-    name: [],
-    sku: [],
-    id: [],
-    category: [],
-  });
-
+  const compareProducts: CompareProducts = reactive({});
   const numberProduct = ref(0);
 
   const compareAttributes = reactive<any>({});
 
-  const compareCount = computed(() => compareProducts.name.length);
+  const compareCount = computed<number>(
+    () => compareProducts.name?.length ?? 0
+  );
 
-  // TO DO temp fix until get attriutes from Pontus, do proper typing
   type Attributes = {
     label1: string;
     label2: string;
@@ -60,7 +44,7 @@ export const useCompareStore = defineStore("compareStore", () => {
 
   const addProductCompare = (data: ProductData) => {
     // If product is already in compare return
-    if (compareProducts.id.find((item: string) => item === data.id)) {
+    if (compareProducts.id?.find((item: string) => item === data.id)) {
       addMessage("success", data.name);
       return;
     }
@@ -105,15 +89,11 @@ export const useCompareStore = defineStore("compareStore", () => {
     addMessage("success", data.name);
   };
 
-  const addProductsCompare = (data: any) => {
-    compareProducts.imageUrl = data.imageUrl;
-    compareProducts.name = data.name;
-    compareProducts.sku = data.sku;
-    compareProducts.id = data.id;
-    compareProducts.category = data.category;
+  const addProductsCompare = (data: CompareProducts) => {
+    Object.assign(compareProducts, data);
   };
 
-  const removeProductCompare = (index: any) => {
+  const removeProductCompare = (index: number) => {
     // Remove //roduct non-comparable attributes (has to exist in all products)
     for (const [key] of Object.entries(compareProducts)) {
       compareProducts[key].splice(index - 1, 1);

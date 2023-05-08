@@ -1,7 +1,7 @@
 <template>
   <ProductListing
     class="searchPage"
-    :filter-attributes="SERPResult.filterOptions"
+    :filter-attributes="filterOptions"
     :show-more="SERPResult.showMore"
     :products="SERPResult.products"
     :toggle-manager="useFilter"
@@ -24,7 +24,7 @@
     ><template #headerInformation>
       <span class="searchPage__pageInfo">
         {{
-          `Visar: 1 - ${SERPResult.products.length}/${SERPResult.totalHits}`
+          `Visar: 1 - ${SERPResult.products?.length}/${SERPResult.totalHits}`
         }}</span
       >
       <BaseSelect
@@ -52,8 +52,13 @@
 <script setup lang="ts">
 import { KlevuSearchSorting } from "@klevu/core";
 import { useSearchStore } from "@/stores/SearchStore";
-const { doSERPSearch, doNextSERPResult, toggleManager, SERPResult } =
-  useSearchStore();
+const {
+  doSERPSearch,
+  doNextSERPResult,
+  toggleManager,
+  SERPResult,
+  filterOptions,
+} = useSearchStore();
 const route = useRoute();
 
 const sortSelected = ref(KlevuSearchSorting.NameAsc);

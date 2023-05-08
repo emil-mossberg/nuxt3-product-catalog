@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 import {
   KlevuFetch,
   KlevuLastSearches,
@@ -10,25 +8,25 @@ import {
   FilterManager,
   listFilters,
   applyFilterWithManager,
+  KlevuFilterResultOptions,
 } from "@klevu/core";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
+import type { EmptyResult } from "@/types/EmptyResult";
+import type { QuickSearchResult } from "@/types/QuickSearchResult";
+import type { SERPResult } from "@/types/SERPResult";
 export const useSearchStore = defineStore("searchStore", () => {
   const { toggleLoadingSpinner } = useAppInfoStore();
   const { cleanImageUrl, cleanDataKlevu } = useKlevu();
 
   // General searchField Logic
 
-  const searchTerm = ref<string>("");
-  const showDropDown = ref<boolean>(false);
+  const searchTerm = ref("");
+  const showDropDown = ref(false);
 
   // Logic quickSearch
 
   const MIN_LENGTH_SEARCH = 3;
 
-  const quickSearchResult = reactive<any>({
-    products: [],
-    searchSuggestions: [],
-  });
+  const quickSearchResult: QuickSearchResult = reactive({});
 
   const doQuickSearch = async () => {
     if (searchTerm.value.length < MIN_LENGTH_SEARCH) {
@@ -62,19 +60,16 @@ export const useSearchStore = defineStore("searchStore", () => {
 
   const LIMIT_TRENDING_PRODUCTS = 5;
 
-  const emptyResult = reactive<any>({
-    products: [],
-    lastSearched: [],
-  });
+  const emptyResult: EmptyResult = reactive({});
 
   const doEmptySearch = async () => {
     toggleLoadingSpinner(true);
-    if (!emptyResult.products.length) {
+    if (!emptyResult.products?.length) {
       const result = await KlevuFetch(
         trendingProducts({ limit: LIMIT_TRENDING_PRODUCTS })
       );
       emptyResult.products =
-        result.queriesById("trendingProducts")?.records.map(cleanImageUrl) ??
+        result.queriesById("trendingProducts")?.records.map(cleanDataKlevu) ??
         [];
 
       emptyResult.lastSearched = KlevuLastSearches.get().map(
@@ -90,13 +85,8 @@ export const useSearchStore = defineStore("searchStore", () => {
 
   let prevResult: any;
   const manager = new FilterManager();
-
-  const SERPResult = reactive<any>({
-    products: [],
-    filterOptions: [],
-    showMore: false,
-    totalHits: 0,
-  });
+  const SERPResult: SERPResult = reactive({ showMore: false, products: [] });
+  const filterOptions: KlevuFilterResultOptions[] = reactive([]);
 
   const doSERPSearch = async (searchTerm: string, sortOption: any) => {
     KlevuLastSearches.save(searchTerm);
@@ -125,10 +115,9 @@ export const useSearchStore = defineStore("searchStore", () => {
 
     prevResult = searchResult;
 
-    SERPResult.filterOptions = manager.options;
+    Object.assign(filterOptions, manager.options);
     SERPResult.totalHits = searchResult?.meta.totalResultsFound;
     SERPResult.products = searchResult?.records.map(cleanDataKlevu);
-
 
     SERPResult.showMore = Boolean(searchResult?.next);
     toggleLoadingSpinner(false);
@@ -142,7 +131,8 @@ export const useSearchStore = defineStore("searchStore", () => {
     const searchResult = nextRes.queriesById("search");
 
     SERPResult.products = [
-      ...SERPResult.products,
+      // TO DO get rid of !
+      ...SERPResult.products!,
       ...(searchResult.records.map(cleanDataKlevu) ?? []),
     ];
     prevResult = searchResult;
@@ -153,25 +143,6 @@ export const useSearchStore = defineStore("searchStore", () => {
 
   const toggleManager = (filterKey: string, option: string) => {
     manager.toggleOption(filterKey, option);
-  };
-
-  const testSearchCategory = async () => {
-    const result = await KlevuFetch(
-      search(
-        "foder", // TEST WORD HERE
-        {
-          id: "search",
-          limit: 16,
-        },
-        listFilters({
-          include: ["category"],
-          filterManager: manager,
-        }),
-        applyFilterWithManager(manager)
-      )
-    );
-    console.log(manager);
-    console.log(result.queriesById("search"));
   };
 
   return {
@@ -186,6 +157,6 @@ export const useSearchStore = defineStore("searchStore", () => {
     emptyResult,
     quickSearchResult,
     SERPResult,
-    testSearchCategory,
+    filterOptions,
   };
 });

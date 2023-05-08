@@ -3,6 +3,12 @@
 export default defineNuxtConfig({
   css: ["~/assets/styles/main.less", "~/assets/styles/typography.less"],
   modules: ["@pinia/nuxt"],
+  pinia: {
+    autoImports: ["defineStore", "storeToRefs"],
+  },
+  imports: {
+    dirs: ["stores"],
+  },
   vite: {
     css: {
       preprocessorOptions: {
@@ -20,8 +26,14 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Keys within public, will be also exposed to the client-side
     public: {
-      klevuURL: process.env.KLEVU_URL_AGRI_PROD,
-      klevuKey: process.env.KLEVU_KEY_AGRI_PROD,
+      klevuKey: process.env.KLEVU_KEY_PC_TEST,
+      klevuURL: process.env.KLEVU_URL_PC_TEST,
+      // klevuURL: process.env.KLEVU_URL_AGRI_PROD,
+      // klevuKey: process.env.KLEVU_KEY_AGRI_PROD,
+      // klevuURL: process.env.KLEVU_URL_AGRI_STAGING,
+      // klevuKey: process.env.KLEVU_KEY_AGRI_STAGING,
+      categoryUrl: process.env.URL_CATEGORY_TREE,
+      categoryProductMap: process.env.URL_CATEGORY_PRODUCT_MAP,
     },
   },
   app: {
@@ -35,6 +47,13 @@ export default defineNuxtConfig({
       },
       charset: "utf-8",
       viewport: "width=device-width, initial-scale=1",
+      link: [
+        {
+          rel: "apple-touch-icon",
+          type: "image/png",
+          href: "/apple-touch-icon.png",
+        },
+      ],
     },
   },
 });

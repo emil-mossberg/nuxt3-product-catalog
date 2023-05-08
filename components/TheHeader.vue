@@ -11,6 +11,7 @@
           <TheSearch />
           <ClientOnly
             ><CompareLink
+              v-show="compareCount > 0"
               class="header__compareLink header__compareLink--desktop"
           /></ClientOnly>
         </div>
@@ -34,16 +35,17 @@
             <div class="header__categoryNavMobile">
               <h3>Produkter</h3>
               <BaseSVGButton @click="toggleCategoryMenu(false)"
-                ><IconCross
+                ><IconCross class="header__iconCross"
               /></BaseSVGButton>
             </div>
-
-            <TheHeaderCategoryNavigation
-              v-for="(category, index) in categoryTree.children"
-              :key="index"
-              :catalog-data="category"
-              @close-menu="toggleCategoryMenu(false)"
-            />
+            <ClientOnly>
+              <TheHeaderCategoryNavigation
+                v-for="(child, index) in categoryMenu.children"
+                :key="index"
+                :catalog-data="(child as CategoryMenuLevel1)"
+                @close-menu="toggleCategoryMenu(false)"
+              />
+            </ClientOnly>
           </ul>
         </div>
       </div>
@@ -52,17 +54,17 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useCompareStore } from "@/stores/CompareStore";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
-import categoryTree from "@/data/categoryTree.json";
+// TO DO remove this, old way of getting category tree, from hardcoded JSON
+// import categoryTree from "@/data/categoryTree.json";
+import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
 
 const compareStore = useCompareStore();
 const { compareCount } = storeToRefs(compareStore);
 const appInfoStore = useAppInfoStore();
+const { categoryMenu } = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 
-const showCategoryMenu = ref<boolean>(false);
+const showCategoryMenu = ref(false);
 
 const toggleCategoryMenu = (toggleValue: boolean) => {
   showCategoryMenu.value = toggleValue;
@@ -121,6 +123,11 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
     display: flex;
     justify-content: space-between;
     padding: @indent__xs;
+  }
+
+  &__iconCross {
+    height: 28px;
+    width: 28px;
   }
 
   &__navigationLogo {

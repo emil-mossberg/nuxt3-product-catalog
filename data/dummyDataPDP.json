@@ -1,0 +1,178 @@
+{
+    "table": [
+        {
+            "value": "Rubrik",
+            "name": "Analysgaranti \/ kg foder"
+        },
+        {
+            "value": "89",
+            "name": "Torrsubstans %"
+        },
+        {
+            "value": "12.8",
+            "name": "Sm\u00e4ltbar energi (DE) MJ"
+        },
+        {
+            "value": "11",
+            "name": "Oms\u00e4ttbar energi (ME)  MJ"
+        },
+        {
+            "value": "17",
+            "name": "R\u00e5protein %"
+        },
+        {
+            "value": "130",
+            "name": "Sm\u00e4ltbart r\u00e5protein g\/kg"
+        },
+        {
+            "value": "11.8",
+            "name": "Sm\u00e4ltbart r\u00e5protein\/energi (ME) g\/MJ"
+        },
+        {
+            "value": "8",
+            "name": "Lysin g"
+        },
+        {
+            "value": "20",
+            "name": "V\u00e4xttr\u00e5d %"
+        },
+        {
+            "value": "8",
+            "name": "R\u00e5olja och r\u00e5fett %"
+        },
+        {
+            "value": "6",
+            "name": "St\u00e4rkelse %"
+        },
+        {
+            "value": "5",
+            "name": "Socker %"
+        },
+        {
+            "value": "7",
+            "name": "R\u00e5aska %"
+        },
+        {
+            "value": "0.8",
+            "name": "Kalcium, %"
+        },
+        {
+            "value": "0.5",
+            "name": "Fosfor, %"
+        },
+        {
+            "value": "0.5",
+            "name": "Magnesium, %"
+        },
+        {
+            "value": "0.4",
+            "name": "Natrium, %"
+        },
+        {
+            "value": "0.9",
+            "name": "Kalium, %"
+        },
+        {
+            "value": "Rubrik",
+            "name": "Tillsatser \/ kg foder"
+        },
+        {
+            "value": "15000",
+            "name": "Vitamin A, 3a672a IE"
+        },
+        {
+            "value": "1500",
+            "name": "Vitamin D3, E671 IE"
+        },
+        {
+            "value": "75",
+            "name": "Vitamin C, E300 mg"
+        },
+        {
+            "value": "0.2",
+            "name": "Vitamin K3 mg"
+        },
+        {
+            "value": "15",
+            "name": "Vitamin B1 (nitrat) mg"
+        },
+        {
+            "value": "15",
+            "name": "Vitamin B2 (riboflavin) mg"
+        },
+        {
+            "value": "3",
+            "name": "Vitamin B6 (pyrodoxinhydroklorid) mg"
+        },
+        {
+            "value": "0.15",
+            "name": "Vitamin B12 mg"
+        },
+        {
+            "value": "7.5",
+            "name": "Pantotensyra mg\/kg"
+        },
+        {
+            "value": "15",
+            "name": "Niacin mg\/kg"
+        },
+        {
+            "value": "3",
+            "name": "Folinsyra mg"
+        },
+        {
+            "value": "0.15",
+            "name": "Biotin mg\/kg"
+        },
+        {
+            "value": "95",
+            "name": "J\u00e4rn E1 (sulfat) mg"
+        },
+        {
+            "value": "0.18",
+            "name": "Jod, 3b202 (kalciumjodat) mg"
+        },
+        {
+            "value": "0.45",
+            "name": "Kobolt, 3b302 (karbonat) mg"
+        },
+        {
+            "value": "30",
+            "name": "Koppar, E4 (kelat med aminosyror) mg"
+        },
+        {
+            "value": "23",
+            "name": "Koppar, E4 (sulfat) mg"
+        },
+        {
+            "value": "75",
+            "name": "Mangan, E5 (oxid) mg"
+        },
+        {
+            "value": "90",
+            "name": "Zink, E6 (oxid) mg"
+        },
+        {
+            "value": "0.3",
+            "name": "Selen, 3b8.11 (selenj\u00e4st) mg"
+        },
+        {
+            "value": "0.3",
+            "name": "Selen, E8 (natrium selenit) mg"
+        },
+        {
+            "value": "0.5",
+            "name": "Volymvikt, kg\/l"
+        }
+    ],
+    "paragraphs": [
+        {
+            "title": "Utf\u00f6rande",
+            "body": "<p>Produkten tillverkas som 3,8 mm pellets. <\/p><p>H\u00c5LLBARHET: Bulkartikel b\u00f6r f\u00f6rbrukas inom 4 m\u00e5nader fr\u00e5n tillverkningsdatumet.  Fodret ska f\u00f6rvaras torrt.<\/p>"
+        },
+        {
+            "title": "Tillverkas av",
+            "body": "Lantm\u00e4nnen Lantbruk, 205 03 Malm\u00f6, Telefonnummer: 0771-111 222"
+        }
+    ]
+}

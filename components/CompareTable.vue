@@ -5,7 +5,7 @@
         <tr>
           <td></td>
           <td
-            v-for="number in compareProducts.name.length"
+            v-for="number in compareProducts.name?.length"
             :key="number"
             class="compareTable__centerCell"
           >
@@ -25,8 +25,8 @@
             class="compareTable__centerCell"
           >
             <NuxtLink
-              :to="`/product/${compareProducts.id[imageIndex]}-${generateSlug(
-                compareProducts.name[imageIndex]
+              :to="`/product/${compareProducts.id![imageIndex]}-${generateSlug(
+                compareProducts.name![imageIndex]
               )}`"
             >
               <img
@@ -52,7 +52,7 @@
           </td>
         </tr>
         <td>Produktbeskrivning</td>
-        <td v-for="number in compareProducts.name.length" :key="number">
+        <td v-for="number in compareProducts.name?.length" :key="number">
           Produktbeskrivning ska vara här
         </td>
 
@@ -77,13 +77,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import { useCompareStore } from "@/stores/CompareStore";
 const { compareProducts, compareAttributes, removeProductCompare } =
   useCompareStore();
 
 const { generateSlug } = useSlug();
 
-const showTable = computed(() => compareProducts.name.length > 0);
+const showTable = computed<boolean>(() => !!compareProducts.name?.length);
 </script>
 
 <style lang="less">

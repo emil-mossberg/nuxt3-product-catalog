@@ -25,7 +25,7 @@
       ><template #headerInformation>
         <span class="categoryPage__pageInfo">
           {{
-            `Visar: 1 - ${fetchedProducts!.length}/${productIds.length}`
+            `Visar: 1 - ${fetchedProducts?.length}/${productIds.length}`
           }}</span
         >
         <BaseSelect
@@ -55,6 +55,7 @@ import { KlevuFetch, products } from "@klevu/core";
 import categoryProdMappingJSON from "@/data/categoryProductMapping.json";
 import type { BreadCrumb } from "@/types/BreadCrumb";
 import type { CategoryData } from "@/types/CategoryData";
+import type { ProductData } from "@/types/ProductData";
 const { cleanDataKlevu } = useKlevu();
 const route = useRoute();
 
@@ -65,7 +66,7 @@ useHead({
   ],
 });
 
-// TO DO get rid of unknown
+// TO DO get rid of unknown - not sure it is necessary to spend time on since will import
 const categoryProdMapping = categoryProdMappingJSON as unknown as CategoryData;
 const categoryId = route.params.id as string;
 
@@ -94,6 +95,11 @@ const showMore = ref(productIds.length > endIndex.value);
 
 // Fetch initial load of products server side
 const { data: fetchedProducts } = await useAsyncData(async () => {
+  const { categoryProductMap } = useAppInfoStore();
+  // TO DO how to get this to work? Would solve issues with PLP fetching
+  console.log("Server:", categoryProductMap);
+
+  // TO DO here I need to fetch data for category over API not using hardcoded JSON
   const data = await KlevuFetch(
     products(productIds.slice(0, PAGE_SIZE).map(String))
   );
@@ -127,7 +133,9 @@ const sortedProducts = computed(() => {
   const direction = sortSelected.value === "asc" ? 1 : -1;
   return fetchedProducts
     .value!.slice()
-    .sort((a: any, b: any) => (a.name > b.name ? direction : -direction));
+    .sort((product1: ProductData, product2: ProductData) =>
+      product1.name > product2.name ? direction : -direction
+    );
 });
 </script>
 

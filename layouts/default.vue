@@ -32,7 +32,7 @@
 
   &__main {
     display: flex;
-    margin-top: 230px;
+    margin-top: 240px;
     width: 100%;
     padding: 0 @indent__s;
     margin-inline: auto;

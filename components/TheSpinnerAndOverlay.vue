@@ -8,9 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
-import { useAppInfoStore } from "@/stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
 const { isLoading } = storeToRefs(appInfoStore);
 </script>

@@ -20,14 +20,12 @@
 <script setup lang="ts">
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 const { appMessages, removeMessage } = useAppInfoStore();
-
 </script>
 
 <style lang="less">
 .appMessages {
   max-width: @max-width-view;
-  margin: 0 auto;
-  width: 100%;
+  margin: 0 @indent__xs;
 
   &__message {
     background-color: @background__secondary;
@@ -47,6 +45,14 @@ const { appMessages, removeMessage } = useAppInfoStore();
 
   &__cross {
     margin-left: auto;
+  }
+}
+
+@media only screen and (min-width: @breakpoint__mobile) {
+  .appMessages {
+    margin: 0 auto;
+    width: min(90%, 1440px);
+    padding: 0 @indent__base;
   }
 }
 </style>

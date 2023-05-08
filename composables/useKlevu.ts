@@ -1,6 +1,7 @@
+import type { ProductData } from "@/types/ProductData";
+
 export const useKlevu = () => {
-  // TO DO fix typing here
-  const cleanImageUrl = (product: any) => {
+  const cleanImageUrl = (product: ProductData): ProductData => {
     if (product.imageUrl) {
       product.imageUrl = product.imageUrl.replace("needtochange/", "");
     } else {
@@ -10,8 +11,8 @@ export const useKlevu = () => {
     return product;
   };
 
-  const cleanDataKlevu = (element: any) => {
-    const newElement = {
+  const cleanDataKlevu = (element: any): ProductData => {
+    const newElement: ProductData = {
       name: element.name,
       id: element.id,
       sku: element.sku,

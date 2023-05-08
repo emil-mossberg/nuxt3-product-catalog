@@ -1,30 +1,34 @@
 <template>
   <div class="productListing">
-    <ul>
-      <li v-for="(filterOption, index) in filterAttributes" :key="index">
-        <ul>
-          <h4>{{ filterOption.label }}</h4>
-          <li
-            v-for="(option, innerIndex) in filterOption.options"
-            :key="innerIndex"
-          >
-            <span v-if="option.selected">{{ option.name }}</span>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <slot name="metaInformation"></slot>
-    <div class="productListing__breadcrumbs">
-      <slot name="breadcrumbs"></slot>
-    </div>
-    <div class="productListing__top">
-      <slot name="heading"></slot>
+    <div class="productListing__filterRow">
       <BaseButton
         :button-type="'secondary'"
         class="productListing__filterButton"
         @click="toggleFilter(true)"
         ><IconFilter />Visa filter</BaseButton
       >
+      <ul class="productListing__selectedOptions">
+        <li v-for="(filterOption, index) in filterAttributes" :key="index">
+          <ul class="productListing__selectedOptions">
+            <li
+              v-for="(option, innerIndex) in filterOption.options"
+              :key="innerIndex"
+              :class="{ productListing__selectedOption: option.selected }"
+            >
+              <span v-if="option.selected">{{ option.name }}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <slot name="metaInformation"></slot>
+    <div class="productListing__breadcrumbs">
+      <slot name="breadcrumbs"></slot>
+    </div>
+    <div class="productListing__top">
+      <slot name="heading"></slot>
+
       <slot name="headerInformation"></slot>
     </div>
     <div ref="el" class="productListing__main">
@@ -79,7 +83,7 @@
             >
           </div>
         </ul>
-        <p v-if="props.products.length === 0" class="productListing__noResult">
+        <p v-if="props.products?.length === 0" class="productListing__noResult">
           Inget sökresultat, test igen, eller något annat ord ...
         </p>
       </div>
@@ -91,18 +95,16 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
+import { KlevuFilterResultOptions } from "@klevu/core";
 import type { ProductData } from "@/types/ProductData";
-import { useCompareStore } from "@/stores/CompareStore";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
 const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
 const appInfoStore = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 const props = defineProps<{
-  products: ProductData[];
-  showMore: boolean;
-  filterAttributes: any[];
+  products?: ProductData[];
+  showMore?: boolean;
+  filterAttributes: KlevuFilterResultOptions[];
   toggleManager: any;
 }>();
 
@@ -140,12 +142,30 @@ const toggleFilter = (value: boolean) => {
     justify-content: space-between;
   }
 
+  &__filterRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   &__filterButton {
     display: flex;
     align-items: center;
     margin-right: @indent__base;
     padding: @indent__xs @indent__sm;
     gap: @indent__s;
+    white-space: nowrap;
+  }
+
+  &__selectedOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &__selectedOption {
+    border: 1px solid @color__border_primary;
+    padding: @indent__xxs @indent__sm;
   }
 
   &__main {
@@ -232,10 +252,6 @@ const toggleFilter = (value: boolean) => {
   .productListing {
     &__top {
       padding-top: @indent__xxl;
-    }
-
-    &__filterButton {
-      margin-left: auto;
     }
 
     &__productWrapper {

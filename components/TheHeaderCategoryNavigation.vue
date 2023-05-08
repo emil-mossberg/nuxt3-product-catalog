@@ -6,6 +6,11 @@
       @click="clickedLink0"
     >
       {{ props.catalogData["name"] }}
+      <DynamicIconChevron
+        class="categoryNavigation__chevron"
+        :direction="isMobile ? 'right' : showCategory1 ? 'up' : 'down'"
+        :selected="showCategory1"
+      />
     </button>
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
       <div class="categoryNavigation__listHeader">
@@ -28,6 +33,7 @@
           @click="clickedLink1(index, category['slug_name'])"
         >
           {{ category["name"] }}
+          <DynamicIconChevron :direction="'right'" />
         </NuxtLink>
 
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
@@ -59,9 +65,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { onClickOutside } from "@vueuse/core";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
+import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
 const { push } = useRouter();
 
 const emit = defineEmits<{
@@ -72,7 +77,7 @@ const appInfoStore = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 
 const props = defineProps<{
-  catalogData: { name: string; children: [] };
+  catalogData: CategoryMenuLevel1;
 }>();
 
 const showCategory1 = ref<boolean>(false);
@@ -116,8 +121,6 @@ onClickOutside(componentRef, () => {
 </script>
 
 <style lang="less">
-@chevron-size: 32px;
-
 .categoryNavigation {
   &__link {
     display: flex;
@@ -126,15 +129,10 @@ onClickOutside(componentRef, () => {
     color: @color__text_primary;
 
     &--lvl0 {
+      width: 100%;
       border: none;
       background-color: transparent;
       font-weight: 400;
-    }
-
-    &--lvl0:after,
-    &--lvl1:after {
-      content: "\203A";
-      font-size: @chevron-size;
     }
   }
 
@@ -177,24 +175,19 @@ onClickOutside(componentRef, () => {
 
     &__link {
       &--lvl0 {
+        width: auto;
         padding: 0;
         margin-right: @indent__l;
 
-        &::after {
-          transform: rotate(90deg);
-          transition: all 0.1s linear;
-          margin-left: @indent__sm;
-          margin-top: @indent__xxs;
-          content: "\203A";
-          font-size: @chevron-size;
-        }
         &--open {
           color: @color_link;
-          &::after {
-            transform: rotate(-90deg);
-          }
         }
       }
+    }
+
+    &__chevron {
+      margin-left: @indent__sm;
+      margin-top: @indent__xxs;
     }
 
     &__link--lvl0--open + &__list--lvl1 {
