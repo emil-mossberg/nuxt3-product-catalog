@@ -94,7 +94,7 @@ export const useCompareStore = defineStore("compareStore", () => {
   };
 
   const removeProductCompare = (index: number) => {
-    // Remove //roduct non-comparable attributes (has to exist in all products)
+    // Remove product non-comparable attributes (has to exist in all products)
     for (const [key] of Object.entries(compareProducts)) {
       compareProducts[key].splice(index - 1, 1);
     }
@@ -107,7 +107,6 @@ export const useCompareStore = defineStore("compareStore", () => {
       }
     }
 
-    // TO DO check attributes if it was the only one delete it now
     numberProduct.value--;
     localStorage.setItem("compare-products", JSON.stringify(compareProducts));
   };

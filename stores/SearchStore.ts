@@ -5,14 +5,9 @@ import {
   search,
   suggestions,
   trendingProducts,
-  FilterManager,
-  listFilters,
-  applyFilterWithManager,
-  KlevuFilterResultOptions,
 } from "@klevu/core";
 import type { EmptyResult } from "@/types/EmptyResult";
 import type { QuickSearchResult } from "@/types/QuickSearchResult";
-import type { SERPResult } from "@/types/SERPResult";
 export const useSearchStore = defineStore("searchStore", () => {
   const { toggleLoadingSpinner } = useAppInfoStore();
   const { cleanImageUrl, cleanDataKlevu } = useKlevu();
@@ -81,82 +76,13 @@ export const useSearchStore = defineStore("searchStore", () => {
     toggleLoadingSpinner(false);
   };
 
-  // Logic SERP Page
-
-  let prevResult: any;
-  const manager = new FilterManager();
-  const SERPResult: SERPResult = reactive({ showMore: false, products: [] });
-  const filterOptions: KlevuFilterResultOptions[] = reactive([]);
-
-  const doSERPSearch = async (searchTerm: string, sortOption: any) => {
-    KlevuLastSearches.save(searchTerm);
-    toggleLoadingSpinner(true);
-    const result = await KlevuFetch(
-      search(
-        searchTerm,
-        {
-          id: "search",
-          sort: sortOption.value,
-          limit: 90,
-        },
-        listFilters({
-          include: ["category"],
-          filterManager: manager,
-        }),
-        applyFilterWithManager(manager)
-      )
-    );
-
-    const searchResult = result.queriesById("search");
-
-    if (!searchResult) {
-      return;
-    }
-
-    prevResult = searchResult;
-
-    Object.assign(filterOptions, manager.options);
-    SERPResult.totalHits = searchResult?.meta.totalResultsFound;
-    SERPResult.products = searchResult?.records.map(cleanDataKlevu);
-
-    SERPResult.showMore = Boolean(searchResult?.next);
-    toggleLoadingSpinner(false);
-  };
-  const { scrollToBottom } = useScrollToBottom();
-  const doNextSERPResult = async () => {
-    const nextRes = await prevResult.next({
-      FilterManager: manager,
-    });
-
-    const searchResult = nextRes.queriesById("search");
-
-    SERPResult.products = [
-      // TO DO get rid of !
-      ...SERPResult.products!,
-      ...(searchResult.records.map(cleanDataKlevu) ?? []),
-    ];
-    prevResult = searchResult;
-    SERPResult.showMore = Boolean(searchResult?.next);
-
-    scrollToBottom();
-  };
-
-  const toggleManager = (filterKey: string, option: string) => {
-    manager.toggleOption(filterKey, option);
-  };
-
   return {
     cleanQuickSearch,
     doQuickSearch,
     doEmptySearch,
-    doSERPSearch,
-    doNextSERPResult,
-    toggleManager,
     searchTerm,
     showDropDown,
     emptyResult,
     quickSearchResult,
-    SERPResult,
-    filterOptions,
   };
 });

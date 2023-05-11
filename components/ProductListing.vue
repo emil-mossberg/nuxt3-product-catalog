@@ -1,5 +1,8 @@
 <template>
   <div class="productListing">
+    <div class="productListing__breadcrumbs">
+      <slot name="breadcrumbs"></slot>
+    </div>
     <div class="productListing__filterRow">
       <BaseButton
         :button-type="'secondary'"
@@ -23,9 +26,6 @@
     </div>
 
     <slot name="metaInformation"></slot>
-    <div class="productListing__breadcrumbs">
-      <slot name="breadcrumbs"></slot>
-    </div>
     <div class="productListing__top">
       <slot name="heading"></slot>
 
@@ -131,6 +131,10 @@ const toggleFilter = (value: boolean) => {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+
+  &__breadcrumbs {
+    margin-bottom: @indent__base;
+  }
 
   &__top {
     background-color: @color__background_secondary;

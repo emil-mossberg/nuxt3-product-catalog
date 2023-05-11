@@ -7,6 +7,18 @@
       ><Title>{{ product!.name }}</Title></Head
     >
     <Meta name="description" :content="'Some information about product here'" />
+    <Meta property="og:type" content="product" />
+    <Meta property="og:image:width" content="200" />
+    <Meta property="og:image:height" content="200" />
+    <Meta property="og:title" :content="product!.name" />
+    <Meta
+      property="og:image"
+      :content="product!.imageUrl.replace('needtochange', '')"
+    />
+    <Meta
+      property="og:description"
+      :content="'Some information about product here'"
+    />
     <div class="productPage__topContainer">
       <h1 class="productPage__name">
         {{ product!.name }}
@@ -31,16 +43,25 @@
         />
         <ul class="productPage__quotes">
           <li
-            v-for="(paragraph, index) in dummyDataPDP.paragraphs"
+            v-for="(paragraphValue, paragraphPropery, index) in product!.paragraphs"
             :key="index"
             class="productPage__quotesItem"
           >
-            <h4 class="productPage__quotesHeader">{{ paragraph.title }}</h4>
+            <h4 class="productPage__quotesHeader">{{ paragraphPropery }}</h4>
             <!-- Below v-html is not used for user input content so it is ok to disable -->
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <span v-html="paragraph.body"></span>
+            <span v-html="paragraphValue"></span>
           </li>
         </ul>
+        <div class="productPage__description">
+          <h4 v-if="product?.description" class="productPage__quotesHeader">
+            Detaljer
+          </h4>
+          <!-- Below v-html is not used for user input content so it is ok to disable -->
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-html="product?.description"></div>
+        </div>
+
         <div class="productPage__CTA">
           <a
             class="linkAsButton"
@@ -54,15 +75,15 @@
           <table class="productPage__table">
             <tbody>
               <tr
-                v-for="(attribute, index) in dummyDataPDP.table"
+                v-for="(tableValue, tableProperty, index) in product!.table"
                 :key="index"
                 :class="{ 'tr-header': index === 0 }"
               >
                 <td>
-                  {{ attribute.name }}
+                  {{ tableProperty }}
                 </td>
                 <td>
-                  {{ attribute.value }}
+                  {{ tableValue }}
                 </td>
               </tr>
             </tbody>
@@ -76,8 +97,6 @@
 <script setup lang="ts">
 import { KlevuFetch, products } from "@klevu/core";
 import type { ProductData } from "@/types/ProductData";
-// TO DO remove - temp solution to develop this design elements
-import dummyDataPDP from "@/data/dummyDataPDP.json";
 const { cleanDataKlevu } = useKlevu();
 const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
@@ -97,7 +116,7 @@ const { data: product } = await useAsyncData(async () => {
 </script>
 
 <style lang="less">
-@table-attributes__min-width--desktop: 500px;
+@table-attributes__min-width--desktop: 320px;
 
 .productPage {
   // Temp fix to get SSR data to transfer to FE
@@ -147,7 +166,7 @@ const { data: product } = await useAsyncData(async () => {
   }
 
   &__image {
-    max-width: 400px;
+    max-width: 300px;
     height: 100%;
     margin-bottom: @indent__xxl;
   }
@@ -162,6 +181,20 @@ const { data: product } = await useAsyncData(async () => {
 
   &__quotesHeader {
     margin-bottom: @indent__s;
+  }
+
+  &__description {
+    p {
+      margin-bottom: @indent__base;
+    }
+
+    ul {
+      margin-left: @indent__xl;
+    }
+
+    li {
+      margin-bottom: @indent__xs;
+    }
   }
 
   &__CTA {
@@ -210,6 +243,10 @@ const { data: product } = await useAsyncData(async () => {
       flex-basis: 100%;
     }
 
+    &__description {
+      margin-right: @indent__m;
+    }
+
     &__CTA {
       margin-top: @indent__m;
     }
@@ -222,6 +259,10 @@ const { data: product } = await useAsyncData(async () => {
 
     &__tableContainer {
       width: auto;
+    }
+
+    &__image {
+      max-width: 400px;
     }
   }
 }

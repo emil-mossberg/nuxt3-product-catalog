@@ -6,7 +6,7 @@
     </div>
 
     <main class="defaultLayout__main">
-      <TheSpinnerAndOverlay />
+      <TheSpinner />
 
       <div class="defaultLayout__content">
         <slot></slot>

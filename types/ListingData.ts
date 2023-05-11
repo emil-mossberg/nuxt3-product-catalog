@@ -1,6 +1,6 @@
 import type { ProductData } from "@/types/ProductData";
 
-export type SERPResult = {
+export type ListingData = {
   products?: ProductData[];
   showMore?: boolean;
   totalHits?: number;

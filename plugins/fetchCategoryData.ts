@@ -8,7 +8,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // app:rendered server side
 
   // Fetch category tree - needed for menu
-  nuxtApp.hook("app:mounted", async () => {
+  nuxtApp.hook("app:rendered", async () => {
     const { categoryMenu } = useAppInfoStore();
     const data = await $fetch<CategoryMenu>(runtimeConfig.public.categoryUrl);
     Object.assign(categoryMenu, data);

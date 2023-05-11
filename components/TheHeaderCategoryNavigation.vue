@@ -7,8 +7,13 @@
     >
       {{ props.catalogData["name"] }}
       <DynamicIconChevron
-        class="categoryNavigation__chevron"
-        :direction="isMobile ? 'right' : showCategory1 ? 'up' : 'down'"
+        class="categoryNavigation__chevron categoryNavigation__chevron--desktop"
+        :direction="showCategory1 ? 'up' : 'down'"
+        :selected="showCategory1"
+      />
+      <DynamicIconChevron
+        class="categoryNavigation__chevron categoryNavigation__chevron--mobile"
+        :direction="'right'"
         :selected="showCategory1"
       />
     </button>
@@ -136,6 +141,10 @@ onClickOutside(componentRef, () => {
     }
   }
 
+  &__chevron--desktop {
+    display: none;
+  }
+
   &__list {
     width: 100%;
     top: 0;
@@ -188,6 +197,14 @@ onClickOutside(componentRef, () => {
     &__chevron {
       margin-left: @indent__sm;
       margin-top: @indent__xxs;
+
+      &--desktop {
+        display: block;
+      }
+
+      &--mobile {
+        display: none;
+      }
     }
 
     &__link--lvl0--open + &__list--lvl1 {
