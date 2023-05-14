@@ -48,11 +48,6 @@
       width: min(90%, 1440px);
       margin-bottom: @indent__xxl;
       padding: 0 @indent__base;
-
-      .page {
-        // Set this class on each pages
-        width: 100%;
-      }
     }
   }
 }

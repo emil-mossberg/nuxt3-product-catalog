@@ -8,18 +8,20 @@ export default defineNuxtPlugin((nuxtApp) => {
   // app:rendered server side
 
   // Fetch category tree - needed for menu
-  nuxtApp.hook("app:rendered", async () => {
+  nuxtApp.hook("app:mounted", async () => {
     const { categoryMenu } = useAppInfoStore();
     const data = await $fetch<CategoryMenu>(runtimeConfig.public.categoryUrl);
     Object.assign(categoryMenu, data);
   });
 
-  // Fetch category to product mapping - needed for PLP
-  nuxtApp.hook("app:rendered", async () => {
-    const { categoryProductMap } = useAppInfoStore();
-    const data = await $fetch(runtimeConfig.public.categoryProductMap);
-    categoryProductMap.data = data as {}; // TYYPE THIS ALSO
-  });
+  // TO DO Might have to use it to be able to fetch category -> product mapping on over API
   // TO DO if client side version - use localStorage
-  // TO DO if server side version - try and pre render category component
+
+  // Fetch category to product mapping - needed for PLP
+  // nuxtApp.hook("app:rendered", async () => {
+  //   console.log("IS THIS RUNNING?");
+  //   const { categoryProductMap } = useAppInfoStore();
+  //   const data = await $fetch(runtimeConfig.public.categoryProductMap);
+  //   categoryProductMap.data = data as {}; // TO DO Type this also
+  // });
 });

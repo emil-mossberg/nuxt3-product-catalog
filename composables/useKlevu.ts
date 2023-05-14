@@ -13,11 +13,13 @@ export const useKlevu = () => {
 
   const cleanDataKlevu = (element: any): ProductData => {
     const attributeData = JSON.parse(element.additionalDataToReturn);
+
     const newElement: ProductData = {
       description: attributeData.description,
       organic: attributeData.organic,
       paragraphs: attributeData.paragraphs,
       table: attributeData.table,
+      ean: attributeData.ean,
       name: element.name,
       id: element.id,
       sku: element.sku,
@@ -28,8 +30,15 @@ export const useKlevu = () => {
     return cleanImageUrl(newElement);
   };
 
+  const checkIsHeader = (attributeValue: any) => {
+    return typeof attributeValue === "string"
+      ? attributeValue.toLowerCase() === "rubrik"
+      : false;
+  };
+
   return {
     cleanDataKlevu,
     cleanImageUrl,
+    checkIsHeader,
   };
 };

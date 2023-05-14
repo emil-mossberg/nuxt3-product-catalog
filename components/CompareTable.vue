@@ -1,6 +1,6 @@
 <template>
   <div class="compareTable">
-    <table v-if="showTable" class="compareTable__table">
+    <table v-if="compareCount" class="compareTable__table">
       <tbody>
         <tr>
           <td></td>
@@ -25,7 +25,7 @@
             class="compareTable__centerCell"
           >
             <NuxtLink
-              :to="`/product/${compareProducts.id![imageIndex]}-${generateSlug(
+              :to="`/product/${compareProducts.sku![imageIndex]}-${generateSlug(
                 compareProducts.name![imageIndex]
               )}`"
             >
@@ -51,18 +51,16 @@
             {{ sku }}
           </td>
         </tr>
-        <td>Produktbeskrivning</td>
-        <td v-for="number in compareProducts.name?.length" :key="number">
-          Produktbeskrivning ska vara här
-        </td>
-
         <tr
-          v-for="(attribute, key, attributeIndex) in compareAttributes"
+          v-for="(attribute, attributeIndex) in compareProducts.tableData"
           :key="attributeIndex"
+          :class="{
+            'tr-header': isHeader(attribute.values),
+          }"
         >
-          <td>{{ key }}</td>
-          <td v-for="(productAttribute, pIndex) in attribute" :key="pIndex">
-            {{ productAttribute }}
+          <td>{{ attribute.label }}</td>
+          <td v-for="(value, pIndex) in attribute.values" :key="pIndex">
+            <span>{{ value }}</span>
           </td>
         </tr>
       </tbody>
@@ -75,14 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+const { compareProducts, removeProductCompare } = useCompareStore();
+const compareStore = useCompareStore();
+const { compareCount } = storeToRefs(compareStore);
 
-const { compareProducts, compareAttributes, removeProductCompare } =
-  useCompareStore();
+const isHeader = (names: string[]) => {
+  return names.some((name) => name.toLowerCase() === "rubrik");
+};
 
 const { generateSlug } = useSlug();
-
-const showTable = computed<boolean>(() => !!compareProducts.name?.length);
 </script>
 
 <style lang="less">
@@ -113,6 +112,14 @@ const showTable = computed<boolean>(() => !!compareProducts.name?.length);
 
     &:nth-child(n + 5):nth-child(even) {
       background-color: @background__primary;
+    }
+
+    &.tr-header {
+      font-weight: 500;
+
+      td:not(:first-child) span {
+        display: none;
+      }
     }
   }
 

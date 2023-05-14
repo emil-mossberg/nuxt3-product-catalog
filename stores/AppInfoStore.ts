@@ -4,7 +4,7 @@ import { useWindowSize } from "@vueuse/core";
 import type { AppMessage } from "@/types/AppMessage";
 import type { CategoryMenu } from "@/types/CategoryMenu";
 
-export const useAppInfoStore = defineStore("appInfo", () => {
+export const useAppInfoStore = defineStore("appInfoStore", () => {
   // App message logic
   const appMessages: AppMessage[] = reactive([]);
 

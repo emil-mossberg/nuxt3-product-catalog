@@ -5,119 +5,102 @@ import type { CompareProducts } from "@/types/CompareProducts";
 export const useCompareStore = defineStore("compareStore", () => {
   const { addMessage } = useAppInfoStore();
 
-  const compareProducts: CompareProducts = reactive({});
-  const numberProduct = ref(0);
+  const compareProductsList: ProductData[] = reactive([]);
+  const compareProducts: CompareProducts = reactive({
+    name: [],
+    sku: [],
+    imageUrl: [],
+    tableData: [],
+  });
 
-  const compareAttributes = reactive<any>({});
+  const compareCount = computed<number>(() => compareProductsList?.length ?? 0);
 
-  const compareCount = computed<number>(
-    () => compareProducts.name?.length ?? 0
-  );
-
-  type Attributes = {
-    label1: string;
-    label2: string;
-    label3: string;
-    label4: string;
-    label5: string;
-    label6: string;
+  const isHeader = (names: string[]) => {
+    return names.some((name) => name.toLowerCase() === "rubrik");
   };
 
-  const dummyData = [
-    {
-      label1: "value",
-      label2: "value",
-      label3: "value",
-    },
-    {
-      label2: "value",
-      label4: "value",
-      label5: "ASDSAD",
-    },
-    {
-      label1: "value",
-      label2: "value",
-      label3: "value",
-      label6: "value",
-    },
-  ];
+  const buildCompareData = (productList: ProductData[]) => {
+    // TO DO fix Typing reduce
+    const tempList = productList.reduce(
+      (accumulator, currentValue) =>
+        (accumulator = accumulator.concat(Object.keys(currentValue.table))),
+      []
+    );
 
-  const addProductCompare = (data: ProductData) => {
-    // If product is already in compare return
-    if (compareProducts.id?.find((item: string) => item === data.id)) {
-      addMessage("success", data.name);
+    const tempListUniq = Array.from(new Set(tempList)).map((item: string) => {
+      return { label: item, values: [], isHeader: false };
+    });
+
+    // TO DO switch to map and/or type it
+    tempListUniq.forEach((attribute) => {
+      const attributes = [];
+      productList.forEach((item) => {
+        attributes.push(item.table[attribute.label] ?? "-");
+      });
+
+      attribute.values = attributes;
+      attribute.isHeader = isHeader(attribute.values);
+    });
+
+    compareProducts.name = [];
+    compareProducts.sku = [];
+    compareProducts.imageUrl = [];
+    compareProducts.tableData = [];
+
+    Object.assign(compareProducts.tableData, tempListUniq);
+
+    productList.forEach((item) => {
+      compareProducts.name?.push(item.name);
+      compareProducts.sku?.push(item.sku);
+      compareProducts.imageUrl?.push(item.imageUrl);
+    });
+  };
+
+  const addProductCompare = (product: ProductData) => {
+    // Check if product already exists if so abort
+    if (compareProductsList.find((item) => item.sku === product.sku)) {
+      addMessage("success", product.name);
       return;
     }
+    compareProductsList.push(product);
 
-    // Adding product non-comparable attributes
-    const keys = Object.keys(data);
-    const values = Object.values(data);
-    keys.forEach((key, index) => {
-      compareProducts[key].push(values[index]);
-    });
+    buildCompareData(compareProductsList);
 
-    // TEMP FOR TESTING
-    const randomNum = Math.floor(Math.random() * 3);
+    localStorage.setItem(
+      "compare-products",
+      JSON.stringify(compareProductsList)
+    );
 
-    // TEMP DO A COPY OF DUMMY ATTRIBUTES USED
-    const currentDummyAttributes = structuredClone(dummyData[randomNum]);
-
-    // First step comparable attributes - check table data with new attribute
-    Object.entries(compareAttributes).forEach((item) => {
-      const label = item[0];
-
-      if (currentDummyAttributes[label as keyof Attributes]) {
-        compareAttributes[label].push(
-          currentDummyAttributes[label as keyof Attributes]
-        );
-      } else {
-        compareAttributes[label].push("-");
-      }
-
-      delete currentDummyAttributes[label as keyof Attributes];
-    });
-
-    // Second step comparable attributes - add not previously existing new
-    // attributes to the table data
-    Object.entries(currentDummyAttributes).forEach((item) => {
-      const newAttributes = Array(numberProduct.value).fill("-");
-      compareAttributes[item[0]] = [...newAttributes, item[1]];
-    });
-
-    localStorage.setItem("compare-products", JSON.stringify(compareProducts));
-    numberProduct.value++;
-    addMessage("success", data.name);
+    addMessage("success", product.name);
   };
 
-  const addProductsCompare = (data: CompareProducts) => {
-    Object.assign(compareProducts, data);
+  const getProductsFromLocalStorage = () => {
+    if (localStorage.getItem("compare-products")) {
+      Object.assign(
+        compareProductsList,
+        JSON.parse(localStorage.getItem("compare-products")!)
+      );
+    }
+
+    buildCompareData(compareProductsList);
   };
 
   const removeProductCompare = (index: number) => {
-    // Remove product non-comparable attributes (has to exist in all products)
-    for (const [key] of Object.entries(compareProducts)) {
-      compareProducts[key].splice(index - 1, 1);
-    }
+    compareProductsList.splice(index - 1, 1);
+    buildCompareData(compareProductsList);
 
-    // Remove comparable and clean up out attributes if only set on deleted product
-    for (const [key] of Object.entries(compareAttributes)) {
-      compareAttributes[key].splice(index - 1, 1);
-      if (compareAttributes[key].every((value: string) => value === "-")) {
-        delete compareAttributes[key];
-      }
-    }
-
-    numberProduct.value--;
-    localStorage.setItem("compare-products", JSON.stringify(compareProducts));
+    localStorage.setItem(
+      "compare-products",
+      JSON.stringify(compareProductsList)
+    );
   };
 
   return {
     addProductCompare,
-    addProductsCompare,
+    getProductsFromLocalStorage,
     removeProductCompare,
     compareProducts,
-    compareAttributes,
-    numberProduct,
     compareCount,
+    compareProductsList,
   };
 });

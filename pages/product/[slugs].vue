@@ -41,20 +41,29 @@
           alt="content image"
           :src="product!.imageUrl.replace('needtochange', '')"
         />
+        <div class="productPage__generalInfo">
+          <div class="productPage__infoRow">
+            <span>Ekologisk: </span
+            ><span>{{ product!.organic ? "JA" : "Nej" }}</span>
+          </div>
+          <div v-if="!!product?.ean.length" class="productPage__infoRow">
+            <span>EAN: </span><span>{{ product?.ean.join(",") }}</span>
+          </div>
+        </div>
         <ul class="productPage__quotes">
           <li
             v-for="(paragraphValue, paragraphPropery, index) in product!.paragraphs"
             :key="index"
             class="productPage__quotesItem"
           >
-            <h4 class="productPage__quotesHeader">{{ paragraphPropery }}</h4>
+            <h4 class="productPage__sectionHeader">{{ paragraphPropery }}</h4>
             <!-- Below v-html is not used for user input content so it is ok to disable -->
             <!-- eslint-disable-next-line vue/no-v-html -->
             <span v-html="paragraphValue"></span>
           </li>
         </ul>
         <div class="productPage__description">
-          <h4 v-if="product?.description" class="productPage__quotesHeader">
+          <h4 v-if="product?.description" class="productPage__sectionHeader">
             Detaljer
           </h4>
           <!-- Below v-html is not used for user input content so it is ok to disable -->
@@ -70,19 +79,25 @@
           >
         </div>
       </div>
-      <div class="productPage__rightColumn">
+      <div
+        class="productPage__rightColumn"
+        :class="{ 'productPage__rightColumn--show': Object.keys(product!.table).length !== 0  }"
+      >
         <div class="productPage__tableContainer">
           <table class="productPage__table">
             <tbody>
               <tr
                 v-for="(tableValue, tableProperty, index) in product!.table"
                 :key="index"
-                :class="{ 'tr-header': index === 0 }"
+                :class="{
+                  'tr-header': checkIsHeader(tableValue),
+                  'tr-empty': tableValue == '',
+                }"
               >
                 <td>
                   {{ tableProperty }}
                 </td>
-                <td>
+                <td v-if="!checkIsHeader(tableValue)">
                   {{ tableValue }}
                 </td>
               </tr>
@@ -97,7 +112,7 @@
 <script setup lang="ts">
 import { KlevuFetch, products } from "@klevu/core";
 import type { ProductData } from "@/types/ProductData";
-const { cleanDataKlevu } = useKlevu();
+const { cleanDataKlevu, checkIsHeader } = useKlevu();
 const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
 
@@ -140,11 +155,20 @@ const { data: product } = await useAsyncData(async () => {
     flex-basis: 100%;
   }
 
+  &__generalInfo {
+    flex-basis: 100%;
+  }
+
   &__addToCompare {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-left: auto;
+  }
+
+  &__sku {
+    font-size: 16px;
+    font-weight: 500;
   }
 
   &__container {
@@ -163,6 +187,10 @@ const { data: product } = await useAsyncData(async () => {
 
   &__rightColumn {
     width: 100%;
+
+    &--show {
+      flex-basis: 100%;
+    }
   }
 
   &__image {
@@ -179,11 +207,17 @@ const { data: product } = await useAsyncData(async () => {
     margin-bottom: @indent__base;
   }
 
-  &__quotesHeader {
+  &__infoRow {
+    margin-bottom: @indent__s;
+  }
+
+  &__sectionHeader {
     margin-bottom: @indent__s;
   }
 
   &__description {
+    flex-basis: 100%;
+
     p {
       margin-bottom: @indent__base;
     }
@@ -198,7 +232,7 @@ const { data: product } = await useAsyncData(async () => {
   }
 
   &__CTA {
-    margin-bottom: @indent__m;
+    margin: @indent__m 0;
 
     a {
       display: block;
@@ -211,11 +245,15 @@ const { data: product } = await useAsyncData(async () => {
     width: 100%;
 
     td {
-      padding: @indent__base;
+      padding: @indent__s @indent__base;
     }
 
     .tr-header td {
       font-weight: 500;
+    }
+
+    .tr-empty {
+      display: none;
     }
   }
 
@@ -231,12 +269,14 @@ const { data: product } = await useAsyncData(async () => {
       padding: @indent__xxl @indent__m;
     }
 
-    &__container {
-      flex-wrap: nowrap;
+    &__leftColumn {
+      flex-basis: 60%;
     }
 
     &__rightColumn {
-      width: auto;
+      &--show {
+        flex-basis: 40%;
+      }
     }
 
     &__quotes {
@@ -245,10 +285,6 @@ const { data: product } = await useAsyncData(async () => {
 
     &__description {
       margin-right: @indent__m;
-    }
-
-    &__CTA {
-      margin-top: @indent__m;
     }
 
     &__table {
