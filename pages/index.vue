@@ -16,7 +16,6 @@
         :src="'https://firebasestorage.googleapis.com/v0/b/product-list-demo-2248d.appspot.com/o/bg_1.jpg?alt=media&token=9b90a16f-6b3c-47a9-9d35-71b614a6c74b'"
       />
     </div>
-    <div>v3</div>
   </div>
 </template>
 
