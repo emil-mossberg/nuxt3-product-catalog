@@ -28,10 +28,6 @@ export default defineNuxtConfig({
     public: {
       klevuKey: process.env.KLEVU_KEY_PC_TEST,
       klevuURL: process.env.KLEVU_URL_PC_TEST,
-      // klevuURL: process.env.KLEVU_URL_AGRI_PROD,
-      // klevuKey: process.env.KLEVU_KEY_AGRI_PROD,
-      // klevuURL: process.env.KLEVU_URL_AGRI_STAGING,
-      // klevuKey: process.env.KLEVU_KEY_AGRI_STAGING,
       categoryUrl: process.env.URL_CATEGORY_TREE,
       categoryProductMap: process.env.URL_CATEGORY_PRODUCT_MAP,
     },
