@@ -1,5 +1,10 @@
 <template>
   <div class="startPage">
+    <Head><Title>Lantmännnen Lantbruk Produktkatalog</Title></Head>
+    <Meta
+      name="description"
+      content="Öppen sajt för av visa Lantmännen lantbruks sortiment"
+    />
     <BaseTextCard
       :header="'Demokatalog'"
       :body-text="'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'"
@@ -13,15 +18,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-useHead({
-  title: "Catalog Demo - A Page",
-  meta: [
-    { name: "description", content: "Lantmännen site for catalog products." },
-  ],
-});
-</script>
 
 <style lang="less">
 .startPage {

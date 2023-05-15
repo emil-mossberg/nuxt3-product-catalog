@@ -1,17 +1,15 @@
 import { reactive, ref } from "vue";
-import { defineStore } from "pinia";
 import { useWindowSize } from "@vueuse/core";
 
 import type { AppMessage } from "@/types/AppMessage";
+import type { CategoryMenu } from "@/types/CategoryMenu";
 
-export const useAppInfoStore = defineStore("appInfo", () => {
+export const useAppInfoStore = defineStore("appInfoStore", () => {
   // App message logic
   const appMessages: AppMessage[] = reactive([]);
 
-  const addMessage = (type: "error" | "success", message: unknown) => {
-    if (typeof message === "string") {
-      appMessages.push({ type, message });
-    }
+  const addMessage = (type: "error" | "success", message: string) => {
+    appMessages.push({ type, message });
   };
 
   const removeMessage = (messageIndex: number) => {
@@ -23,16 +21,25 @@ export const useAppInfoStore = defineStore("appInfo", () => {
   };
 
   // App loading spinner logic
-  const isLoading = ref<boolean>(false);
+  const isLoading = ref(false);
 
   const toggleLoadingSpinner = (isShowing: boolean) => {
     isLoading.value = isShowing;
   };
 
+  // App logic break point mobile
+
   const MOBILE_BREAPOINT = 480;
   const isMobile = computed(
     () => useWindowSize().width.value < MOBILE_BREAPOINT
   );
+
+  // App logic category and menu data
+
+  const categoryMenu: CategoryMenu = reactive({});
+
+  // TO DO not user right now - need to work out solution
+  const categoryProductMap = reactive({ data: {} });
 
   return {
     appMessages,
@@ -42,5 +49,7 @@ export const useAppInfoStore = defineStore("appInfo", () => {
     toggleLoadingSpinner,
     isLoading,
     isMobile,
+    categoryMenu,
+    categoryProductMap,
   };
 });

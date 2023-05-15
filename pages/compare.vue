@@ -3,7 +3,7 @@
     <Head><Title> Jämförelsesida</Title></Head>
     <Meta
       name="description"
-      :content="'Some information about compare page here'"
+      :content="'Funktionalitet för jämförelse av produkter'"
     />
     <h1 class="comparePage__header">Jämför produkter</h1>
     <div>

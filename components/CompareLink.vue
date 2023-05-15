@@ -5,8 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useCompareStore } from "@/stores/CompareStore";
 const compareStore = useCompareStore();
 const { compareCount } = storeToRefs(compareStore);
 </script>

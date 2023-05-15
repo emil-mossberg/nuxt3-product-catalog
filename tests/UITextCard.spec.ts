@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
 
-import BaseTextCard from "../components/uicomponents/BaseTextCard.vue";
+import BaseTextCard from "../components/basecomponents/BaseTextCard.vue";
 
 describe("BaseTextCard", () => {
   let wrapper: VueWrapper;

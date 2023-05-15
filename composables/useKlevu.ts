@@ -1,6 +1,7 @@
+import type { ProductData } from "@/types/ProductData";
+
 export const useKlevu = () => {
-  // TO DO fix typing here
-  const cleanImageUrl = (product: any) => {
+  const cleanImageUrl = (product: ProductData): ProductData => {
     if (product.imageUrl) {
       product.imageUrl = product.imageUrl.replace("needtochange/", "");
     } else {
@@ -10,8 +11,16 @@ export const useKlevu = () => {
     return product;
   };
 
-  const cleanDataKlevu = (element: any) => {
-    const newElement = {
+  const cleanDataKlevu = (element: any): ProductData => {
+    const attributeData = JSON.parse(element.additionalDataToReturn);
+
+    const newElement: ProductData = {
+      description: attributeData.description,
+      shortDescription: element.shortDesc,
+      organic: attributeData.organic,
+      paragraphs: attributeData.paragraphs,
+      table: attributeData.table,
+      ean: attributeData.ean,
       name: element.name,
       id: element.id,
       sku: element.sku,
@@ -22,8 +31,15 @@ export const useKlevu = () => {
     return cleanImageUrl(newElement);
   };
 
+  const checkIsHeader = (attributeValue: any) => {
+    return typeof attributeValue === "string"
+      ? attributeValue.toLowerCase() === "rubrik"
+      : false;
+  };
+
   return {
     cleanDataKlevu,
     cleanImageUrl,
+    checkIsHeader,
   };
 };

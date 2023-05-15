@@ -102,7 +102,7 @@ const column2 = [
   {
     label: "Postadress: ",
     urlText: "SE-205 03 Malmö",
-    url: "",
+    url: "#",
     newWindow: true,
   },
   {

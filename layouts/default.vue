@@ -6,7 +6,7 @@
     </div>
 
     <main class="defaultLayout__main">
-      <TheSpinnerAndOverlay />
+      <TheSpinner />
 
       <div class="defaultLayout__content">
         <slot></slot>
@@ -32,7 +32,7 @@
 
   &__main {
     display: flex;
-    margin-top: 230px;
+    margin-top: 240px;
     width: 100%;
     padding: 0 @indent__s;
     margin-inline: auto;
@@ -48,11 +48,6 @@
       width: min(90%, 1440px);
       margin-bottom: @indent__xxl;
       padding: 0 @indent__base;
-
-      .page {
-        // Set this class on each pages
-        width: 100%;
-      }
     }
   }
 }

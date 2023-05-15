@@ -22,13 +22,13 @@
       class="appSearch__crossIcon"
       @click="searchTerm = ''"
     >
-      <IconCross
+      <IconCross class="appSearch__iconCross"
     /></BaseSVGButton>
 
     <div v-show="showDropDown" class="appSearch__dropdown">
       <div class="appSearch__topContainer">
         <div
-          v-show="quickSearchResult.searchSuggestions.length"
+          v-show="quickSearchResult.searchSuggestions?.length"
           class="appSearch__suggestions"
         >
           <h3 class="appSearch__suggestionsLabel">Menar du:</h3>
@@ -52,8 +52,8 @@
         </div>
         <div
           v-show="
-            !quickSearchResult.searchSuggestions.length &&
-            emptyResult.lastSearched.length
+            !quickSearchResult.searchSuggestions?.length &&
+            emptyResult.lastSearched?.length
           "
           class="appSearch__suggestions"
         >
@@ -86,7 +86,7 @@
 
       <div class="appSearch__resultBody">
         <div
-          v-show="emptyResult.products.length"
+          v-show="emptyResult.products?.length"
           class="appSearch__column appSearch__column--trending"
         >
           <div class="appSearch__headerRow">
@@ -103,7 +103,7 @@
           </ul>
         </div>
         <div
-          v-show="quickSearchResult.products.length"
+          v-show="quickSearchResult.products?.length"
           class="appSearch__column"
         >
           <div class="appSearch__headerRow">
@@ -130,11 +130,7 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { onClickOutside, useDebounceFn } from "@vueuse/core";
-
-import { useSearchStore } from "@/stores/SearchStore";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 const {
@@ -230,6 +226,11 @@ const suggestionParser = (htmlElementText: string) => {
     position: absolute;
     z-index: 1;
     cursor: pointer;
+  }
+
+  &__iconCross {
+    height: 28px;
+    width: 28px;
   }
 
   &__crossIcon {

@@ -1,11 +1,22 @@
 <template>
   <li ref="componentRef" class="categoryNavigation">
-    <a
+    <button
       class="categoryNavigation__link categoryNavigation__link--lvl0"
       :class="{ 'categoryNavigation__link--lvl0--open': showCategory1 }"
       @click="clickedLink0"
-      >{{ props.catalogData["name"] }}</a
     >
+      {{ props.catalogData["name"] }}
+      <DynamicIconChevron
+        class="categoryNavigation__chevron categoryNavigation__chevron--desktop"
+        :direction="showCategory1 ? 'up' : 'down'"
+        :selected="showCategory1"
+      />
+      <DynamicIconChevron
+        class="categoryNavigation__chevron categoryNavigation__chevron--mobile"
+        :direction="'right'"
+        :selected="showCategory1"
+      />
+    </button>
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
       <div class="categoryNavigation__listHeader">
         <h3>{{ props.catalogData["name"] }}</h3>
@@ -17,7 +28,7 @@
         :key="index"
         class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
       >
-        <a
+        <NuxtLink
           class="categoryNavigation__link categoryNavigation__link--lvl1"
           :class="{
             'categoryNavigation__link--lvl1--open':
@@ -27,7 +38,8 @@
           @click="clickedLink1(index, category['slug_name'])"
         >
           {{ category["name"] }}
-        </a>
+          <DynamicIconChevron :direction="'right'" />
+        </NuxtLink>
 
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
           <div class="categoryNavigation__listHeader">
@@ -58,9 +70,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { onClickOutside } from "@vueuse/core";
-import { useAppInfoStore } from "@/stores/AppInfoStore";
+import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
 const { push } = useRouter();
 
 const emit = defineEmits<{
@@ -71,7 +82,7 @@ const appInfoStore = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 
 const props = defineProps<{
-  catalogData: { name: string; children: [] };
+  catalogData: CategoryMenuLevel1;
 }>();
 
 const showCategory1 = ref<boolean>(false);
@@ -115,8 +126,6 @@ onClickOutside(componentRef, () => {
 </script>
 
 <style lang="less">
-@chevron-size: 32px;
-
 .categoryNavigation {
   &__link {
     display: flex;
@@ -124,11 +133,16 @@ onClickOutside(componentRef, () => {
     padding: @indent__base;
     color: @color__text_primary;
 
-    &--lvl0:after,
-    &--lvl1:after {
-      content: "\203A";
-      font-size: @chevron-size;
+    &--lvl0 {
+      width: 100%;
+      border: none;
+      background-color: transparent;
+      font-weight: 400;
     }
+  }
+
+  &__chevron--desktop {
+    display: none;
   }
 
   &__list {
@@ -170,23 +184,26 @@ onClickOutside(componentRef, () => {
 
     &__link {
       &--lvl0 {
+        width: auto;
         padding: 0;
         margin-right: @indent__l;
 
-        &::after {
-          transform: rotate(90deg);
-          transition: all 0.1s linear;
-          margin-left: @indent__sm;
-          margin-top: @indent__xxs;
-          content: "\203A";
-          font-size: @chevron-size;
-        }
         &--open {
           color: @color_link;
-          &::after {
-            transform: rotate(-90deg);
-          }
         }
+      }
+    }
+
+    &__chevron {
+      margin-left: @indent__sm;
+      margin-top: @indent__xxs;
+
+      &--desktop {
+        display: block;
+      }
+
+      &--mobile {
+        display: none;
       }
     }
 
@@ -198,7 +215,7 @@ onClickOutside(componentRef, () => {
       width: 250px;
       position: absolute;
       height: 774px;
-      top: 30px;
+      top: 35px;
 
       &--lvl1 {
         left: auto;

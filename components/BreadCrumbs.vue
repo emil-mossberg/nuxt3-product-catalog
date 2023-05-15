@@ -6,7 +6,9 @@
         ><span class="breadCrumbs__delimitator">/</span></span
       >
 
-      <span v-if="index === breadcrumbs.length - 1">{{ crumb.name }}</span>
+      <span v-if="index === breadcrumbs.length - 1" data-test="last-crumb">{{
+        crumb.name
+      }}</span>
     </li>
   </ul>
 </template>

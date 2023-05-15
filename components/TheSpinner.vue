@@ -8,9 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
-import { useAppInfoStore } from "@/stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
 const { isLoading } = storeToRefs(appInfoStore);
 </script>
@@ -52,7 +49,7 @@ const { isLoading } = storeToRefs(appInfoStore);
 // Styling
 @overlay-spinner_size: 80px;
 .spinner {
-  position: absolute;
+  position: fixed;
   display: flex;
   inset: 0;
   z-index: 10;
