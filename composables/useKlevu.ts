@@ -14,8 +14,10 @@ export const useKlevu = () => {
   const cleanDataKlevu = (element: any): ProductData => {
     const attributeData = JSON.parse(element.additionalDataToReturn);
 
+
     const newElement: ProductData = {
       description: attributeData.description,
+      shortDescription: element.shortDesc,
       organic: attributeData.organic,
       paragraphs: attributeData.paragraphs,
       table: attributeData.table,

@@ -6,7 +6,7 @@
     <Head
       ><Title>{{ product!.name }}</Title></Head
     >
-    <Meta name="description" :content="'Some information about product here'" />
+    <Meta name="description" :content="product!.shortDescription" />
     <Meta property="og:type" content="product" />
     <Meta property="og:image:width" content="200" />
     <Meta property="og:image:height" content="200" />
@@ -128,6 +128,7 @@ const { data: product } = await useAsyncData(async () => {
     .queriesById("products")!
     .records.map(cleanDataKlevu)[0] as ProductData;
 });
+
 </script>
 
 <style lang="less">

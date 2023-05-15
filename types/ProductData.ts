@@ -9,4 +9,5 @@ export type ProductData = {
   sku: string;
   id: string;
   category: string;
+  shortDescription?: string;
 };
