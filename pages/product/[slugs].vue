@@ -128,7 +128,6 @@ const { data: product } = await useAsyncData(async () => {
     .queriesById("products")!
     .records.map(cleanDataKlevu)[0] as ProductData;
 });
-
 </script>
 
 <style lang="less">
