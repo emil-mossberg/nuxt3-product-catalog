@@ -1,19 +1,19 @@
 <template>
   <div class="productPage">
     <div id="slug-fix">
-      {{ generateSlug(product!.name) }}
+      {{ generateSlug(product?.name ?? "") }}
     </div>
     <Head
-      ><Title>{{ product!.name }}</Title></Head
+      ><Title>{{ product?.name }}</Title></Head
     >
-    <Meta name="description" :content="product!.shortDescription" />
+    <Meta name="description" :content="product?.shortDescription" />
     <Meta property="og:type" content="product" />
     <Meta property="og:image:width" content="200" />
     <Meta property="og:image:height" content="200" />
-    <Meta property="og:title" :content="product!.name" />
+    <Meta property="og:title" :content="product?.name" />
     <Meta
       property="og:image"
-      :content="product!.imageUrl.replace('needtochange', '')"
+      :content="product?.imageUrl.replace('needtochange', '')"
     />
     <Meta
       property="og:description"
@@ -21,10 +21,10 @@
     />
     <div class="productPage__topContainer">
       <h1 class="productPage__name">
-        {{ product!.name }}
+        {{ product?.name }}
       </h1>
       <div class="productPage__sku">
-        {{ `SKU: ${product!.sku}` }}
+        {{ `SKU: ${product?.sku}` }}
       </div>
       <BaseButton
         class="productPage__addToCompare"
@@ -36,15 +36,15 @@
     <div class="productPage__container">
       <div class="productPage__leftColumn">
         <img
-          v-show="product!.imageUrl"
+          v-show="product?.imageUrl"
           class="productPage__image"
           alt="content image"
-          :src="product!.imageUrl.replace('needtochange', '')"
+          :src="product?.imageUrl.replace('needtochange', '')"
         />
         <div class="productPage__generalInfo">
           <div class="productPage__infoRow">
             <span>Ekologisk: </span
-            ><span>{{ product!.organic ? "JA" : "Nej" }}</span>
+            ><span>{{ product?.organic ? "JA" : "Nej" }}</span>
           </div>
           <div v-if="!!product?.ean.length" class="productPage__infoRow">
             <span>EAN: </span><span>{{ product?.ean.join(",") }}</span>
@@ -52,7 +52,9 @@
         </div>
         <ul class="productPage__quotes">
           <li
-            v-for="(paragraphValue, paragraphPropery, index) in product!.paragraphs"
+            v-for="(
+              paragraphValue, paragraphPropery, index
+            ) in product?.paragraphs ?? []"
             :key="index"
             class="productPage__quotesItem"
           >
@@ -111,22 +113,20 @@
 
 <script setup lang="ts">
 import { KlevuFetch, products } from "@klevu/core";
-import type { ProductData } from "@/types/ProductData";
 const { cleanDataKlevu, checkIsHeader } = useKlevu();
 const { addProductCompare } = useCompareStore();
 const { generateSlug } = useSlug();
 
 const route = useRoute();
 const regex = /[0-9]+/g;
-const numberMatches = (route.params.slugs as string).match(regex);
+// TO DO deal with typing here, how to check for if it is wrong input
+const numberMatches = (route.params.slug as string).match(regex) as string[];
 
 // Fetch product data server side
 const { data: product } = await useAsyncData(async () => {
-  const data = await KlevuFetch(products([numberMatches![0]]));
+  const data = await KlevuFetch(products([numberMatches[0]]));
 
-  return data
-    .queriesById("products")!
-    .records.map(cleanDataKlevu)[0] as ProductData;
+  return data.queriesById("products")?.records.map(cleanDataKlevu)[0];
 });
 </script>
 

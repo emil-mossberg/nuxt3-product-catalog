@@ -64,7 +64,7 @@ import type { ListingData } from "@/types/ListingData";
 const { toggleLoadingSpinner } = useAppInfoStore();
 const { cleanDataKlevu } = useKlevu();
 const route = useRoute();
-const searchTerm = ref(route.params.name as string);
+const searchTerm = ref(route.params.searchWord as string);
 const cleanSearchTerm = computed(() => {
   return searchTerm.value.replace(/-/g, " ");
 });
@@ -153,7 +153,7 @@ const fetchMore = async () => {
 
   prevResult = nextRes.queriesById("search");
   listingData.products = [
-    ...listingData.products!,
+    ...(listingData.products ?? []),
     ...(prevResult?.records.map(cleanDataKlevu) ?? []),
   ];
 

@@ -1,3 +1,4 @@
+import type { KlevuRecord } from "@klevu/core";
 import type { ProductData } from "@/types/ProductData";
 
 export const useKlevu = () => {
@@ -11,7 +12,7 @@ export const useKlevu = () => {
     return product;
   };
 
-  const cleanDataKlevu = (element: any): ProductData => {
+  const cleanDataKlevu = (element: KlevuRecord): ProductData => {
     const attributeData = JSON.parse(element.additionalDataToReturn);
 
     const newElement: ProductData = {

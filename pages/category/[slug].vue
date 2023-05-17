@@ -46,8 +46,8 @@
           </BaseSelectOption>
         </template></BaseSelect
       ></template
-    ></ProductListing
-  >
+    >
+  </ProductListing>
 </template>
 
 <script setup lang="ts">
@@ -67,16 +67,17 @@ import type { BreadCrumb } from "@/types/BreadCrumb";
 const { toggleLoadingSpinner } = useAppInfoStore();
 const { cleanDataKlevu } = useKlevu();
 const route = useRoute();
-const categoryName = route.params.name as string;
+const categoryName = route.params.slug as string;
 const categoryNameHeader = ref("");
 const MAX_PRODUCT_SEARCH = 20;
 const breadCrumbs: BreadCrumb[] = reactive([]);
 const sortSelected = ref(KlevuSearchSorting.NameAsc);
 
+// Helper functions build category search path for Kleu with breadcrumbs
 const buildSearchPath = (breadcrumbs: BreadCrumb[]) =>
   breadcrumbs
     .slice(1)
-    .map((breadcrum: BreadCrumb) => breadcrum.name)
+    .map((breadcrumb: BreadCrumb) => breadcrumb.name)
     .join(";");
 
 // Fetch initial with SSR
@@ -86,9 +87,9 @@ const { data } = await useAsyncData(async () => {
     "@/data/categoryProductMapping.json"
   );
   // TO DO Type this
-  const categoryData = categoryProductionMapping.default[route.params.name];
+  const categoryData = categoryProductionMapping.default[route.params.slug];
   // TO DO remove this when done, if this show data it should not be problem with client search at least
-  // console.log(categoryData);
+
   const manager = new FilterManager();
   const searchPath = buildSearchPath(categoryData.breadcrumbs);
   const result = await KlevuFetch(
@@ -175,7 +176,7 @@ const fetchMore = async () => {
 
   prevResult = nextRes.queriesById("categoryMerchandising");
   listingData.products = [
-    ...listingData.products!,
+    ...(listingData.products ?? []),
     ...(prevResult?.records.map(cleanDataKlevu) ?? []),
   ];
 
@@ -194,7 +195,7 @@ const reFetch = async (sortOption: any) => {
   toggleLoadingSpinner(true);
   const result = await KlevuFetch(
     categoryMerchandising(
-      buildSearchPath(data.value!.categoryData.breadcrumbs),
+      buildSearchPath(data.value?.categoryData.breadcrumbs),
       {
         id: "categoryMerchandising",
         sort: sortOption.value,

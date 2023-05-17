@@ -10,7 +10,7 @@ import type { EmptyResult } from "@/types/EmptyResult";
 import type { QuickSearchResult } from "@/types/QuickSearchResult";
 export const useSearchStore = defineStore("searchStore", () => {
   const { toggleLoadingSpinner } = useAppInfoStore();
-  const { cleanImageUrl, cleanDataKlevu } = useKlevu();
+  const { cleanDataKlevu } = useKlevu();
 
   // General searchField Logic
 
@@ -37,7 +37,7 @@ export const useSearchStore = defineStore("searchStore", () => {
     );
     quickSearchResult.products = result
       .queriesById("search")
-      ?.records.map(cleanImageUrl);
+      ?.records.map(cleanDataKlevu);
     quickSearchResult.searchSuggestions =
       result
         .suggestionsById("suggestions")

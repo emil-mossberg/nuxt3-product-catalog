@@ -6,14 +6,42 @@
       content="Öppen sajt för av visa Lantmännen lantbruks sortiment"
     />
     <BaseTextCard
-      :header="'Demokatalog'"
-      :body-text="'lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'"
-    />
+      ><template #header>Produktkatalogen</template
+      ><template #content
+        ><p>
+          Här har vi samlat all information om våra produkter. Det som visas ut
+          är ett standardsortiment, vilket kan innebära att tillgången är
+          begränsad eller att den inte säljs i ditt område. Om du saknar den
+          produkt du söker efter kontakta din
+          <a
+            href="https://www.lantmannenlantbrukmaskin.se/kontakt/lantbrukssaljare/
+"
+            >säljare</a
+          >
+          eller kundtjänst på
+          <a
+            href="tel:0771-111
+        22"
+            >0771-111 222</a
+          >
+        </p>
+
+        <p>
+          För att handla i vår e-handeln krävs ett konto i vår kundportal LM2
+          <a href="https://lm2.lantmannen.com/extern/aktivera-konto/">här</a>,
+          registrera dig i LM2 här eller ansök om ett kundnummer
+          <a href="https://www.lantmannenlantbrukmaskin.se/om-oss/kontoansokan/"
+            >här</a
+          >.
+        </p>
+      </template></BaseTextCard
+    >
+
     <div class="startPage__imageBlock">
       <img
         alt="content image"
         class="startPage__image"
-        :src="'https://firebasestorage.googleapis.com/v0/b/product-list-demo-2248d.appspot.com/o/bg_1.jpg?alt=media&token=9b90a16f-6b3c-47a9-9d35-71b614a6c74b'"
+        :src="'/startpage_1.jpg'"
       />
     </div>
   </div>
@@ -21,13 +49,26 @@
 
 <style lang="less">
 .startPage {
-  &__imageBlock {
-    margin-top: @indent__m;
-    max-width: 1440px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
 
   &__image {
-    width: 100%;
+    max-width: 100%;
+    display: block;
+  }
+}
+
+@media only screen and (min-width: @breakpoint__mobile) {
+  .startPage {
+    flex-direction: row;
+    align-items: normal;
+    gap: 0px;
+
+    &__image {
+      max-width: unset;
+    }
   }
 }
 </style>

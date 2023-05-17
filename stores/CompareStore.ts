@@ -1,6 +1,7 @@
 import { reactive, computed } from "vue";
 import type { ProductData } from "@/types/ProductData";
 import type { CompareProducts } from "@/types/CompareProducts";
+import type { CompareProductsAttribute } from "@/types/CompareProductsAttribute";
 
 export const useCompareStore = defineStore("compareStore", () => {
   const { addMessage } = useAppInfoStore();
@@ -15,48 +16,39 @@ export const useCompareStore = defineStore("compareStore", () => {
 
   const compareCount = computed<number>(() => compareProductsList?.length ?? 0);
 
-  const isHeader = (names: string[]) => {
+  const isHeader = (names: string[]): boolean => {
     return names.some((name) => name.toLowerCase() === "rubrik");
   };
 
-  const buildCompareData = (productList: ProductData[]) => {
-    // TO DO fix Typing reduce
-    const tempList = productList.reduce(
-      (accumulator, currentValue) =>
+  const buildCompareData = (productList: ProductData[]): void => {
+    // Create an array of all products attributes with unique values (no duplicates)
+    const uniqueAttributes: string[] = productList.reduce(
+      (accumulator: string[], currentValue) =>
         (accumulator = accumulator.concat(Object.keys(currentValue.table))),
       []
     );
 
-    const tempListUniq = Array.from(new Set(tempList)).map((item: string) => {
-      return { label: item, values: [], isHeader: false };
-    });
+    // Create an array of attributes with CompareProductsTable[] elements to use in Compare Page table
+    const tableData = Array.from(new Set(uniqueAttributes)).map(
+      (item: string): CompareProductsAttribute => {
+        const attributes = productList.map(
+          (product) => product.table[item] ?? "-"
+        );
+        return {
+          label: item,
+          values: attributes,
+          isHeader: isHeader(attributes),
+        };
+      }
+    );
 
-    // TO DO switch to map and/or type it
-    tempListUniq.forEach((attribute) => {
-      const attributes = [];
-      productList.forEach((item) => {
-        attributes.push(item.table[attribute.label] ?? "-");
-      });
-
-      attribute.values = attributes;
-      attribute.isHeader = isHeader(attribute.values);
-    });
-
-    compareProducts.name = [];
-    compareProducts.sku = [];
-    compareProducts.imageUrl = [];
-    compareProducts.tableData = [];
-
-    Object.assign(compareProducts.tableData, tempListUniq);
-
-    productList.forEach((item) => {
-      compareProducts.name?.push(item.name);
-      compareProducts.sku?.push(item.sku);
-      compareProducts.imageUrl?.push(item.imageUrl);
-    });
+    compareProducts.name = productList.map((item) => item.name);
+    compareProducts.sku = productList.map((item) => item.sku);
+    compareProducts.imageUrl = productList.map((item) => item.imageUrl);
+    compareProducts.tableData = tableData;
   };
 
-  const addProductCompare = (product: ProductData) => {
+  const addProductCompare = (product: ProductData): void => {
     // Check if product already exists if so abort
     if (compareProductsList.find((item) => item.sku === product.sku)) {
       addMessage("success", product.name);
@@ -75,11 +67,10 @@ export const useCompareStore = defineStore("compareStore", () => {
   };
 
   const getProductsFromLocalStorage = () => {
-    if (localStorage.getItem("compare-products")) {
-      Object.assign(
-        compareProductsList,
-        JSON.parse(localStorage.getItem("compare-products")!)
-      );
+    const compareProducts = localStorage.getItem("compare-products");
+
+    if (compareProducts && typeof compareProducts === "string") {
+      Object.assign(compareProductsList, JSON.parse(compareProducts));
     }
 
     buildCompareData(compareProductsList);

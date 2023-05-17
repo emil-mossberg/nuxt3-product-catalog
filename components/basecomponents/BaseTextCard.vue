@@ -1,16 +1,14 @@
 <template>
   <div class="baseTextCard">
-    <h1 class="baseTextCard__header">{{ props.header }}</h1>
-    <span>{{ props.bodyText }}</span>
+    <h1 class="baseTextCard__header">
+      <slot name="header"></slot>
+    </h1>
+
+    <div>
+      <slot name="content"></slot>
+    </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const props = defineProps<{
-  header: string;
-  bodyText: string;
-}>();
-</script>
 
 <style lang="less">
 @baseTextCard__header--color: @color__active_primary;
@@ -18,9 +16,14 @@ const props = defineProps<{
 
 .baseTextCard {
   background-color: @baseTextCard--backgroundColor;
-  font-size: 20px;
-  padding: @indent__xxl;
-  line-height: 30px;
+  padding: @indent__xl;
+
+  p {
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: @indent__m;
+  }
+
   &__header {
     color: @baseTextCard__header--color;
     line-height: 60px;

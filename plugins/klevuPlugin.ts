@@ -1,6 +1,6 @@
 import { KlevuConfig } from "@klevu/core";
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(() => {
   const runtimeConfig = useRuntimeConfig();
   // Set up global config for Klevu
   if (!KlevuConfig.default) {
@@ -9,10 +9,4 @@ export default defineNuxtPlugin((nuxtApp) => {
       apiKey: runtimeConfig.public.klevuKey,
     });
   }
-
-  // this is server-side (on refresh)
-  nuxtApp.hook("app:rendered", () => {});
-
-  // this is client-side (on refresh)
-  nuxtApp.hook("app:mounted", () => {});
 });
