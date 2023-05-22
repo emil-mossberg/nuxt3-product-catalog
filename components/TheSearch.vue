@@ -197,6 +197,7 @@ const suggestionParser = (htmlElementText: string) => {
   position: relative;
   display: flex;
   flex-grow: 1;
+  flex-basis: 100%;
 
   &__form {
     width: 100%;
@@ -310,6 +311,7 @@ const suggestionParser = (htmlElementText: string) => {
 
 @media only screen and (min-width: @breakpoint__mobile) {
   .appSearch {
+    flex-basis: auto;
     margin: 0 @indent__base;
 
     &__input {

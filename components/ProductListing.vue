@@ -84,7 +84,7 @@
           </div>
         </ul>
         <p v-if="props.products?.length === 0" class="productListing__noResult">
-          Inget sökresultat, test igen, eller något annat ord ...
+          <slot name="no-result"></slot>
         </p>
       </div>
     </div>

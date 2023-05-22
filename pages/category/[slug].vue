@@ -47,6 +47,9 @@
         </template></BaseSelect
       ></template
     >
+    <template #no-result
+      >Kategorin existerar inte, leta efter den i menyn ...</template
+    >
   </ProductListing>
 </template>
 
@@ -85,8 +88,9 @@ const { data } = await useAsyncData(async () => {
   const categoryProductionMapping = await import(
     "@/data/categoryProductMapping.json"
   );
-  // TO DO Type this
-  // TO DO remove this when done, if this show data it should not be problem with client search at least
+  // TO DO
+  // Type this
+  // remove this when done, if this show data it should not be problem with client search at least
   const categoryData = categoryProductionMapping.default[route.params.slug];
 
   const manager = new FilterManager();
@@ -124,10 +128,11 @@ const changeSortOption = () => {
 // Using onMounted to hydrade the data send from backend
 // Which ithe data for the initial search
 onMounted(async () => {
-  toggleLoadingSpinner(true);
   if (data.value == null) {
     return;
   }
+
+  toggleLoadingSpinner(true);
 
   // Hydrade Klevu data fetched on server to use client side
   const hydradetResult = await KlevuHydratePackedFetchResult(

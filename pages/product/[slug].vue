@@ -1,113 +1,116 @@
 <template>
   <div class="productPage">
-    <div id="slug-fix">
-      {{ generateSlug(product?.name ?? "") }}
-    </div>
-    <Head
-      ><Title>{{ product?.name }}</Title></Head
-    >
-    <Meta name="description" :content="product?.shortDescription" />
-    <Meta property="og:type" content="product" />
-    <Meta property="og:image:width" content="200" />
-    <Meta property="og:image:height" content="200" />
-    <Meta property="og:title" :content="product?.name" />
-    <Meta
-      property="og:image"
-      :content="product?.imageUrl.replace('needtochange', '')"
-    />
-    <Meta
-      property="og:description"
-      :content="'Some information about product here'"
-    />
-    <div class="productPage__topContainer">
-      <h1 class="productPage__name">
-        {{ product?.name }}
-      </h1>
-      <div class="productPage__sku">
-        {{ `SKU: ${product?.sku}` }}
+    <div v-if="product">
+      <div id="slug-fix">
+        {{ generateSlug(product?.name ?? "") }}
       </div>
-      <BaseButton
-        class="productPage__addToCompare"
-        :button-type="'primary'"
-        @click="addProductCompare(product!)"
-        ><IconCompare />Lägg till i jämför</BaseButton
+      <Head
+        ><Title>{{ product?.name }}</Title></Head
       >
-    </div>
-    <div class="productPage__container">
-      <div class="productPage__leftColumn">
-        <img
-          v-show="product?.imageUrl"
-          class="productPage__image"
-          alt="content image"
-          :src="product?.imageUrl.replace('needtochange', '')"
-        />
-        <div class="productPage__generalInfo">
-          <div class="productPage__infoRow">
-            <span>Ekologisk: </span
-            ><span>{{ product?.organic ? "JA" : "Nej" }}</span>
-          </div>
-          <div v-if="!!product?.ean.length" class="productPage__infoRow">
-            <span>EAN: </span><span>{{ product?.ean.join(",") }}</span>
-          </div>
+      <Meta name="description" :content="product?.shortDescription" />
+      <Meta property="og:type" content="product" />
+      <Meta property="og:image:width" content="200" />
+      <Meta property="og:image:height" content="200" />
+      <Meta property="og:title" :content="product?.name" />
+      <Meta
+        property="og:image"
+        :content="product?.imageUrl.replace('needtochange', '')"
+      />
+      <Meta
+        property="og:description"
+        :content="'Some information about product here'"
+      />
+      <div class="productPage__topContainer">
+        <h1 class="productPage__name">
+          {{ product?.name }}
+        </h1>
+        <div class="productPage__sku">
+          {{ `SKU: ${product?.sku}` }}
         </div>
-        <ul class="productPage__quotes">
-          <li
-            v-for="(
-              paragraphValue, paragraphPropery, index
-            ) in product?.paragraphs ?? []"
-            :key="index"
-            class="productPage__quotesItem"
-          >
-            <h4 class="productPage__sectionHeader">{{ paragraphPropery }}</h4>
+        <BaseButton
+          class="productPage__addToCompare"
+          :button-type="'primary'"
+          @click="addProductCompare(product!)"
+          ><IconCompare />Lägg till i jämför</BaseButton
+        >
+      </div>
+      <div class="productPage__container">
+        <div class="productPage__leftColumn">
+          <img
+            v-show="product?.imageUrl"
+            class="productPage__image"
+            alt="content image"
+            :src="product?.imageUrl.replace('needtochange', '')"
+          />
+          <div class="productPage__generalInfo">
+            <div class="productPage__infoRow">
+              <span>Ekologisk: </span
+              ><span>{{ product?.organic ? "JA" : "Nej" }}</span>
+            </div>
+            <div v-if="!!product?.ean.length" class="productPage__infoRow">
+              <span>EAN: </span><span>{{ product?.ean.join(",") }}</span>
+            </div>
+          </div>
+          <ul class="productPage__quotes">
+            <li
+              v-for="(
+                paragraphValue, paragraphPropery, index
+              ) in product?.paragraphs ?? []"
+              :key="index"
+              class="productPage__quotesItem"
+            >
+              <h4 class="productPage__sectionHeader">{{ paragraphPropery }}</h4>
+              <!-- Below v-html is not used for user input content so it is ok to disable -->
+              <!-- eslint-disable-next-line vue/no-v-html -->
+              <span v-html="paragraphValue"></span>
+            </li>
+          </ul>
+          <div class="productPage__description">
+            <h4 v-if="product?.description" class="productPage__sectionHeader">
+              Detaljer
+            </h4>
             <!-- Below v-html is not used for user input content so it is ok to disable -->
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <span v-html="paragraphValue"></span>
-          </li>
-        </ul>
-        <div class="productPage__description">
-          <h4 v-if="product?.description" class="productPage__sectionHeader">
-            Detaljer
-          </h4>
-          <!-- Below v-html is not used for user input content so it is ok to disable -->
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-html="product?.description"></div>
-        </div>
+            <div v-html="product?.description"></div>
+          </div>
 
-        <div class="productPage__CTA">
-          <a
-            class="linkAsButton"
-            href="https://www.lantmannenlantbrukmaskin.se/om-oss/kontoansokan/"
-            >Köp produkter - Bli Lantmännenkund</a
-          >
+          <div class="productPage__CTA">
+            <a
+              class="linkAsButton"
+              href="https://www.lantmannenlantbrukmaskin.se/om-oss/kontoansokan/"
+              >Köp produkter - Bli Lantmännenkund</a
+            >
+          </div>
         </div>
-      </div>
-      <div
-        class="productPage__rightColumn"
-        :class="{ 'productPage__rightColumn--show': Object.keys(product!.table).length !== 0  }"
-      >
-        <div class="productPage__tableContainer">
-          <table class="productPage__table">
-            <tbody>
-              <tr
-                v-for="(tableValue, tableProperty, index) in product!.table"
-                :key="index"
-                :class="{
-                  'tr-header': checkIsHeader(tableValue),
-                  'tr-empty': tableValue == '',
-                }"
-              >
-                <td>
-                  {{ tableProperty }}
-                </td>
-                <td v-if="!checkIsHeader(tableValue)">
-                  {{ tableValue }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div
+          class="productPage__rightColumn"
+          :class="{ 'productPage__rightColumn--show': Object.keys(product!.table).length !== 0  }"
+        >
+          <div class="productPage__tableContainer">
+            <table class="productPage__table">
+              <tbody>
+                <tr
+                  v-for="(tableValue, tableProperty, index) in product!.table"
+                  :key="index"
+                  :class="{
+                    'tr-header': checkIsHeader(tableValue),
+                    'tr-empty': tableValue == '',
+                  }"
+                >
+                  <td>
+                    {{ tableProperty }}
+                  </td>
+                  <td v-if="!checkIsHeader(tableValue)">
+                    {{ tableValue }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
+    <div v-else class="productPage__noMatch">Produkten existerar inte!</div>
   </div>
 </template>
 
@@ -119,7 +122,7 @@ const { generateSlug } = useSlug();
 
 const route = useRoute();
 const regex = /[0-9]+/g;
-// TO DO deal with typing here, how to check for if it is wrong input
+
 const numberMatches = (route.params.slug as string).match(regex) as string[];
 
 // Fetch product data server side
@@ -260,6 +263,10 @@ const { data: product } = await useAsyncData(async () => {
   &__table {
     width: 100%;
     background-color: @background_quaternary;
+  }
+
+  &__noMatch {
+    text-align: center;
   }
 }
 

@@ -38,7 +38,8 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
 
   const categoryMenu: CategoryMenu = reactive({});
 
-  // TO DO not user right now - need to work out solution
+  // Not used right now
+
   const categoryProductMap = reactive({ data: {} });
 
   return {

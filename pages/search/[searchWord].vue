@@ -44,8 +44,11 @@
           </BaseSelectOption>
         </template></BaseSelect
       ></template
-    ></ProductListing
-  >
+    >
+    <template #no-result
+      >Inget sökresultat, test igen, eller något annat ord ...</template
+    >
+  </ProductListing>
 </template>
 
 <script setup lang="ts">
