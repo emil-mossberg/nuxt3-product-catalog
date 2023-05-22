@@ -97,3 +97,8 @@ This JSON is used to build category menu located in header. slug_name is a mappi
 PLP - Done SSR on initial load, if click 'load more' then it is client side
 PDP - Done SSR
 All search functionality - DONE client
+
+
+## Service worker strategy
+
+App uses workbox-build it precaches css, js and html by default 

@@ -29,7 +29,7 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
 
   // App logic break point mobile
 
-  const MOBILE_BREAPOINT = 480;
+  const MOBILE_BREAPOINT = 991;
   const isMobile = computed(
     () => useWindowSize().width.value < MOBILE_BREAPOINT
   );

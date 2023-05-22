@@ -40,6 +40,7 @@
     "@klevu/core": "^1.10.0",
     "@pinia/nuxt": "^0.4.7",
     "@vueuse/nuxt": "^9.13.0",
-    "pinia": "^2.0.33"
+    "pinia": "^2.0.33",
+    "vue-gtag": "^2.0.1"
   }
 }

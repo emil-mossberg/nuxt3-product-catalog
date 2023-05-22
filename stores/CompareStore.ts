@@ -16,8 +16,10 @@ export const useCompareStore = defineStore("compareStore", () => {
 
   const compareCount = computed<number>(() => compareProductsList?.length ?? 0);
 
+  const HEADER_IDENTIFIER = "rubrik";
+
   const isHeader = (names: string[]): boolean => {
-    return names.some((name) => name.toLowerCase() === "rubrik");
+    return names.some((name) => name.toLowerCase() === HEADER_IDENTIFIER);
   };
 
   const buildCompareData = (productList: ProductData[]): void => {

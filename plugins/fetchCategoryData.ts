@@ -14,8 +14,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     Object.assign(categoryMenu, data);
   });
 
-  // TO DO Might have to use it to be able to fetch category -> product mapping on over API
-  // TO DO if client side version - use localStorage
+  // TO DO
+  // Might have to use it to be able to fetch category -> product mapping on over API
+  // if client side version - use localStorage
 
   // Fetch category to product mapping - needed for PLP
   // nuxtApp.hook("app:rendered", async () => {

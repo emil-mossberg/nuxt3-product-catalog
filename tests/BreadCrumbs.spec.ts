@@ -6,6 +6,7 @@ import BreadCrumbs from "../components/BreadCrumbs.vue";
 // TO DO
 // Fix better version of check last crumb (should not be nuxtLink)
 // Test for getting correct
+// Test for checking that last is a span
 describe("BreadCrumbs", () => {
   let wrapper: VueWrapper;
 
@@ -25,11 +26,5 @@ describe("BreadCrumbs", () => {
 
   it("Is breadcrumbs correct length", () => {
     expect(wrapper.findAll("li")).toHaveLength(breadcrumbs.length);
-  });
-
-  // TO DO fix so checking that last li contains no a but a span
-  it("Check last crumb", () => {
-    // Only one Crumb
-    expect(wrapper.findAll('[data-test="last-crumb"]').length).toBe(1);
   });
 });

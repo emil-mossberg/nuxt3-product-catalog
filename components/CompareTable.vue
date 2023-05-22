@@ -5,7 +5,7 @@
         <tr>
           <td></td>
           <td
-            v-for="number in compareProducts.name?.length"
+            v-for="number in compareProducts.name.length"
             :key="number"
             class="compareTable__centerCell"
           >
@@ -25,8 +25,8 @@
             class="compareTable__centerCell"
           >
             <NuxtLink
-              :to="`/product/${compareProducts.sku![imageIndex]}-${generateSlug(
-                compareProducts.name![imageIndex]
+              :to="`/product/${compareProducts.sku[imageIndex]}-${generateSlug(
+                compareProducts.name[imageIndex]
               )}`"
             >
               <img

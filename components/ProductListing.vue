@@ -87,7 +87,6 @@
           Inget sökresultat, test igen, eller något annat ord ...
         </p>
       </div>
-      <div>{{ state.count }}</div>
     </div>
     <Teleport to="body">
       <BaseOverlay v-show="showFilter" />
@@ -124,10 +123,6 @@ const toggleFilter = (value: boolean) => {
     document.body.style.position = "";
   }
 };
-
-// TO DO REMOVE FOR TESTING and in template
-
-const state = reactive({ count: 12 });
 </script>
 
 <style lang="less" scoped>

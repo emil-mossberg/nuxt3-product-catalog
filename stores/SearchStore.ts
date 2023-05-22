@@ -28,6 +28,9 @@ export const useSearchStore = defineStore("searchStore", () => {
       return;
     }
 
+    // Save searchTerm in localStorage for lastSearched functionality
+    KlevuLastSearches.save(searchTerm.value);
+
     const result = await KlevuFetch(
       search(searchTerm.value, {
         limit: 5,

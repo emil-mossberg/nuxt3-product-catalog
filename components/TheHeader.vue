@@ -54,8 +54,6 @@
 </template>
 
 <script setup lang="ts">
-// TO DO remove this, old way of getting category tree, from hardcoded JSON
-// import categoryTree from "@/data/categoryTree.json";
 import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
 
 const compareStore = useCompareStore();
@@ -135,6 +133,7 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
     align-items: center;
     text-decoration: none;
     margin-bottom: @indent__sm;
+    margin-right: @indent__base;
   }
 
   &__navigationLogoText {
@@ -193,6 +192,7 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
 
     &__navigationLogo {
       margin-bottom: 0;
+      margin-right: 0;
     }
 
     &__mobileNavigation {

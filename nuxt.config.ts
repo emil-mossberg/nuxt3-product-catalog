@@ -7,10 +7,10 @@ export default defineNuxtConfig({
     autoImports: ["defineStore", "storeToRefs"],
   },
   pwa: {
-    workbox: {
-      globPatterns: ["**/*.{js,css,html,ico,png,svg, woff2}"],
-    },
-    registerType: "prompt", // This is default, how can I test this and other which is "autoUpdate"
+    // workbox: {
+    //   globPatterns: ["**/*.{js,css,html,ico,png,svg, woff2}"],
+    // },
+    registerType: "autoUpdate", // prompt (default) or autoUpdate
     manifest: {
       name: "Lantmännen Lantbruks Produktkatalog",
       short_name: "LM Produktkatalog",

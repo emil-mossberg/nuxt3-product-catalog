@@ -3,7 +3,7 @@ export type ProductData = {
   description?: string;
   organic?: 1 | 0;
   paragraphs: {};
-  table: { [key: string]: string };
+  table: Record<string, string>;
   ean: [];
   imageUrl: string;
   sku: string;

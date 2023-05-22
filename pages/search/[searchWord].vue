@@ -1,7 +1,7 @@
 <template>
   <ProductListing
-    class="categoryPage"
-    :filter-attributes="filterOptions"
+    class="listingPage"
+    :filter-attributes="manager.options"
     :show-more="listingData.showMore"
     :products="listingData.products"
     :toggle-manager="useFilter"
@@ -17,18 +17,18 @@
       />
     </template>
     <template #heading>
-      <h1 class="categoryPage__header">
+      <h1 class="listingPage__header">
         Sökordet är: '{{ cleanSearchTerm }}'
       </h1></template
     ><template #headerInformation>
-      <span class="categoryPage__pageInfo">
+      <span class="listingPage__pageInfo">
         {{
           `Visar: 1 - ${listingData.products?.length}/${listingData.totalHits}`
         }}</span
       >
       <BaseSelect
         v-model="sortSelected"
-        class="categoryPage__select"
+        class="listingPage__select"
         :options="[
           { name: 'Relevans', value: KlevuSearchSorting.Relevance },
           {
@@ -56,7 +56,6 @@ import {
   applyFilterWithManager,
   KlevuPackFetchResult,
   KlevuHydratePackedFetchResult,
-  KlevuFilterResultOptions,
   KlevuSearchSorting,
   search,
 } from "@klevu/core";
@@ -95,10 +94,9 @@ const { data } = await useAsyncData(async () => {
   };
 });
 
-// Working on client side after intial render
+// Working on client side after initial render
 const manager = new FilterManager();
 const listingData: ListingData = reactive({ showMore: false, products: [] });
-const filterOptions: KlevuFilterResultOptions[] = reactive([]);
 let prevResult: any;
 
 // Change sort option
@@ -135,7 +133,6 @@ onMounted(async () => {
 
   const result = hydradetResult.queriesById("search");
 
-  Object.assign(filterOptions, manager.options);
   listingData.totalHits = result?.meta.totalResultsFound;
   listingData.products = result?.records.map(cleanDataKlevu);
   listingData.showMore = Boolean(result?.next);
@@ -195,35 +192,3 @@ const reFetch = async (sortOption: any) => {
   toggleLoadingSpinner(false);
 };
 </script>
-
-<style lang="less">
-.categoryPage {
-  &__header {
-    flex-basis: 100%;
-    margin-bottom: @indent__base;
-  }
-
-  &__select {
-    margin-top: @indent__base;
-    width: 100%;
-  }
-}
-
-@media only screen and (min-width: @breakpoint__mobile) {
-  .categoryPage {
-    &__header {
-      flex-basis: auto;
-      margin-bottom: 0;
-    }
-
-    &__select {
-      margin-top: 0;
-      width: 260px;
-    }
-
-    &__pageInfo {
-      margin-right: @indent__base;
-    }
-  }
-}
-</style>

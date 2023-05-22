@@ -1,7 +1,7 @@
 <template>
   <ProductListing
-    class="categoryPage"
-    :filter-attributes="filterOptions"
+    class="listingPage"
+    :filter-attributes="manager.options"
     :show-more="listingData.showMore"
     :products="listingData.products"
     :toggle-manager="useFilter"
@@ -19,18 +19,18 @@
     <template #breadcrumbs><BreadCrumbs :breadcrumbs="breadCrumbs" /></template>
 
     <template #heading>
-      <h1 class="categoryPage__header">
+      <h1 class="listingPage__header">
         {{ categoryNameHeader }}
       </h1></template
     ><template #headerInformation>
-      <span class="categoryPage__pageInfo">
+      <span class="listingPage__pageInfo">
         {{
           `Visar: 1 - ${listingData.products?.length}/${listingData.totalHits}`
         }}</span
       >
       <BaseSelect
         v-model="sortSelected"
-        class="categoryPage__select"
+        class="listingPage__select"
         :options="[
           { name: 'Relevans', value: KlevuSearchSorting.Relevance },
           {
@@ -58,7 +58,6 @@ import {
   applyFilterWithManager,
   KlevuPackFetchResult,
   KlevuHydratePackedFetchResult,
-  KlevuFilterResultOptions,
   KlevuSearchSorting,
   categoryMerchandising,
 } from "@klevu/core";
@@ -82,13 +81,13 @@ const buildSearchPath = (breadcrumbs: BreadCrumb[]) =>
 
 // Fetch initial with SSR
 const { data } = await useAsyncData(async () => {
-  // TO DO temp fix mapping name and breadcrumbs - dynamic import to avoid importing client side
+  // Temp fix mapping name and breadcrumbs - dynamic import to avoid importing client side
   const categoryProductionMapping = await import(
     "@/data/categoryProductMapping.json"
   );
   // TO DO Type this
-  const categoryData = categoryProductionMapping.default[route.params.slug];
   // TO DO remove this when done, if this show data it should not be problem with client search at least
+  const categoryData = categoryProductionMapping.default[route.params.slug];
 
   const manager = new FilterManager();
   const searchPath = buildSearchPath(categoryData.breadcrumbs);
@@ -115,7 +114,6 @@ const { data } = await useAsyncData(async () => {
 // Working on client side after intial render
 const manager = new FilterManager();
 const listingData: ListingData = reactive({ showMore: false, products: [] });
-const filterOptions: KlevuFilterResultOptions[] = reactive([]);
 let prevResult: any;
 
 // Change sort option
@@ -135,7 +133,6 @@ onMounted(async () => {
   const hydradetResult = await KlevuHydratePackedFetchResult(
     data.value.klevuData,
     [
-      // TO DO use data.value.categoryData.name
       categoryMerchandising(
         buildSearchPath(data.value.categoryData.breadcrumbs),
         {
@@ -153,7 +150,6 @@ onMounted(async () => {
 
   const result = hydradetResult.queriesById("categoryMerchandising");
 
-  Object.assign(filterOptions, manager.options);
   listingData.totalHits = result?.meta.totalResultsFound;
   listingData.products = result?.records.map(cleanDataKlevu);
   listingData.showMore = Boolean(result?.next);
@@ -218,35 +214,3 @@ const reFetch = async (sortOption: any) => {
   toggleLoadingSpinner(false);
 };
 </script>
-
-<style lang="less">
-.categoryPage {
-  &__header {
-    flex-basis: 100%;
-    margin-bottom: @indent__base;
-  }
-
-  &__select {
-    margin-top: @indent__base;
-    width: 100%;
-  }
-}
-
-@media only screen and (min-width: @breakpoint__mobile) {
-  .categoryPage {
-    &__header {
-      flex-basis: auto;
-      margin-bottom: 0;
-    }
-
-    &__select {
-      margin-top: 0;
-      width: 260px;
-    }
-
-    &__pageInfo {
-      margin-right: @indent__base;
-    }
-  }
-}
-</style>

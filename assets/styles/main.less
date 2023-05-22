@@ -61,3 +61,35 @@ button {
         background-color: @background__highlight;
     }
 }
+
+
+.listingPage {
+    &__header {
+      flex-basis: 100%;
+      margin-bottom: @indent__base;
+    }
+  
+    &__select {
+      margin-top: @indent__base;
+      width: 100%;
+    }
+  }
+  
+  @media only screen and (min-width: @breakpoint__mobile) {
+    .listingPage {
+      &__header {
+        flex-basis: auto;
+        margin-bottom: 0;
+      }
+  
+      &__select {
+        margin-top: 0;
+        width: 260px;
+      }
+  
+      &__pageInfo {
+        margin-right: @indent__base;
+        margin-left: auto;
+      }
+    }
+  }

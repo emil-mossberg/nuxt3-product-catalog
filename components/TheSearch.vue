@@ -183,8 +183,8 @@ const doSearchSubmit = () => {
 };
 
 // Logic quickSearch when typing
-// TO DO is this debouncing working?
-const debouncedDoQuickSearch = useDebounceFn(doQuickSearch, 300);
+const DEBOUNCE_TIME = 300;
+const debouncedDoQuickSearch = useDebounceFn(doQuickSearch, DEBOUNCE_TIME);
 
 // Logic suggestions
 const suggestionParser = (htmlElementText: string) => {
