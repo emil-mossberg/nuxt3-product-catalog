@@ -1,28 +1,33 @@
 <template>
   <div class="productListing">
-    <div class="productListing__breadcrumbs">
-      <slot name="breadcrumbs"></slot>
-    </div>
-    <div class="productListing__filterRow">
-      <BaseButton
-        :button-type="'secondary'"
-        class="productListing__filterButton"
-        @click="toggleFilter(true)"
-        ><IconFilter />Visa filter</BaseButton
-      >
-      <ul class="productListing__selectedOptions">
-        <li v-for="(filterOption, index) in filterAttributes" :key="index">
-          <ul class="productListing__selectedOptions">
-            <li
-              v-for="(option, innerIndex) in filterOption.options"
-              :key="innerIndex"
-              :class="{ productListing__selectedOption: option.selected }"
-            >
-              <span v-if="option.selected">{{ option.name }}</span>
-            </li>
-          </ul>
-        </li>
-      </ul>
+    <div class="productListing__filterAndCrumbs">
+      <div class="productListing__breadcrumbs">
+        <slot name="breadcrumbs"></slot>
+      </div>
+      <div class="productListing__filterRow">
+        <ul
+          v-if="filterAttributes.length"
+          class="productListing__selectedOptions"
+        >
+          <li v-for="(filterOption, index) in filterAttributes" :key="index">
+            <ul class="productListing__selectedOptions">
+              <li
+                v-for="(option, innerIndex) in filterOption.options"
+                :key="innerIndex"
+                :class="{ productListing__selectedOption: option.selected }"
+              >
+                <span v-if="option.selected">{{ option.name }}</span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <BaseButton
+          :button-type="'secondary'"
+          class="productListing__filterButton"
+          @click="toggleFilter(true)"
+          ><IconFilter />Visa filter</BaseButton
+        >
+      </div>
     </div>
 
     <slot name="metaInformation"></slot>
@@ -132,6 +137,14 @@ const toggleFilter = (value: boolean) => {
   flex-direction: column;
   flex-grow: 1;
 
+  &__filterAndCrumbs {
+    display: flex;
+    align-items: center;
+    gap: @indent__m;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
   &__breadcrumbs {
     margin-bottom: @indent__base;
   }
@@ -155,7 +168,7 @@ const toggleFilter = (value: boolean) => {
   &__filterButton {
     display: flex;
     align-items: center;
-    margin-right: @indent__base;
+    margin-left: @indent__base;
     padding: @indent__xs @indent__sm;
     gap: @indent__s;
     white-space: nowrap;

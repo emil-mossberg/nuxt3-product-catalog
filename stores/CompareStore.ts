@@ -4,8 +4,6 @@ import type { CompareProducts } from "@/types/CompareProducts";
 import type { CompareProductsAttribute } from "@/types/CompareProductsAttribute";
 
 export const useCompareStore = defineStore("compareStore", () => {
-  const { addMessage } = useAppInfoStore();
-
   const compareProductsList: ProductData[] = reactive([]);
   const compareProducts: CompareProducts = reactive({
     name: [],
@@ -51,11 +49,12 @@ export const useCompareStore = defineStore("compareStore", () => {
   };
 
   const addProductCompare = (product: ProductData): void => {
+    showCompareSlider.value = true;
     // Check if product already exists if so abort
     if (compareProductsList.find((item) => item.sku === product.sku)) {
-      addMessage("success", product.name);
       return;
     }
+    newAddedProducts.skus.push(product.sku);
     compareProductsList.push(product);
 
     buildCompareData(compareProductsList);
@@ -64,8 +63,6 @@ export const useCompareStore = defineStore("compareStore", () => {
       "compare-products",
       JSON.stringify(compareProductsList)
     );
-
-    addMessage("success", product.name);
   };
 
   const getProductsFromLocalStorage = () => {
@@ -79,6 +76,7 @@ export const useCompareStore = defineStore("compareStore", () => {
   };
 
   const removeProductCompare = (index: number) => {
+    console.log(index);
     compareProductsList.splice(index - 1, 1);
     buildCompareData(compareProductsList);
 
@@ -88,6 +86,20 @@ export const useCompareStore = defineStore("compareStore", () => {
     );
   };
 
+  const closeCompareSlider = () => {
+    showCompareSlider.value = false;
+    newAddedProducts.skus = [];
+  };
+
+  const showCompareSlider = ref(false);
+
+  // TO DO MOVE THIS
+  type NewAddedProducts = {
+    skus: string[];
+  };
+
+  const newAddedProducts: NewAddedProducts = reactive({ skus: [] });
+
   return {
     addProductCompare,
     getProductsFromLocalStorage,
@@ -95,5 +107,8 @@ export const useCompareStore = defineStore("compareStore", () => {
     compareProducts,
     compareCount,
     compareProductsList,
+    showCompareSlider,
+    closeCompareSlider,
+    newAddedProducts,
   };
 });

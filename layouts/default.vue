@@ -2,7 +2,6 @@
   <div class="defaultLayout">
     <div class="defaultLayout__fixedTop">
       <TheHeader />
-      <TheMessages />
     </div>
 
     <main class="defaultLayout__main">
@@ -14,6 +13,9 @@
     </main>
 
     <TheFooter />
+    <ClientOnly>
+      <LazyTheCompareSlider />
+    </ClientOnly>
   </div>
 </template>
 
@@ -32,7 +34,7 @@
 
   &__main {
     display: flex;
-    margin-top: 240px;
+    margin-top: 184px;
     width: 100%;
     padding: 0 @indent__s;
     margin-inline: auto;
@@ -44,7 +46,7 @@
 @media only screen and (min-width: @breakpoint__mobile) {
   .defaultLayout {
     &__main {
-      margin-top: 180px; // Match header + message
+      margin-top: 126px; // Match header
       width: min(90%, 1440px);
       margin-bottom: @indent__xxl;
       padding: 0 @indent__base;

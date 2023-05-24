@@ -52,10 +52,16 @@ button {
 
 .linkAsButton {
     color: @color-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: @background__tertiary;
     padding: @indent__sm @indent__m;
     border-radius: 10px;
     font-weight: 700;
+    gap: @indent__s;
+    white-space: nowrap;
+
 
     &:hover {
         background-color: @background__highlight;

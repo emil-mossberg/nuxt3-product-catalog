@@ -1,25 +1,12 @@
-import { reactive, ref } from "vue";
+// TO DO computed this when can auto import, can other be also?
+import { reactive, ref, computed } from "vue";
 import { useWindowSize } from "@vueuse/core";
+// TO DO remove this when can auto import
+import { defineStore } from "pinia";
 
-import type { AppMessage } from "@/types/AppMessage";
 import type { CategoryMenu } from "@/types/CategoryMenu";
 
 export const useAppInfoStore = defineStore("appInfoStore", () => {
-  // App message logic
-  const appMessages: AppMessage[] = reactive([]);
-
-  const addMessage = (type: "error" | "success", message: string) => {
-    appMessages.push({ type, message });
-  };
-
-  const removeMessage = (messageIndex: number) => {
-    appMessages.splice(messageIndex, 1);
-  };
-
-  const removeMessageAll = () => {
-    appMessages.splice(0, appMessages.length);
-  };
-
   // App loading spinner logic
   const isLoading = ref(false);
 
@@ -43,10 +30,6 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
   const categoryProductMap = reactive({ data: {} });
 
   return {
-    appMessages,
-    addMessage,
-    removeMessage,
-    removeMessageAll,
     toggleLoadingSpinner,
     isLoading,
     isMobile,

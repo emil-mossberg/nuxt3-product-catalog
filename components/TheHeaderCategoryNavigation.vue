@@ -20,6 +20,12 @@
     <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
       <div class="categoryNavigation__listHeader">
         <h3>{{ props.catalogData["name"] }}</h3>
+        <NuxtLink
+          class="categoryNavigation__showAll"
+          :to="`/category/${props.catalogData['slug_name']}`"
+          @click="clickedClosed"
+          >Visa allt</NuxtLink
+        >
         <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
       </div>
 
@@ -44,6 +50,12 @@
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
           <div class="categoryNavigation__listHeader">
             <h3>{{ category["name"] }}</h3>
+            <NuxtLink
+              :to="`/category/${category['slug_name']}`"
+              @click="clickedClosed"
+              >Visa allt</NuxtLink
+            >
+
             <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
           </div>
 
@@ -164,9 +176,16 @@ onClickOutside(componentRef, () => {
 
   &__listHeader {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: @indent__s;
+
+    .svgButton {
+      margin-left: auto;
+    }
+  }
+
+  &__showAll {
+    margin-left: @indent__s;
   }
 
   &__link--lvl0--open + &__list--lvl1,

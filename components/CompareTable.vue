@@ -29,10 +29,7 @@
                 compareProducts.name[imageIndex]
               )}`"
             >
-              <img
-                class="compareTable__image"
-                :src="imageUrl.replace('needtochange', '')"
-              />
+              <img class="compareTable__image" :src="imageUrl" />
             </NuxtLink>
           </td>
         </tr>
@@ -77,9 +74,8 @@ const { compareProducts, removeProductCompare } = useCompareStore();
 const compareStore = useCompareStore();
 const { compareCount } = storeToRefs(compareStore);
 
-const isHeader = (names: string[]) => {
-  return names.some((name) => name.toLowerCase() === "rubrik");
-};
+const isHeader = (names: string[]) =>
+  names.some((name) => name.toLowerCase() === "rubrik");
 
 const { generateSlug } = useSlug();
 </script>
@@ -98,7 +94,7 @@ const { generateSlug } = useSlug();
   }
 
   &__image {
-    max-width: 260px;
+    max-width: 200px;
   }
 
   &__deleteButton {

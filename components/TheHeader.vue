@@ -22,12 +22,11 @@
             ><IconMobileMenu
           /></BaseSVGButton>
 
-          <NuxtLink
-            v-show="compareCount > 0"
-            class="header__compareLink header__compareLink--mobile"
-            :to="{ name: 'compare' }"
-            ><IconCompare
-          /></NuxtLink>
+          <ClientOnly
+            ><CompareLink
+              v-show="compareCount > 0"
+              class="header__compareLink header__compareLink--mobile"
+          /></ClientOnly>
           <ul
             class="header__navigationCategories"
             :class="{ 'header__navigationCategories--open': showCategoryMenu }"
@@ -158,7 +157,7 @@ const toggleCategoryMenu = (toggleValue: boolean) => {
 
   &__compareLink {
     &--mobile {
-      display: block;
+      display: flex;
     }
 
     &--desktop {

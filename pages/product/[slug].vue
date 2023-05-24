@@ -12,10 +12,7 @@
       <Meta property="og:image:width" content="200" />
       <Meta property="og:image:height" content="200" />
       <Meta property="og:title" :content="product?.name" />
-      <Meta
-        property="og:image"
-        :content="product?.imageUrl.replace('needtochange', '')"
-      />
+      <Meta property="og:image" :content="product?.imageUrl" />
       <Meta
         property="og:description"
         :content="'Some information about product here'"
@@ -24,9 +21,6 @@
         <h1 class="productPage__name">
           {{ product?.name }}
         </h1>
-        <div class="productPage__sku">
-          {{ `SKU: ${product?.sku}` }}
-        </div>
         <BaseButton
           class="productPage__addToCompare"
           :button-type="'primary'"
@@ -40,38 +34,66 @@
             v-show="product?.imageUrl"
             class="productPage__image"
             alt="content image"
-            :src="product?.imageUrl.replace('needtochange', '')"
+            :src="product?.imageUrl"
           />
+
           <div class="productPage__generalInfo">
-            <div class="productPage__infoRow">
-              <span>Ekologisk: </span
-              ><span>{{ product?.organic ? "JA" : "Nej" }}</span>
+            <div class="productPage__infoSection">
+              <h4 class="productPage__sectionHeader">Information</h4>
+              <div class="productPage__infoRow">
+                <span> {{ `Artikelnummer: ${product?.sku}` }}</span>
+              </div>
+              <div class="productPage__infoRow">
+                <span>{{
+                  `Ekologisk: ${product?.organic ? "JA" : "Nej"}`
+                }}</span>
+              </div>
+              <div v-if="!!product?.ean.length" class="productPage__infoRow">
+                <span>{{ `EAN: ${product?.ean.join(",")}` }}</span>
+              </div>
             </div>
-            <div v-if="!!product?.ean.length" class="productPage__infoRow">
-              <span>EAN: </span><span>{{ product?.ean.join(",") }}</span>
+
+            <div class="productPage__infoSection">
+              <h4
+                v-if="product?.shortDescription"
+                class="productPage__sectionHeader"
+              >
+                Beskrivning
+              </h4>
+              <span class="productPage__infoRow">{{
+                product?.shortDescription
+              }}</span>
             </div>
-          </div>
-          <ul class="productPage__quotes">
-            <li
-              v-for="(
-                paragraphValue, paragraphPropery, index
-              ) in product?.paragraphs ?? []"
-              :key="index"
-              class="productPage__quotesItem"
-            >
-              <h4 class="productPage__sectionHeader">{{ paragraphPropery }}</h4>
+            <ul>
+              <li
+                v-for="(
+                  paragraphValue, paragraphPropery, index
+                ) in product?.paragraphs ?? []"
+                :key="index"
+                class="productPage__infoSection"
+              >
+                <h4 class="productPage__sectionHeader">
+                  {{ paragraphPropery }}
+                </h4>
+                <!-- Below v-html is not used for user input content so it is ok to disable -->
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <span
+                  class="productPage__infoRow"
+                  v-html="paragraphValue"
+                ></span>
+              </li>
+            </ul>
+            <div class="productPage__description">
+              <h4
+                v-if="product?.description"
+                class="productPage__sectionHeader"
+              >
+                Detaljer
+              </h4>
               <!-- Below v-html is not used for user input content so it is ok to disable -->
               <!-- eslint-disable-next-line vue/no-v-html -->
-              <span v-html="paragraphValue"></span>
-            </li>
-          </ul>
-          <div class="productPage__description">
-            <h4 v-if="product?.description" class="productPage__sectionHeader">
-              Detaljer
-            </h4>
-            <!-- Below v-html is not used for user input content so it is ok to disable -->
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <div v-html="product?.description"></div>
+              <div v-html="product?.description"></div>
+            </div>
           </div>
 
           <div class="productPage__CTA">
@@ -144,7 +166,6 @@ const { data: product } = await useAsyncData(async () => {
   }
 
   &__topContainer {
-    margin-top: @indent__m;
     padding: @indent__xxl @indent__base;
     background-color: @background_quaternary;
     display: flex;
@@ -166,12 +187,7 @@ const { data: product } = await useAsyncData(async () => {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-left: auto;
-  }
-
-  &__sku {
-    font-size: 16px;
-    font-weight: 500;
+    width: 100%;
   }
 
   &__container {
@@ -199,15 +215,15 @@ const { data: product } = await useAsyncData(async () => {
   &__image {
     max-width: 300px;
     height: 100%;
-    margin-bottom: @indent__xxl;
-  }
-
-  &__quotes {
-    margin: @indent__m 0;
-  }
-
-  &__quotesItem {
     margin-bottom: @indent__base;
+  }
+
+  &__generalInfo {
+    margin-bottom: @indent__m;
+  }
+
+  &__infoSection {
+    margin-bottom: @indent__m;
   }
 
   &__infoRow {
@@ -236,11 +252,14 @@ const { data: product } = await useAsyncData(async () => {
 
   &__CTA {
     margin: @indent__m 0;
+    width: 100%;
 
     a {
       display: block;
       padding: @indent__base @indent__m;
+      text-align: center;
       font-size: 16px;
+      width: 100%;
     }
   }
 
@@ -286,12 +305,18 @@ const { data: product } = await useAsyncData(async () => {
       }
     }
 
-    &__quotes {
-      flex-basis: 100%;
+    &__name {
+      padding-bottom: 0;
+      flex-basis: auto;
     }
 
-    &__description {
-      margin-right: @indent__m;
+    &__addToCompare {
+      margin-left: auto;
+      width: auto;
+    }
+
+    &__quotes {
+      flex-basis: 100%;
     }
 
     &__table {
@@ -306,6 +331,11 @@ const { data: product } = await useAsyncData(async () => {
 
     &__image {
       max-width: 400px;
+      margin-bottom: @indent__m;
+    }
+
+    &__CTA {
+      width: auto;
     }
   }
 }

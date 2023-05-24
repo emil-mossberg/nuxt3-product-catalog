@@ -7,13 +7,13 @@ describe("BaseTextCard", () => {
   let wrapper: VueWrapper;
 
   const header = "A funky header";
-  const bodyText = "Some information text";
+  const content = "Some information text";
 
   beforeEach(() => {
     wrapper = mount(BaseTextCard, {
-      props: {
+      slots: {
         header,
-        bodyText,
+        content,
       },
     });
   });
@@ -23,7 +23,7 @@ describe("BaseTextCard", () => {
   });
 
   it("Renders props properly", () => {
-    expect(wrapper.props().header).toEqual(header);
-    expect(wrapper.props().bodyText).toEqual(bodyText);
+    expect(wrapper.find(".baseTextCard__header").text()).toEqual(header);
+    expect(wrapper.find(".baseTextCard__content").text()).toEqual(content);
   });
 });

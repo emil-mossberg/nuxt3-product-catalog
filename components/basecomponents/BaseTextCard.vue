@@ -4,7 +4,7 @@
       <slot name="header"></slot>
     </h1>
 
-    <div>
+    <div class="baseTextCard__content">
       <slot name="content"></slot>
     </div>
   </div>
