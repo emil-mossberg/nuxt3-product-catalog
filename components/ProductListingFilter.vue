@@ -68,9 +68,6 @@ const emit = defineEmits<{
     margin: 0 auto;
   }
 
-  &__list {
-  }
-
   &__listHeader {
     padding: @indent__base;
   }

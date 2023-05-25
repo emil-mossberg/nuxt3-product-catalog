@@ -20,7 +20,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Fetch category to product mapping - needed for PLP
   // nuxtApp.hook("app:rendered", async () => {
-  //   console.log("IS THIS RUNNING?");
   //   const { categoryProductMap } = useAppInfoStore();
   //   const data = await $fetch(runtimeConfig.public.categoryProductMap);
   //   categoryProductMap.data = data as {}; // TO DO Type this also

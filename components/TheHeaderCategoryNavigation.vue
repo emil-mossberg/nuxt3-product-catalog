@@ -52,6 +52,7 @@
             <h3>{{ category["name"] }}</h3>
             <NuxtLink
               :to="`/category/${category['slug_name']}`"
+              class="categoryNavigation__showAll"
               @click="clickedClosed"
               >Visa allt</NuxtLink
             >

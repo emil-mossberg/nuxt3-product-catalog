@@ -6,7 +6,7 @@
     }"
   >
     <div class="theCompareSlider__content">
-      <ul class="theCompareSlider__products">
+      <ul id="sliderProducts" class="theCompareSlider__products">
         <li
           v-for="(product, index) in compareProductsList"
           :key="index"
@@ -24,7 +24,7 @@
                 (sku) => sku === product.sku
               ),
             }"
-            >Ny tillagd</span
+            >Nytillagd</span
           >
           <img class="theCompareSlider__image" :src="product.imageUrl" />
           <div>
@@ -63,6 +63,26 @@ const {
 
 const compareStore = useCompareStore();
 const { showCompareSlider } = storeToRefs(compareStore);
+const appInfoStore = useAppInfoStore();
+const { isMobile } = storeToRefs(appInfoStore);
+
+// Scroll the slider to show the new product if on mobile
+// Need nextTick since adding product must finnish before we start scrolling
+watch(compareProductsList, () => {
+  if (isMobile.value) {
+    nextTick(() => {
+      const sliderList = document.getElementById(
+        "sliderProducts"
+      ) as HTMLElement;
+
+      sliderList.scrollTo({
+        top: 0,
+        left: sliderList.scrollWidth - sliderList.clientWidth,
+        behavior: "smooth",
+      });
+    });
+  }
+});
 </script>
 
 <style lang="less">
@@ -112,10 +132,10 @@ const { showCompareSlider } = storeToRefs(compareStore);
 
   &__newBadge {
     position: absolute;
-    left: -4px;
+    left: -16px;
     top: -10px;
     background-color: @color__active_primary;
-    padding: @indent__xs @indent__sm;
+    padding: @indent__s @indent__sm;
     color: @color-white;
     border-radius: 20px;
     display: none;

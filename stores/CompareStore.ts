@@ -76,7 +76,6 @@ export const useCompareStore = defineStore("compareStore", () => {
   };
 
   const removeProductCompare = (index: number) => {
-    console.log(index);
     compareProductsList.splice(index - 1, 1);
     buildCompareData(compareProductsList);
 

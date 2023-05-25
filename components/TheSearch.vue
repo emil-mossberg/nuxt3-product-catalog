@@ -161,7 +161,10 @@ const appSearchRef = ref(null);
 
 onClickOutside(appSearchRef, () => {
   showDropDown.value = false;
-  document.body.style.position = "";
+  if (!isMobile.value) {
+    document.body.style.position = "";
+  }
+
   cleanQuickSearch();
 });
 
