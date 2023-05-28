@@ -41,7 +41,7 @@
               <TheHeaderCategoryNavigation
                 v-for="(child, index) in categoryMenu.children"
                 :key="index"
-                :catalog-data="(child as CategoryMenuLevel1)"
+                :catalog-data="(child as CategoryMenuLevel0)"
                 @close-menu="toggleCategoryMenu(false)"
               />
             </ClientOnly>
@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
+import type { CategoryMenuLevel0 } from "@/types/CategoryMenuLevels";
 
 const compareStore = useCompareStore();
 const { compareCount } = storeToRefs(compareStore);

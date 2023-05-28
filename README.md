@@ -38,6 +38,13 @@ npm run preview
 ```
 
 
+Run test:
+
+```bash
+npm run test
+```
+
+
 Deploy project to firebase:
 
 ```bash
@@ -94,9 +101,9 @@ This JSON is used to build category menu located in header. slug_name is a mappi
 
 ## Data fetching
 
-PLP - Done SSR on initial load, if click 'load more' then it is client side
+PLP and SERP (both listing pages) - Done SSR on initial load, if click 'load more' then it is client side
 PDP - Done SSR
-All search functionality - DONE client
+QuickSearch - Done client side
 
 
 ## Service worker strategy

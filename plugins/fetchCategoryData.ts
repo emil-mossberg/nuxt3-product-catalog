@@ -11,6 +11,32 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook("app:mounted", async () => {
     const { categoryMenu } = useAppInfoStore();
     const data = await $fetch<CategoryMenu>(runtimeConfig.public.categoryUrl);
+
+    console.log(
+      Object.entries(data.children).map((category) => {
+        return {
+          id: category[0],
+          name: category[1].name,
+          slug_name: category[1].slug_name,
+          children: Object.entries(category[1].children).map((category1) => {
+            return {
+              id: category1[0],
+              name: category1[1].name,
+              slug_name: category1[1].slug_name,
+              children: Object.entries(category1[1].children).map(
+                (category2) => {
+                  return {
+                    id: category2[0],
+                    name: category2[1].name,
+                    slug_name: category2[1].slug_name,
+                  };
+                }
+              ),
+            };
+          }),
+        };
+      })
+    );
     Object.assign(categoryMenu, data);
   });
 

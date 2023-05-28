@@ -30,7 +30,7 @@
       </div>
 
       <li
-        v-for="(category, index) in catalogData['children']"
+        v-for="(category, key, index) in catalogData['children']"
         :key="index"
         class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
       >
@@ -40,18 +40,19 @@
             'categoryNavigation__link--lvl1--open':
               index + 1 == showCategory2Index,
           }"
-          :to="`/category/${category['slug_name']}`"
-          @click="clickedLink1(index, category['slug_name'])"
+          @click="
+            clickedLink1(index, (category as CategoryMenuLevel1)['slug_name'])
+          "
         >
-          {{ category["name"] }}
+          {{ (category as CategoryMenuLevel2)["name"] }}
           <DynamicIconChevron :direction="'right'" />
         </NuxtLink>
 
         <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
           <div class="categoryNavigation__listHeader">
-            <h3>{{ category["name"] }}</h3>
+            <h3>{{ (category as CategoryMenuLevel1)["name"] }}</h3>
             <NuxtLink
-              :to="`/category/${category['slug_name']}`"
+              :to="`/category/${(category as CategoryMenuLevel1)['slug_name']}`"
               class="categoryNavigation__showAll"
               @click="clickedClosed"
               >Visa allt</NuxtLink
@@ -67,11 +68,28 @@
           >
             <NuxtLink
               class="categoryNavigation__link categoryNavigation__link--lvl2"
-              :to="`/category/${category1['slug_name']}`"
-              @click="clickedLink2"
+              @click="clickedLink2(category1['slug_name'])"
             >
               {{ category1["name"] }}
+              <!-- TO DO - Add none hardcoded condition here when have 3th lvl categories with child categories (lvl 4) -->
+              <DynamicIconChevron v-if="true" :direction="'right'" />
             </NuxtLink>
+            <ul class="categoryNavigation__list categoryNavigation__list--lvl3">
+              <div class="categoryNavigation__listHeader">
+                <h3>{{ category1["name"] }}</h3>
+                <NuxtLink
+                  :to="`/category/${category1['slug_name']}`"
+                  class="categoryNavigation__showAll"
+                  @click="clickedClosed"
+                  >Visa allt</NuxtLink
+                >
+
+                <BaseSVGButton @click="clickedClosed"
+                  ><IconCross
+                /></BaseSVGButton>
+              </div>
+              <span>ADD lvl 3 links here</span>
+            </ul>
           </li>
         </ul>
       </li>
@@ -84,7 +102,11 @@
 
 <script setup lang="ts">
 import { onClickOutside } from "@vueuse/core";
-import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevel1";
+import type {
+  CategoryMenuLevel0,
+  CategoryMenuLevel1,
+  CategoryMenuLevel2,
+} from "@/types/CategoryMenuLevels";
 const { push } = useRouter();
 
 const emit = defineEmits<{
@@ -95,7 +117,7 @@ const appInfoStore = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
 
 const props = defineProps<{
-  catalogData: CategoryMenuLevel1;
+  catalogData: CategoryMenuLevel0;
 }>();
 
 const showCategory1 = ref<boolean>(false);
@@ -104,7 +126,12 @@ const clickedLink0 = () => {
   showCategory1.value = !showCategory1.value;
 };
 
-const showCategory2Index = ref<number>(0);
+const showCategory2Index = ref(0);
+
+// TO DO can below 2 be DRY
+
+// TO DO use this
+// const showCategory3Index = ref(0);
 
 const clickedLink1 = (index: number, slugName: string) => {
   if (isMobile.value) {
@@ -115,12 +142,23 @@ const clickedLink1 = (index: number, slugName: string) => {
   }
 };
 
-const clickedLink2 = () => {
+const clickedLink2 = (slugName: string) => {
+  // TO DO for mobile
+  // - Pass children and index to this function (index: number, children: SomeArray, ) remember to flip children in first if so passes over
+  // - If no children do as now
+  // - Else show child categories on click
+
   if (isMobile.value) {
     emit("closeMenu");
     showCategory2Index.value = 0;
   }
 
+  // if (isMobile.value && children.length) {
+  //   // showCategory3Index.value = index;
+  //   // This will be used to show it on mobile
+  // }
+  // TO DO this should be in if since it is for desktop
+  push({ path: `/category/${slugName}` });
   showCategory1.value = false;
 };
 
@@ -171,6 +209,10 @@ onClickOutside(componentRef, () => {
     }
 
     &--lvl2 {
+      left: -100%;
+    }
+
+    &--lvl3 {
       left: -100%;
     }
   }
@@ -247,6 +289,12 @@ onClickOutside(componentRef, () => {
         left: 250px;
         top: 0px; // TO DO WHY DO I NEED THIS?
       }
+
+      &--lvl3 {
+        display: none !important; // TO DO fix this
+        left: 250px;
+        top: 0px; // TO DO WHY DO I NEED THIS?
+      }
     }
 
     &__listHeader {
@@ -259,6 +307,11 @@ onClickOutside(componentRef, () => {
 
     &__listItem--lvl1:hover > &__link--lvl1,
     &__listItem--lvl2:hover > &__link--lvl2 {
+      background-color: @background__tertiary;
+      color: @color-white;
+    }
+
+    &__listItem--lvl3:hover > &__link--lvl3 {
       background-color: @background__tertiary;
       color: @color-white;
     }

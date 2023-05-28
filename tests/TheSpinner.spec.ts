@@ -1,35 +1,33 @@
-import { describe, it, expect } from "vitest";
-import { mount } from "@vue/test-utils";
+import { describe, expect, beforeEach, test } from "vitest";
+import { mount, flushPromises, VueWrapper } from "@vue/test-utils";
 import { createTestingPinia } from "@pinia/testing";
 import TheSpinner from "../components/TheSpinner.vue";
 import { useAppInfoStore } from "../stores/AppInfoStore";
 
 describe("TheSpinner", () => {
-  const wrapper = mount(TheSpinner, {
-    global: {
-      plugins: [createTestingPinia()],
-    },
+  let wrapper: VueWrapper;
+
+  beforeEach(() => {
+    wrapper = mount(TheSpinner, {
+      global: {
+        plugins: [createTestingPinia()],
+      },
+    });
   });
 
-  const appInfoStore = useAppInfoStore();
-
-  it("AppInfoStore to exist", () => {
-    expect(appInfoStore).toBeDefined();
-  });
-
-  it("The Spinner too not show by default", () => {
-    expect(wrapper.find(".spinner").isVisible()).toBe(false);
-  });
-
-  it("The Spinner too not show by default", () => {
-    // TO DO fix this should only need one
-    appInfoStore.isLoading = true;
-    appInfoStore.$patch({ isLoading: true });
-
-    expect(wrapper.find(".spinner").isVisible()).toBe(true);
-  });
-
-  it("is a Vue instance", () => {
+  test("TheSpinner is a Vue instance", () => {
     expect(wrapper.vm).toBeTruthy();
+  });
+
+  test("TheSpinner is not rendered", () => {
+    expect(wrapper.find(".spinner").exists()).toBe(false);
+  });
+
+  test("TheSpinner is rendered", async () => {
+    const appInfoStore = useAppInfoStore();
+    appInfoStore.isLoading = true;
+    await flushPromises();
+
+    expect(wrapper.find(".spinner").exists()).toBe(true);
   });
 });

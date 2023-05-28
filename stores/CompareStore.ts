@@ -1,4 +1,6 @@
-import { reactive, computed } from "vue";
+// TO DO remove this when can auto import
+import { defineStore } from "pinia";
+import { reactive, computed, ref } from "vue";
 import type { ProductData } from "@/types/ProductData";
 import type { CompareProducts } from "@/types/CompareProducts";
 import type { CompareProductsAttribute } from "@/types/CompareProductsAttribute";
