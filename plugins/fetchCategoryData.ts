@@ -9,35 +9,34 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   // Fetch category tree - needed for menu
   nuxtApp.hook("app:mounted", async () => {
-    const { categoryMenu } = useAppInfoStore();
+    const { categoryMenu, categoryMenu2 } = useAppInfoStore();
     const data = await $fetch<CategoryMenu>(runtimeConfig.public.categoryUrl);
+    console.log(data);
 
-    console.log(
-      Object.entries(data.children).map((category) => {
-        return {
-          id: category[0],
-          name: category[1].name,
-          slug_name: category[1].slug_name,
-          children: Object.entries(category[1].children).map((category1) => {
-            return {
-              id: category1[0],
-              name: category1[1].name,
-              slug_name: category1[1].slug_name,
-              children: Object.entries(category1[1].children).map(
-                (category2) => {
-                  return {
-                    id: category2[0],
-                    name: category2[1].name,
-                    slug_name: category2[1].slug_name,
-                  };
-                }
-              ),
-            };
-          }),
-        };
-      })
-    );
+    const test = Object.entries(data.children).map((category) => {
+      return {
+        id: category[0],
+        name: category[1].name,
+        slug_name: category[1].slug_name,
+        children: Object.entries(category[1].children).map((category1) => {
+          return {
+            id: category1[0],
+            name: category1[1].name,
+            slug_name: category1[1].slug_name,
+            children: Object.entries(category1[1].children).map((category2) => {
+              return {
+                id: category2[0],
+                name: category2[1].name,
+                slug_name: category2[1].slug_name,
+              };
+            }),
+          };
+        }),
+      };
+    });
+
     Object.assign(categoryMenu, data);
+    Object.assign(categoryMenu2, test);
   });
 
   // TO DO

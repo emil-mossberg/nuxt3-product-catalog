@@ -17,83 +17,65 @@
         :selected="showCategory1"
       />
     </button>
-    <ul class="categoryNavigation__list categoryNavigation__list--lvl1">
-      <div class="categoryNavigation__listHeader">
-        <h3>{{ props.catalogData["name"] }}</h3>
-        <NuxtLink
-          class="categoryNavigation__showAll"
-          :to="`/category/${props.catalogData['slug_name']}`"
-          @click="clickedClosed"
-          >Visa allt</NuxtLink
+    <BaseMenuList
+      class="categoryNavigation__list categoryNavigation__list--lvl1"
+      :category-slug="props.catalogData['slug_name']"
+      @close="clickedClosed"
+      ><template #header>{{ props.catalogData["name"] }}</template
+      ><template #list>
+        <li
+          v-for="(category, key, index) in catalogData['children']"
+          :key="index"
+          class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
         >
-        <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
-      </div>
-
-      <li
-        v-for="(category, key, index) in catalogData['children']"
-        :key="index"
-        class="categoryNavigation__listItem categoryNavigation__listItem--lvl1"
-      >
-        <NuxtLink
-          class="categoryNavigation__link categoryNavigation__link--lvl1"
-          :class="{
-            'categoryNavigation__link--lvl1--open':
-              index + 1 == showCategory2Index,
-          }"
-          @click="
-            clickedLink1(index, (category as CategoryMenuLevel1)['slug_name'])
-          "
-        >
-          {{ (category as CategoryMenuLevel2)["name"] }}
-          <DynamicIconChevron :direction="'right'" />
-        </NuxtLink>
-
-        <ul class="categoryNavigation__list categoryNavigation__list--lvl2">
-          <div class="categoryNavigation__listHeader">
-            <h3>{{ (category as CategoryMenuLevel1)["name"] }}</h3>
-            <NuxtLink
-              :to="`/category/${(category as CategoryMenuLevel1)['slug_name']}`"
-              class="categoryNavigation__showAll"
-              @click="clickedClosed"
-              >Visa allt</NuxtLink
-            >
-
-            <BaseSVGButton @click="clickedClosed"><IconCross /></BaseSVGButton>
-          </div>
-
-          <li
-            v-for="(category1, index1) in category['children']"
-            :key="index1"
-            class="categoryNavigation__listItem categoryNavigation__listItem--lvl2"
+          <BaseMenuItem
+            class="categoryNavigation__link categoryNavigation__link--lvl1"
+            :class="{
+              'categoryNavigation__link--lvl1--open':
+                index + 1 == showCategory2Index,
+            }"
+            :has-children="!!category['children']"
+            @click="
+              clickedLink1(index, (category as CategoryMenuLevel1)['slug_name'])
+            "
+            >{{ (category as CategoryMenuLevel2)["name"] }}</BaseMenuItem
           >
-            <NuxtLink
-              class="categoryNavigation__link categoryNavigation__link--lvl2"
-              @click="clickedLink2(category1['slug_name'])"
-            >
-              {{ category1["name"] }}
-              <!-- TO DO - Add none hardcoded condition here when have 3th lvl categories with child categories (lvl 4) -->
-              <DynamicIconChevron v-if="true" :direction="'right'" />
-            </NuxtLink>
-            <ul class="categoryNavigation__list categoryNavigation__list--lvl3">
-              <div class="categoryNavigation__listHeader">
-                <h3>{{ category1["name"] }}</h3>
-                <NuxtLink
-                  :to="`/category/${category1['slug_name']}`"
-                  class="categoryNavigation__showAll"
-                  @click="clickedClosed"
-                  >Visa allt</NuxtLink
+          <BaseMenuList
+            :category-slug="(category as CategoryMenuLevel1)['slug_name']"
+            class="categoryNavigation__list categoryNavigation__list--lvl2"
+            @close="clickedClosed"
+          >
+            <template #header>{{
+              (category as CategoryMenuLevel1)["name"]
+            }}</template>
+            <template #list>
+              <li
+                v-for="(category1, index1) in category['children']"
+                :key="index1"
+                class="categoryNavigation__listItem categoryNavigation__listItem--lvl2"
+              >
+                <!-- TO DO - Add none hardcoded condition here when have 3th lvl categories with child categories (lvl 4) -->
+                <BaseMenuItem
+                  class="categoryNavigation__link categoryNavigation__link--lvl2"
+                  :has-children="false"
+                  @click="clickedLink2(category1['slug_name'])"
+                  >{{ category1["name"] }}</BaseMenuItem
                 >
-
-                <BaseSVGButton @click="clickedClosed"
-                  ><IconCross
-                /></BaseSVGButton>
-              </div>
-              <span>ADD lvl 3 links here</span>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
+                <BaseMenuList
+                  v-if="false"
+                  class="categoryNavigation__list categoryNavigation__list--lvl3"
+                  :category-slug="category1['slug_name']"
+                  @close="clickedClosed"
+                >
+                  <template #header>{{ category1["name"] }}</template>
+                  <template #list><span>ADD lvl 3 links here</span></template>
+                </BaseMenuList>
+              </li>
+            </template>
+          </BaseMenuList>
+        </li></template
+      ></BaseMenuList
+    >
   </li>
   <Teleport to="body">
     <BaseOverlay v-show="showCategory1" />
@@ -197,38 +179,7 @@ onClickOutside(componentRef, () => {
   }
 
   &__list {
-    width: 100%;
-    top: 0;
-    height: 100vh;
-    position: absolute;
-    background-color: @background_quaternary;
-    transition: left ease-in 0.4s;
-
-    &--lvl1 {
-      left: -100%;
-    }
-
-    &--lvl2 {
-      left: -100%;
-    }
-
-    &--lvl3 {
-      left: -100%;
-    }
-  }
-
-  &__listHeader {
-    display: flex;
-    align-items: center;
-    padding: @indent__s;
-
-    .svgButton {
-      margin-left: auto;
-    }
-  }
-
-  &__showAll {
-    margin-left: @indent__s;
+    left: -100%;
   }
 
   &__link--lvl0--open + &__list--lvl1,
@@ -274,11 +225,6 @@ onClickOutside(componentRef, () => {
     }
 
     &__list {
-      width: 250px;
-      position: absolute;
-      height: 774px;
-      top: 35px;
-
       &--lvl1 {
         left: auto;
         display: none;
@@ -291,14 +237,10 @@ onClickOutside(componentRef, () => {
       }
 
       &--lvl3 {
-        display: none !important; // TO DO fix this
+        display: none; // TO DO fix this
         left: 250px;
         top: 0px; // TO DO WHY DO I NEED THIS?
       }
-    }
-
-    &__listHeader {
-      display: none;
     }
 
     &__listItem:hover > &__list {

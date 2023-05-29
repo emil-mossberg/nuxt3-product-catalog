@@ -22,8 +22,9 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
   );
 
   // App logic category and menu data
-
+  // TO DO how to have this typed when it is empty
   const categoryMenu: CategoryMenu = reactive({});
+  const categoryMenu2: CategoryMenu2 = reactive([]);
 
   // Not used right now
 
@@ -34,6 +35,7 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
     isLoading,
     isMobile,
     categoryMenu,
+    categoryMenu2,
     categoryProductMap,
   };
 });

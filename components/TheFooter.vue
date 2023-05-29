@@ -2,52 +2,49 @@
   <footer class="footer">
     <div class="footer__content">
       <div class="footer__columns">
-        <div class="footer__column">
-          <div class="footer__row">
-            <span class="footer__columnHeader">GENVÄGAR</span>
-          </div>
-          <div
-            v-for="(data, index) in column1"
-            :key="index"
-            class="footer__row"
-          >
-            <a target="_blank" class="footer__greenLink" :href="data.url">{{
-              data.urlText
-            }}</a>
-          </div>
-        </div>
-        <div class="footer__column">
-          <div class="footer__row">
-            <span class="footer__columnHeader">KONTAKT LANTBRUK</span>
-          </div>
-          <div
-            v-for="(data, index) in column2"
-            :key="index"
-            class="footer__row"
-          >
-            <span>{{ data.label }}</span>
-            <a
-              :target="data.newWindow ? '_target' : ''"
-              class="footer__greenLink"
-              :href="data.url"
-              >{{ data.urlText }}</a
+        <BaseFooterColumn
+          ><template #header>GENVÄGAR</template
+          ><template #content>
+            <div
+              v-for="(data, index) in column1"
+              :key="index"
+              class="footer__row"
             >
-          </div>
-        </div>
-        <div class="footer__column">
-          <div class="footer__row">
-            <span class="footer__columnHeader">FÖLJ OSS</span>
-          </div>
-          <div
-            v-for="(data, index) in column3"
-            :key="index"
-            class="footer__row"
-          >
-            <a target="_blank" class="footer__greenLink" :href="data.url"
-              >{{ data.urlText }} <IconLink />
-            </a>
-          </div>
-        </div>
+              <BaseFooterLink :href="data.url">{{
+                data.urlText
+              }}</BaseFooterLink>
+            </div></template
+          ></BaseFooterColumn
+        >
+        <BaseFooterColumn
+          ><template #header>KONTAKT LANTBRUK</template>
+          <template #content>
+            <div
+              v-for="(data, index) in column2"
+              :key="index"
+              class="footer__row"
+            >
+              <span>{{ data.label }}</span>
+              <BaseFooterLink
+                :href="data.url"
+                :target="data.newWindow ? '_target' : ''"
+                >{{ data.urlText }}</BaseFooterLink
+              >
+            </div>
+          </template>
+        </BaseFooterColumn>
+        <BaseFooterColumn
+          ><template #header>FÖLJ OSS</template
+          ><template #content>
+            <div
+              v-for="(data, index) in column3"
+              :key="index"
+              class="footer__row"
+            >
+              <BaseFooterLink :href="data.url"
+                >{{ data.urlText }} <IconLink
+              /></BaseFooterLink></div></template
+        ></BaseFooterColumn>
       </div>
       <div class="footer__copyrightRow">
         <span class="footer__coprightText">© Copyright Lantmännen</span>
@@ -142,32 +139,13 @@ const column3 = [
     width: 100%;
   }
 
-  &__column {
-    flex-basis: 100%;
-    margin-bottom: @indent__m;
-  }
-
   &__row {
     margin: @indent__xs 0;
-  }
-
-  &__greenLink {
-    color: @fun-green;
-    font-weight: 700;
   }
 
   &__copyrightRow {
     padding-bottom: @indent__l;
     font-size: 12px;
-  }
-}
-
-@media only screen and (min-width: @breakpoint__mobile) {
-  .footer {
-    &__column {
-      flex-basis: 33.33%;
-      margin-bottom: 0;
-    }
   }
 }
 </style>
