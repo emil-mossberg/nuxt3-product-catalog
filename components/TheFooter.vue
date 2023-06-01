@@ -25,11 +25,9 @@
               class="footer__row"
             >
               <span>{{ data.label }}</span>
-              <BaseFooterLink
-                :href="data.url"
-                :target="data.newWindow ? '_target' : ''"
-                >{{ data.urlText }}</BaseFooterLink
-              >
+              <BaseFooterLink :href="data.url" :new-window="data.newWindow">{{
+                data.urlText
+              }}</BaseFooterLink>
             </div>
           </template>
         </BaseFooterColumn>

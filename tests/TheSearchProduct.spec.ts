@@ -29,6 +29,7 @@ describe("TheSearchProduct", () => {
   // TO DO test to add
 
   test("TheSearchProduct is a Vue instance", () => {
+    // console.log("PROPS:", wrapper.props());
     expect(wrapper.vm).toBeTruthy();
   });
 

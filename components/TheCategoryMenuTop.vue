@@ -14,7 +14,7 @@
     <TheCategoryMenuSub
       v-for="(child, index) in categoryMenu.children"
       :key="index"
-      :catalog-data="(child as CategoryMenuLevel0)"
+      :catalog-data="(child as CategoryMenuLevel1)"
       @close-menu="toggleCategoryMenu(false)"
     />
   </ul>
@@ -28,11 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import type { CategoryMenuLevel0 } from "@/types/CategoryMenuLevels";
+import type { CategoryMenuLevel1 } from "@/types/CategoryMenuLevels";
 
 const appInfoStore = useAppInfoStore();
-const { categoryMenu, categoryMenu2 } = useAppInfoStore();
+const { categoryMenu } = useAppInfoStore();
 const { isMobile } = storeToRefs(appInfoStore);
+
+// categoryMenu.
 
 const showCategoryMenu = ref(false);
 

@@ -8,9 +8,7 @@
 </template>
 
 <script setup lang="ts">
-// TO Remove when auto import
 import { storeToRefs } from "pinia";
-// TO Remove when auto import
 import { useAppInfoStore } from "../stores/AppInfoStore";
 const appInfoStore = useAppInfoStore();
 

@@ -1,5 +1,9 @@
 import { useAppInfoStore } from "@/stores/AppInfoStore";
 import type { CategoryMenu } from "@/types/CategoryMenu";
+import type {
+  CategoryMenuList0,
+  CategoryMenuList1,
+} from "@/types/CategoryMenuList";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
@@ -8,35 +12,43 @@ export default defineNuxtPlugin((nuxtApp) => {
   // app:rendered server side
 
   // Fetch category tree - needed for menu
+
+  // TO DO remove just for testing
+  const zuko = {
+    nationality: "Fire Nation",
+    nickname: "Zuzu",
+  };
+
+  Object.keys(zuko).forEach((key) => {
+    console.log(zuko[key as keyof typeof zuko]);
+  });
+
   nuxtApp.hook("app:mounted", async () => {
     const { categoryMenu, categoryMenu2 } = useAppInfoStore();
     const data = await $fetch<CategoryMenu>(runtimeConfig.public.categoryUrl);
-    console.log(data);
 
-    const test = Object.entries(data.children).map((category) => {
-      return {
-        id: category[0],
-        name: category[1].name,
-        slug_name: category[1].slug_name,
-        children: Object.entries(category[1].children).map((category1) => {
-          return {
-            id: category1[0],
-            name: category1[1].name,
-            slug_name: category1[1].slug_name,
-            children: Object.entries(category1[1].children).map((category2) => {
-              return {
-                id: category2[0],
-                name: category2[1].name,
-                slug_name: category2[1].slug_name,
-              };
-            }),
-          };
-        }),
-      };
+    const categoryTemp: CategoryMenuList0 = reactive({});
+
+    categoryTemp.children = Object.values(data.children).map((category0) => {
+      if (typeof category0 === "object") {
+        category0.children = Object.values(category0.children).map(
+          (category1) => {
+            category1.children = Object.values(category1.children).map(
+              (category2) => {
+                // TO do add mapping to lvl 4 here
+                return category2;
+              }
+            );
+
+            return category1;
+          }
+        );
+      }
+
+      return category0;
     });
 
-    Object.assign(categoryMenu, data);
-    Object.assign(categoryMenu2, test);
+    Object.assign(categoryMenu, categoryTemp);
   });
 
   // TO DO

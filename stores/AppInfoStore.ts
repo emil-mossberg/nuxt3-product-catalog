@@ -1,10 +1,8 @@
-// TO DO computed this when can auto import, can other be also?
 import { reactive, ref, computed } from "vue";
 import { useWindowSize } from "@vueuse/core";
-// TO DO remove this when can auto import
 import { defineStore } from "pinia";
 
-import type { CategoryMenu } from "@/types/CategoryMenu";
+import type { CategoryMenuList0 } from "@/types/CategoryMenuList";
 
 export const useAppInfoStore = defineStore("appInfoStore", () => {
   // App loading spinner logic
@@ -23,8 +21,9 @@ export const useAppInfoStore = defineStore("appInfoStore", () => {
 
   // App logic category and menu data
   // TO DO how to have this typed when it is empty
-  const categoryMenu: CategoryMenu = reactive({});
-  const categoryMenu2: CategoryMenu2 = reactive([]);
+  // TO DO switch type here
+  const categoryMenu: CategoryMenuList0 = reactive({});
+  const categoryMenu2: CategoryMenuList0 = reactive({});
 
   // Not used right now
 

@@ -26,9 +26,13 @@
             }"
             >Nytillagd</span
           >
-          <img class="theCompareSlider__image" :src="product.imageUrl" />
+          <img
+            class="theCompareSlider__image"
+            :src="product.imageUrl"
+            alt="compare slider image"
+          />
           <div>
-            <h5>{{ product.name }}</h5>
+            <span class="theCompareSlider__text">{{ product.name }}</span>
 
             <div>{{ product.sku }}</div>
           </div>
@@ -154,6 +158,11 @@ watch(compareProductsList, () => {
   &__image {
     width: 40px;
     margin-bottom: @indent__s;
+  }
+
+  &__text {
+    font-weight: 500;
+    text-transform: uppercase;
   }
 
   &__linkContainer {

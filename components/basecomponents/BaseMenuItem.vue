@@ -1,6 +1,7 @@
 <template>
   <NuxtLink class="baseMenuItem" @click="emit('click')">
-    <slot></slot><DynamicIconChevron v-if="hasChildren" :direction="'right'"
+    <slot></slot
+    ><DynamicIconChevron v-if="hasChildren" class="test" :direction="'right'"
   /></NuxtLink>
 </template>
 

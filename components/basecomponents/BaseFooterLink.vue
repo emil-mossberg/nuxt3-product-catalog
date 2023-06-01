@@ -1,15 +1,17 @@
 <template>
-  <a class="baseFooterLink" :href="href"><slot></slot></a>
+  <a :target="newWindow ? '_blank' : ''" class="baseFooterLink" :href="href"
+    ><slot></slot
+  ></a>
 </template>
 
 <script setup lang="ts">
 withDefaults(
   defineProps<{
     href: string;
-    target?: string;
+    newWindow?: boolean;
   }>(),
   {
-    target: "_blank",
+    newWindow: false,
   }
 );
 </script>

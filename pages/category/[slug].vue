@@ -76,11 +76,36 @@ const breadCrumbs: BreadCrumb[] = reactive([]);
 const sortSelected = ref(KlevuSearchSorting.NameAsc);
 
 // Helper functions build category search path for Kleu with breadcrumbs
+
 const buildSearchPath = (breadcrumbs: BreadCrumb[]) =>
   breadcrumbs
     .slice(1)
     .map((breadcrumb: BreadCrumb) => breadcrumb.name)
     .join(";");
+
+// Wrapper function to build categoryMerchandising call to Klevu
+
+const fetchCategoryWrapper = async (
+  manager: FilterManager,
+  breadCrumbs: BreadCrumb[],
+  sortOption: any
+) => {
+  return await KlevuFetch(
+    categoryMerchandising(
+      buildSearchPath(breadCrumbs),
+      {
+        id: "categoryMerchandising",
+        sort: sortOption,
+        limit: MAX_PRODUCT_SEARCH,
+      },
+      listFilters({
+        include: ["category", "packagingType"],
+        filterManager: manager,
+      }),
+      applyFilterWithManager(manager)
+    )
+  );
+};
 
 // Fetch initial with SSR
 const { data } = await useAsyncData(async () => {
@@ -94,20 +119,10 @@ const { data } = await useAsyncData(async () => {
   const categoryData = categoryProductionMapping.default[route.params.slug];
 
   const manager = new FilterManager();
-  const searchPath = buildSearchPath(categoryData.breadcrumbs);
-  const result = await KlevuFetch(
-    categoryMerchandising(
-      searchPath,
-      {
-        id: "categoryMerchandising",
-        limit: MAX_PRODUCT_SEARCH,
-      },
-      listFilters({
-        include: ["category"],
-        filterManager: manager,
-      }),
-      applyFilterWithManager(manager)
-    )
+  const result = await fetchCategoryWrapper(
+    manager,
+    categoryData.breadcrumbs,
+    KlevuSearchSorting.NameAsc
   );
   return {
     klevuData: KlevuPackFetchResult(result),
@@ -122,7 +137,7 @@ let prevResult: any;
 
 // Change sort option
 const changeSortOption = () => {
-  reFetch(sortSelected);
+  reFetch(sortSelected.value);
 };
 
 // Using onMounted to hydrade the data send from backend
@@ -145,7 +160,7 @@ onMounted(async () => {
           limit: MAX_PRODUCT_SEARCH,
         },
         listFilters({
-          include: ["category"],
+          include: ["category", "packagingType"],
           filterManager: manager,
         }),
         applyFilterWithManager(manager)
@@ -194,20 +209,10 @@ const useFilter = (filterKey: string, option: string) => {
 // On client - Refetch result if user uses Filters
 const reFetch = async (sortOption: any) => {
   toggleLoadingSpinner(true);
-  const result = await KlevuFetch(
-    categoryMerchandising(
-      buildSearchPath(data.value?.categoryData.breadcrumbs),
-      {
-        id: "categoryMerchandising",
-        sort: sortOption.value,
-        limit: MAX_PRODUCT_SEARCH,
-      },
-      listFilters({
-        include: ["category"],
-        filterManager: manager,
-      }),
-      applyFilterWithManager(manager)
-    )
+  const result = await fetchCategoryWrapper(
+    manager,
+    data.value?.categoryData.breadcrumbs,
+    sortOption
   );
 
   const reFetchResult = result.queriesById("categoryMerchandising");

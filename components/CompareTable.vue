@@ -70,7 +70,6 @@
 </template>
 
 <script setup lang="ts">
-// TO Remove when auto import (x2)
 import { storeToRefs } from "pinia";
 import { useCompareStore } from "../stores/CompareStore";
 const { compareProducts, removeProductCompare } = useCompareStore();

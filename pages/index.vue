@@ -27,11 +27,12 @@
         </p>
 
         <p>
-          För att handla i vår e-handeln krävs ett konto i vår kundportal LM2
-          <a href="https://lm2.lantmannen.com/extern/aktivera-konto/">här</a>,
-          registrera dig i LM2 här eller ansök om ett kundnummer
+          För att handla i vår e-handeln krävs ett konto i vår kundportal LM2.
+          Du kan registrera dig i
+          <a href="https://lm2.lantmannen.com/extern/aktivera-konto/">LM2</a>,
+          eller göra en
           <a href="https://www.lantmannenlantbrukmaskin.se/om-oss/kontoansokan/"
-            >här</a
+            >kontoansökan</a
           >.
         </p>
       </template></BaseTextCard

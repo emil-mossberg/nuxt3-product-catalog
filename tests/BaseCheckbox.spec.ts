@@ -37,6 +37,7 @@ describe("BaseCheckbox", () => {
     wrapper.find('input[type="checkbox"]').trigger("click");
 
     expect(wrapper.emitted()).toHaveProperty("click");
+    // TO DO remove class
     expect(wrapper.find(".baseCheckbox__label").text()).toEqual(labelText);
   });
 });

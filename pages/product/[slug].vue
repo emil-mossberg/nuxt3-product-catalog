@@ -43,6 +43,11 @@
               <div class="productPage__infoRow">
                 <span> {{ `Artikelnummer: ${product?.sku}` }}</span>
               </div>
+              <div v-if="product.basicUnit" class="productPage__infoRow">
+                <span>
+                  {{ `Helpallskvantitet: XXX ${product?.basicUnit}` }}</span
+                >
+              </div>
               <div class="productPage__infoRow">
                 <span>{{
                   `Ekologisk: ${product?.organic ? "JA" : "Nej"}`

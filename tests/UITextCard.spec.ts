@@ -23,6 +23,7 @@ describe("BaseTextCard", () => {
   });
 
   it("Renders props properly", () => {
+    // TO DO stop using classes
     expect(wrapper.find(".baseTextCard__header").text()).toEqual(header);
     expect(wrapper.find(".baseTextCard__content").text()).toEqual(content);
   });

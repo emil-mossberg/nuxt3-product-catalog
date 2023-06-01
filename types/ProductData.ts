@@ -1,6 +1,7 @@
 export type ProductData = {
   name: string;
   description?: string;
+  basicUnit?: string;
   organic?: 1 | 0;
   paragraphs: {};
   table: Record<string, string>;
